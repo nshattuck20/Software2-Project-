@@ -1,0 +1,34 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 25, 2019, 8:27:02 AM
+    Author     : Nick
+*/
+
+.loginBtn{
+    -fx-background-color: #ff9999;
+    -fx-text-fill: #FFF; 
+    -fx-border-color:#ff9999;
+}
+
+.closeBtn{
+    -fx-background-color: #ff9999;
+    -fx-text-fill: #FFF; 
+    -fx-border-color:#ff9999;
+}
+
+.comboBox{
+    -fx-background-color: #ff9999;
+    -fx-text-fill: #FFF; 
+}
+
+.buttonHover:hover{
+    -fx-background-color:  #f9d5e5; 
+    -fx-text-fill: white; 
+    -fx-border-color:#ff9999; 
+    -fx-border-width: 1px; 
+    -fx-border-style: solid; 
+}

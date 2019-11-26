@@ -8,6 +8,7 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -48,7 +49,7 @@ public class LoginFormController implements Initializable {
     private Button closeButton;
     
     @FXML
-    private ComboBox<?> languageComboBox;
+    private ComboBox<String> languageComboBox;
     
     @FXML
     private Label currentCountryLabel;
@@ -60,8 +61,15 @@ public class LoginFormController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Observable list containing options for language selection
+        ObservableList<String> languageOptions = FXCollections.observableArrayList(
+        "English", "Espanol"); 
         
+        //populate combo box with language options
+         languageComboBox.setItems(languageOptions);
+         
+         String myLocale = Locale.getDefault().getDisplayCountry();
+         currentCountryLabel.setText(myLocale);
     }    
     
     @FXML
@@ -75,9 +83,12 @@ public class LoginFormController implements Initializable {
         if (users.get(0).getUserName().equals(username) & users.get(0).getPassword().equals(password)) {
             user = UserImplementation.getUser(username, password);
             //Some test print statements to test connectivity
-            System.out.println(user.getPassword());
-            System.out.println(user.getUserName());
-            System.out.println(user.isActive());
+//            System.out.println(user.getPassword());
+//            System.out.println(user.getUserName());
+//            System.out.println(user.isActive());
+
+
+
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setHeaderText("Login error");
@@ -93,5 +104,11 @@ public class LoginFormController implements Initializable {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         Platform.exit();
         stage.close();
+    }
+    
+    
+    @FXML 
+    public void openMainScreen(ActionEvent event ) throws IOException{
+        //TODO Helper method that opens the main screen with the user login data. 
     }
 }

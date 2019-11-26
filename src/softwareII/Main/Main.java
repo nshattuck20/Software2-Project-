@@ -24,8 +24,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view_controller/LoginForm.fxml"));
-        primaryStage.setTitle("My Scheduling Application");
-        primaryStage.setScene(new Scene(root, 600, 350));
+        primaryStage.setTitle("Schedule IT");
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
