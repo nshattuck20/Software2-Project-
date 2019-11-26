@@ -15,7 +15,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -38,77 +42,75 @@ public class LoginFormController implements Initializable {
      */
     @FXML
     private Button loginButton;
-    
+
     @FXML
     private TextField passwordText;
-    
+
     @FXML
     private TextField userNameText;
-    
+
     @FXML
     private Button closeButton;
-    
+
     @FXML
     private ComboBox<String> languageComboBox;
-    
+
     @FXML
     private Label currentCountryLabel;
-    
+
     @FXML
-    private ObservableList<User> users;    
-    
-    User user;    
-    
+    private ObservableList<User> users;
+
+    User user;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Observable list containing options for language selection
         ObservableList<String> languageOptions = FXCollections.observableArrayList(
-        "English", "Espanol"); 
-        
+                "English", "Espanol");
+
         //populate combo box with language options
-         languageComboBox.setItems(languageOptions);
-         
-         String myLocale = Locale.getDefault().getDisplayCountry();
-         currentCountryLabel.setText(myLocale);
-    }    
-    
+        languageComboBox.setItems(languageOptions);
+
+        String myLocale = Locale.getDefault().getDisplayCountry();
+        currentCountryLabel.setText(myLocale);
+    }
+
     @FXML
     public void loginButton(ActionEvent event) throws IOException, SQLException, Exception {
         System.out.println("Login clicked!");
-        String username = userNameText.getText().toString();        
+        String username = userNameText.getText().toString();
         String password = passwordText.getText().toString();
         //Read all users from a list 
-        users = UserImplementation.getAllUsers();        
+        users = UserImplementation.getAllUsers();
         System.out.println("The size of users is " + users.size());
         if (users.get(0).getUserName().equals(username) & users.get(0).getPassword().equals(password)) {
             user = UserImplementation.getUser(username, password);
+            Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+            Scene main = new Scene(mainScreen);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(main);
+            mainStage.show();
             //Some test print statements to test connectivity
 //            System.out.println(user.getPassword());
 //            System.out.println(user.getUserName());
 //            System.out.println(user.isActive());
 
-
-
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setHeaderText("Login error");
             alert.setContentText("Username or Login is incorrect.");
-            alert.showAndWait();            
+            alert.showAndWait();
         }
-        
+
     }
-    
-    @FXML    
+
+    @FXML
     public void closeButton(ActionEvent event) throws IOException {
         System.out.println("Close clicked!");
         Stage stage = (Stage) closeButton.getScene().getWindow();
         Platform.exit();
         stage.close();
     }
-    
-    
-    @FXML 
-    public void openMainScreen(ActionEvent event ) throws IOException{
-        //TODO Helper method that opens the main screen with the user login data. 
-    }
+
 }
