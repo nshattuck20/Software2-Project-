@@ -26,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import softwareII.Implementation.UserImplementation;
@@ -64,26 +65,25 @@ public class LoginFormController implements Initializable {
 
     @FXML
     private Label welcomeLabel;
+    
+   
 
     User user;
-    
+
     ResourceBundle bundle;
-  
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      //The following line will take you to your computer's default locale and choose the correct language file. 
-      //Change your system default locale within your computer's OS. 
-     
+        //The following line will take you to your computer's default locale and choose the correct language file. 
+        //Change your system default locale within your computer's OS. 
+
         bundle = ResourceBundle.getBundle("resources/Lang");
 
         String myLocale = Locale.getDefault().getDisplayCountry();
         currentCountryLabel.setText(myLocale);
-        
+
         welcomeLabel.setText(bundle.getString("welcome"));
         signInLabel.setText(bundle.getString("continue"));
-        
-        
 
     }
 
@@ -95,7 +95,7 @@ public class LoginFormController implements Initializable {
         bundle = ResourceBundle.getBundle("resources/Lang");
         //Read all users from a list 
         users = UserImplementation.getAllUsers();
-       // System.out.println("The size of users is " + users.size());
+        // System.out.println("The size of users is " + users.size());
         if (users.get(0).getUserName().equals(username) & users.get(0).getPassword().equals(password)) {
             user = UserImplementation.getUser(username, password);
             Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
