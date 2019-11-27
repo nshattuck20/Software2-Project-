@@ -25,12 +25,14 @@
          <font>
             <Font name="Impact" size="24.0" />
          </font></Label>
-      <TableView layoutX="295.0" layoutY="121.0" prefHeight="367.0" prefWidth="683.0">
+      <TableView fx:id="appointmentTable" layoutX="295.0" layoutY="121.0" prefHeight="367.0" prefWidth="683.0">
         <columns>
-          <TableColumn fx:id="dateColumn" minWidth="20.0" prefWidth="175.0" text="Date" />
-          <TableColumn fx:id="timeColumn" prefWidth="175.0" text="Time" />
-            <TableColumn fx:id="locationColumn" prefWidth="175.0" text="Location" />
-            <TableColumn fx:id="apptColumn" prefWidth="160.0" text="Appointment Type " />
+          <TableColumn fx:id="customerNameColumn" minWidth="20.0" prefWidth="109.0" text="Customer" />
+          <TableColumn fx:id="startTimeColumn" prefWidth="97.0" text="Start Time" />
+            <TableColumn fx:id="endTimeColumn" prefWidth="112.0" text="End Time " />
+            <TableColumn fx:id="cityColumn" prefWidth="123.0" text="City" />
+            <TableColumn fx:id="countryColumn" minWidth="20.0" prefWidth="102.0" text="Country" />
+            <TableColumn fx:id="appointmentTypeColumn" minWidth="20.0" prefWidth="139.0" text="Appointment Type" />
         </columns>
       </TableView>
       <VBox layoutX="-3.0" prefHeight="700.0" prefWidth="280.0" spacing="30.0" style="-fx-background-color: #d64161;">
