@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Locale;
+import static java.util.Locale.getDefault;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -53,27 +54,37 @@ public class LoginFormController implements Initializable {
     private Button closeButton;
 
     @FXML
-    private ComboBox<String> languageComboBox;
-
-    @FXML
     private Label currentCountryLabel;
 
     @FXML
     private ObservableList<User> users;
 
+    @FXML
+    private Label signInLabel;
+
+    @FXML
+    private Label welcomeLabel;
+
     User user;
+    
+    ResourceBundle bundle;
+  
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Observable list containing options for language selection
-        ObservableList<String> languageOptions = FXCollections.observableArrayList(
-                "English", "Espanol");
-
-        //populate combo box with language options
-        languageComboBox.setItems(languageOptions);
+      //The following line will take you to your computer's default locale and choose the correct language file. 
+      //Change your system default locale within your computer's OS. 
+     
+        bundle = ResourceBundle.getBundle("resources/Lang");
 
         String myLocale = Locale.getDefault().getDisplayCountry();
         currentCountryLabel.setText(myLocale);
+        
+        welcomeLabel.setText(bundle.getString("welcome"));
+        signInLabel.setText(bundle.getString("continue"));
+        
+        
+
     }
 
     @FXML
@@ -81,9 +92,10 @@ public class LoginFormController implements Initializable {
         System.out.println("Login clicked!");
         String username = userNameText.getText().toString();
         String password = passwordText.getText().toString();
+        bundle = ResourceBundle.getBundle("resources/Lang");
         //Read all users from a list 
         users = UserImplementation.getAllUsers();
-        System.out.println("The size of users is " + users.size());
+       // System.out.println("The size of users is " + users.size());
         if (users.get(0).getUserName().equals(username) & users.get(0).getPassword().equals(password)) {
             user = UserImplementation.getUser(username, password);
             Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
@@ -98,8 +110,8 @@ public class LoginFormController implements Initializable {
 
         } else {
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setHeaderText("Login error");
-            alert.setContentText("Username or Login is incorrect.");
+            alert.setHeaderText(bundle.getString("header"));
+            alert.setContentText(bundle.getString("alert"));
             alert.showAndWait();
         }
 
