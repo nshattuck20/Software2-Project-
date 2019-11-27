@@ -15,7 +15,7 @@ import static softwareII.utilities.TimeFiles.stringToCalendar;
 
 /**
  *
- * @author Nick Shattuck
+ * @author Nick
  */
 public class UserImplementation {
 

@@ -1,18 +1,18 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package softwareII.Model;
 
 import java.util.Calendar;
-import javafx.beans.property.SimpleStringProperty;
 
 /**
- * DECIDED TO REFACTOR THIS CLASS TO HOLD OBSERVABLE VALUES 
-*  BUT KEEPING IN CASE I NEED TO COME BACK. 
-* SEE APPOINTMENTTABLEROW CLASS FOR MAIN SCREEN TABLE IMPLEMENTATION. 
- * @author Nick Shattuck
+ *
+ * @author Nick
  */
 public class Appointment {
     private int customerID; 
-    private String startTime; 
     private String customerName; 
     private int addressID;
     private String phoneNumber; 
@@ -22,11 +22,16 @@ public class Appointment {
     private Calendar lastUpdate; 
     private String lastUpdateBy; 
 
-  
-
-    //Test Constructor
-    public Appointment(String startTime) {
-        this.startTime = startTime; 
+    public Appointment(int customerID, String customerName, int addressID, String phoneNumber, boolean Active, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.addressID = addressID;
+        this.phoneNumber = phoneNumber;
+        this.Active = Active;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdateBy = lastUpdateBy;
     }
 
     /**

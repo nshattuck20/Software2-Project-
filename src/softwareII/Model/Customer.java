@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package softwareII.Model;
 
 import java.util.Calendar;
@@ -10,47 +14,38 @@ import javafx.collections.ObservableList;
  * @author Nick
  */
 public class Customer {
-
-    private int customerID;
-    private String customerName;
-    private int addressID;
-    private String phoneNumber;
-    private boolean active;
-    private Calendar createDate;
-    private String createdBy;
-    private Calendar lastUpdate;
-    private String lastUpdateBy;
-
+    private int customerID; 
+    private String customerName; 
+    private int addressID; 
+    private String phoneNumber; 
+    private boolean active; 
+    private Calendar createDate; 
+    private String createdBy; 
+    private Calendar lastUpdate; 
+    private String lastUpdateBy; 
+    
     private ObservableList<Appointment> getAppointments = FXCollections.observableArrayList();
 
     public ObservableList<Appointment> getGetAppointments() {
         return getAppointments;
-
     }
 
     public void setGetAppointments(ObservableList<Appointment> getAppointments) {
         this.getAppointments = getAppointments;
     }
-
-    
-    //test constructor 
-    public Customer(String customerName){
-        this.customerName = customerName; 
-    }
-    
     
     //Constructor
-//    public Customer(int customerID, String customerName, int addressID, String phoneNumber, boolean active, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
-//        this.customerID = customerID;
-//        this.customerName = customerName;
-//        this.addressID = addressID;
-//        this.phoneNumber = phoneNumber;
-//        this.active = active;
-//        this.createDate = createDate;
-//        this.createdBy = createdBy;
-//        this.lastUpdate = lastUpdate;
-//        this.lastUpdateBy = lastUpdateBy;
-//    }
+    public Customer(int customerID, String customerName, int addressID, String phoneNumber, boolean active, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.addressID = addressID;
+        this.phoneNumber = phoneNumber;
+        this.active = active;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdateBy = lastUpdateBy;
+    }
 
     /**
      * @return the customerID
@@ -177,5 +172,5 @@ public class Customer {
     public void setLastUpdateBy(String lastUpdateBy) {
         this.lastUpdateBy = lastUpdateBy;
     }
-
+    
 }
