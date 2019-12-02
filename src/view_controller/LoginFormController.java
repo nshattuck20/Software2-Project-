@@ -89,7 +89,7 @@ public class LoginFormController implements Initializable {
 
     @FXML
     public void loginButton(ActionEvent event) throws IOException, SQLException, Exception {
-        System.out.println("Login clicked!");
+        //System.out.println("Login clicked!");
         String username = userNameText.getText().toString();
         String password = passwordText.getText().toString();
         bundle = ResourceBundle.getBundle("resources/Lang");

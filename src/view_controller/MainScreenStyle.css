@@ -11,16 +11,17 @@ and open the template in the editor.
 
 .button{
     -fx-background-color: #ff9999;
-    -fx-text-fill: #FFF; 
+    -fx-text-fill: #FFFFFF; 
     -fx-border-color:#ff9999;
+    -fx-font-weight: bold; 
+    -fx-font-size: 15px; 
+     -fx-font-family: Ebrima; 
 }
 
 .button:hover{
     -fx-background-color:#ff99ff; 
-    -fx-text-fill: #FFF; 
+    -fx-text-fill: #FFFFFF; 
     -fx-border-color:#ff9999;
-    -fx-font-family: Ebrima; 
-    -fx-font-weight: bold; 
     -fx-border: 5px;  
 }
 
