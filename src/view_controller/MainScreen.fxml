@@ -25,12 +25,14 @@
          <font>
             <Font name="Impact" size="24.0" />
          </font></Label>
-      <TableView layoutX="295.0" layoutY="121.0" prefHeight="367.0" prefWidth="683.0">
+      <TableView fx:id="table" layoutX="295.0" layoutY="121.0" prefHeight="367.0" prefWidth="683.0">
         <columns>
-          <TableColumn fx:id="dateColumn" minWidth="20.0" prefWidth="175.0" text="Date" />
-          <TableColumn fx:id="timeColumn" prefWidth="175.0" text="Time" />
-            <TableColumn fx:id="locationColumn" prefWidth="175.0" text="Location" />
-            <TableColumn fx:id="apptColumn" prefWidth="160.0" text="Appointment Type " />
+          <TableColumn fx:id="customerNameColumn" minWidth="20.0" prefWidth="109.0" text="Customer" />
+          <TableColumn fx:id="startTimeColumn" prefWidth="97.0" text="Start Time" />
+            <TableColumn fx:id="endTimeColumn" prefWidth="112.0" text="End Time " />
+            <TableColumn fx:id="cityColumn" prefWidth="123.0" text="City" />
+            <TableColumn fx:id="countryColumn" minWidth="20.0" prefWidth="102.0" text="Country" />
+            <TableColumn fx:id="appointmentTypeColumn" minWidth="20.0" prefWidth="139.0" text="Appointment Type" />
         </columns>
       </TableView>
       <VBox layoutX="-3.0" prefHeight="700.0" prefWidth="280.0" spacing="30.0" style="-fx-background-color: #d64161;">
@@ -45,7 +47,7 @@
                   <Font name="Ebrima Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="editCustomerBtn" alignment="TOP_LEFT" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" text="Edit Customer" />
+            <Button fx:id="editCustomerBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" text="Edit Customer" />
             <Button fx:id="deleteCustomerBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" text="Delete Customer " />
             <Button fx:id="addApptBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" text="Add Appt" />
             <Button fx:id="editApptBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" text="Edit Appt" />
@@ -58,8 +60,8 @@
             <Insets left="15.0" top="30.0" />
          </padding>
       </VBox>
-      <Button fx:id="logoutBtn" layoutX="394.0" layoutY="641.0" mnemonicParsing="false" prefWidth="200.0" text="Log out " />
-      <Button fx:id="exitBtn" layoutX="703.0" layoutY="641.0" mnemonicParsing="false" prefWidth="200.0" text="Exit " />
+      <Button fx:id="logoutBtn" layoutX="394.0" layoutY="627.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Log out " />
+      <Button fx:id="exitBtn" layoutX="703.0" layoutY="627.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Exit " />
       <Label layoutX="689.0" layoutY="92.0" text="View By ">
          <font>
             <Font size="14.0" />
