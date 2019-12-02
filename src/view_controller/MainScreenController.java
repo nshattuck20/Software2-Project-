@@ -4,16 +4,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import softwareII.Implementation.AppointmentImplementation;
 import softwareII.Implementation.CustomerImplementation;
-import softwareII.Model.Appointment;
 import softwareII.Model.Customer;
 import softwareII.Model.Schedule;
 
@@ -29,6 +27,14 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private TableColumn<Customer, String> customerNameColumn;
+    
+    //Extra space for table column names 
+    
+    
+    //Buttons
+     @FXML
+    private Button logoutBtn;
+    
 
     /**
      * Initializes the controller class.
