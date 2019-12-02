@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,14 +41,14 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private TableColumn<Customer, String> customerNameColumn;
-    
+
     //Extra space for table column names 
-    
-    
     //Buttons
-     @FXML
+    @FXML
     private Button logoutBtn;
-    
+
+    @FXML
+    private Button exitBtn;
 
     /**
      * Initializes the controller class.
@@ -56,13 +57,12 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         ObservableList<Schedule> customers = FXCollections.observableArrayList();
-        ObservableList<Customer> customerNames = FXCollections.observableArrayList(); 
+        ObservableList<Customer> customerNames = FXCollections.observableArrayList();
         //Lambas for columns 
         customerNameColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerName();
         });
- 
-    
+
 //        startTimeColumn.setCellValueFactory(cellData -> {
 //            return cellData.getValue().getStarTime();
 //        });
@@ -79,10 +79,9 @@ public class MainScreenController implements Initializable {
 //        appointmentTypeColumn.setCellValueFactory(cellData -> {
 //            return cellData.getValue().getAppointmentType();
 //        });
-
         try {
-              customerNames.addAll(CustomerImplementation.getAllCustomerNames()); 
-              table.setItems(customerNames);
+            customerNames.addAll(CustomerImplementation.getAllCustomerNames());
+            table.setItems(customerNames);
 //            Schedule s = new Schedule((ObservableValue<Appointment>) customers); 
 //            appointmentTable.setItems((ObservableList<Schedule>) s);
         } catch (Exception ex) {
@@ -91,26 +90,50 @@ public class MainScreenController implements Initializable {
         }
 
     }
-    
-    @FXML 
-    public void logoutButton(ActionEvent event) throws IOException, SQLException, Exception{
+
+    @FXML
+    public void logoutButton(ActionEvent event) throws IOException, SQLException, Exception {
         System.out.println("Logout Button Clicked!");
         Alert alert = new Alert(AlertType.WARNING);
         alert.setContentText("Are you sure you want to logout?");
         alert.setHeaderText("Confirm Logout");
-       Optional<ButtonType> confirm =  alert.showAndWait(); 
-       if(confirm.get() == ButtonType.OK){
+        Optional<ButtonType> confirm = alert.showAndWait();
+        if (confirm.get() == ButtonType.OK) {
             //If user confirms, send user to login screen & close connection
             Parent loginScreen = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
-            Scene login = new Scene (loginScreen);
-            Stage loginStage = (Stage) ((Node) event.getSource()).getScene().getWindow(); 
+            Scene login = new Scene(loginScreen);
+            Stage loginStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             loginStage.setScene(login);
             DBConnection.closeConnection();
-            loginStage.show(); 
-       }
-        
-       
-        
+            loginStage.show();
+        }
+
+    }
+
+    @FXML
+    public void exitButton(ActionEvent event) throws IOException, SQLException, Exception {
+        System.out.println("Exit button clicked!");
+        //When the user clicks the Exit button, show an alert asking for confirmation. 
+        //The key difference between this button and the logout button is that this button 
+        //Closes the entire program, so make sure the user understands it. 
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setContentText("Are you sure you want to exit? Doing so will close the entire program!");
+        alert.setHeaderText("Confirm Exit");
+        Optional<ButtonType> confirm = alert.showAndWait();
+        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+            Stage stage = (Stage) exitBtn.getScene().getWindow();
+            Platform.exit();
+            DBConnection.closeConnection();
+            stage.close();
+        }
+        if (confirm == null) {
+
+            Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+            Scene main = new Scene(mainScreen);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(main);
+            mainStage.show();
+        }
     }
 
 }
