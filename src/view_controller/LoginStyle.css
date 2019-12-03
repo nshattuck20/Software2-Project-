@@ -10,25 +10,25 @@ and open the template in the editor.
 
 .loginBtn{
     -fx-background-color: #ff9999;
-    -fx-text-fill: #FFF; 
+    -fx-text-fill: #FFFFFF; 
     -fx-border-color:#ff9999;
 }
 
 .closeBtn{
     -fx-background-color: #ff9999;
-    -fx-text-fill: #FFF; 
-    -fx-border-color:#ff9999;
+    -fx-text-fill: #FFFFFF; 
+    -fx-border-color:transparent;
 }
 
 .comboBox{
     -fx-background-color: #ff9999;
-    -fx-text-fill: #FFF; 
+    -fx-text-fill: #FFFFFF; 
 }
 
 .buttonHover:hover{
     -fx-background-color:  #f9d5e5; 
     -fx-text-fill: white; 
-    -fx-border-color:#ff9999; 
+    -fx-border-color:transparent; 
     -fx-border-width: 1px; 
     -fx-border-style: solid; 
 }
