@@ -1,0 +1,25 @@
+/* 
+    Created on : Dec 3, 2019, 4:19:36 PM
+    Author     : Nick Shattuck
+*/
+.mainFxmlClass {
+
+    .button {
+        -fx-background-color: #ff9999;
+        -fx-text-fill: #FFFFFF; 
+        -fx-border-color:transparent;
+        -fx-font-weight: bold; 
+        -fx-font-size: 15px; 
+        -fx-font-family: Ebrima; 
+    }
+
+    .button:hover {
+        -fx-background-color:#ff99ff; 
+        -fx-text-fill: #FFFFFF; 
+        -fx-border-color:transparent;
+        -fx-border: 5px;  
+    }
+    
+    
+
+}
