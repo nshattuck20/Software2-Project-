@@ -10,8 +10,8 @@ and open the template in the editor.
 
 
 .button{
-    -fx-background-color: #ff9999;
-    -fx-text-fill: #FFFFFF; 
+    -fx-background-color: #87CEFA;
+    -fx-text-fill: #F8F8FF; 
     -fx-border-color:transparent;
     -fx-font-weight: bold; 
     -fx-font-size: 15px; 
@@ -19,8 +19,8 @@ and open the template in the editor.
 }
 
 .button:hover{
-    -fx-background-color:#ff99ff; 
-    -fx-text-fill: #FFFFFF; 
+    -fx-background-color:#000080; 
+    -fx-text-fill: #F8F8FF; 
     -fx-border-color:transparent;
     -fx-border: 5px;  
 }
@@ -33,11 +33,11 @@ and open the template in the editor.
 }
 
 .table-row-cell:odd{
-    -fx-background-color:#f9d5e5; 
+    -fx-background-color:#87CEFA; 
     
 }
 .table-row-cell:even{
-    -fx-background-color:white; 
+    -fx-background-color: #F8F8FF; 
 }
 
 

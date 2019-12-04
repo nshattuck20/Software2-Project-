@@ -2,10 +2,10 @@
     Created on : Dec 3, 2019, 4:19:36 PM
     Author     : Nick Shattuck
 */
-.mainFxmlClass {
+.createCustomerFXMLClass {
 
     .button {
-        -fx-background-color: #ff9999;
+        -fx-background-color: #ff99ff;
         -fx-text-fill: #FFFFFF; 
         -fx-border-color:transparent;
         -fx-font-weight: bold; 
@@ -20,6 +20,6 @@
         -fx-border: 5px;  
     }
     
-    
+        background:#f9d5e5; 
 
 }

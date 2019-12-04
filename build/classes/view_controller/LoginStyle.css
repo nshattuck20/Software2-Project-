@@ -8,27 +8,40 @@ and open the template in the editor.
     Author     : Nick
 */
 
+.vboxBackground{
+    background-color: #87CEFA; 
+}
+
 .loginBtn{
-    -fx-background-color: #ff9999;
-    -fx-text-fill: #FFFFFF; 
+    -fx-background-color: #87CEFA;
+    -fx-text-fill: #F8F8FF; 
+    -fx-font-weight:bold;
+    -fx-font-size:15px; 
     -fx-border-color:#ff9999;
 }
 
 .closeBtn{
-    -fx-background-color: #ff9999;
-    -fx-text-fill: #FFFFFF; 
+    -fx-background-color: #87CEFA;
+    -fx-text-fill: #F8F8FF; 
+    -fx-border: 5px; 
+    -fx-font-weight:bold;
+    -fx-font-size:15px; 
     -fx-border-color:transparent;
 }
 
-.comboBox{
-    -fx-background-color: #ff9999;
-    -fx-text-fill: #FFFFFF; 
-}
+
 
 .buttonHover:hover{
-    -fx-background-color:  #f9d5e5; 
-    -fx-text-fill: white; 
+    -fx-background-color: #000080; 
+    -fx-text-fill: #F8F8FF; 
     -fx-border-color:transparent; 
     -fx-border-width: 1px; 
     -fx-border-style: solid; 
+}
+
+input[type=text]{
+    width:100%; 
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
 }
