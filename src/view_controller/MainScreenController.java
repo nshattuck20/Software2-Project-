@@ -56,8 +56,9 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        ObservableList<Schedule> customers = FXCollections.observableArrayList();
-        ObservableList<Customer> customerNames = FXCollections.observableArrayList();
+       // ObservableList<Schedule> customers = FXCollections.observableArrayList();
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
+        
         //Lambas for columns 
         customerNameColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerName();
@@ -79,9 +80,14 @@ public class MainScreenController implements Initializable {
 //        appointmentTypeColumn.setCellValueFactory(cellData -> {
 //            return cellData.getValue().getAppointmentType();
 //        });
+
+
+
         try {
-            customerNames.addAll(CustomerImplementation.getAllCustomerNames());
-            table.setItems(customerNames);
+            customers.clear(); 
+            customers.addAll(CustomerImplementation.getAllCustomerNames());
+            
+            table.setItems(customers);
 //            Schedule s = new Schedule((ObservableValue<Appointment>) customers); 
 //            appointmentTable.setItems((ObservableList<Schedule>) s);
         } catch (Exception ex) {
@@ -90,7 +96,7 @@ public class MainScreenController implements Initializable {
         }
 
     }
-
+//Buttons
     @FXML
     public void logoutButton(ActionEvent event) throws IOException, SQLException, Exception {
         System.out.println("Logout Button Clicked!");
