@@ -141,5 +141,16 @@ public class MainScreenController implements Initializable {
             mainStage.show();
         }
     }
+    
+    
+    @FXML 
+    public void createCustomer(ActionEvent event ) throws IOException{
+        System.out.println("Create customer clicked!");
+            Parent createCustomerScreen = FXMLLoader.load(getClass().getResource("CreateCustomer.fxml"));
+            Scene createCustomerScene = new Scene(createCustomerScreen);
+            Stage createCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            createCustomerStage.setScene(createCustomerScene);
+            createCustomerStage.show();
+    }
 
 }
