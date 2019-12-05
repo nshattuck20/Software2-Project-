@@ -5,11 +5,15 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author Nick
+ * @author Nick Shattuck
  */
 public class Customer {
 
-    private StringProperty customerName; 
+    private StringProperty customerName = new SimpleStringProperty(); 
+
+    public void setCustomerName(StringProperty customerName) {
+        this.customerName = customerName;
+    }
 
     public StringProperty getCustomerName() {
         return customerName;
@@ -21,8 +25,8 @@ public class Customer {
     }
 
     public Customer() {
-        customerName = new SimpleStringProperty(); 
     }
+
 
  
 

@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #F8F8FF;" stylesheets="@LoginStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.LoginFormController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: ##FFFAF0;" stylesheets="@LoginStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.LoginFormController">
    <children>
-      <Button fx:id="loginButton" layoutX="421.0" layoutY="414.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loginButton" prefHeight="40.0" prefWidth="350.0" text="Login">
+      <Button fx:id="loginButton" layoutX="421.0" layoutY="414.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loginButton" prefHeight="40.0" prefWidth="350.0" style="-fx-border-radius: 20;" stylesheets="@LoginStyle.css" text="Login">
          <styleClass>
             <String fx:value="loginBtn" />
             <String fx:value="buttonHover" />
@@ -22,17 +22,20 @@
             <Font name="Ebrima Bold" size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="passwordText" layoutX="482.0" layoutY="274.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="password" style="-fx-border-color: #87CEFA;" stylesheets="@LoginStyle.css">
+      <TextField fx:id="passwordText" layoutX="482.0" layoutY="274.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="password">
          <font>
             <Font name="Ebrima" size="12.0" />
          </font>
       </TextField>
-      <TextField fx:id="userNameText" layoutX="480.0" layoutY="220.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="username" style="-fx-border-color: #87CEFA; -fx-fi: ebrima;" stylesheets="@LoginStyle.css">
+      <TextField fx:id="userNameText" layoutX="480.0" layoutY="220.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="username" stylesheets="@LoginStyle.css">
          <font>
             <Font name="Ebrima" size="12.0" />
          </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
       </TextField>
-      <Button fx:id="closeButton" layoutX="421.0" layoutY="463.0" mnemonicParsing="false" onAction="#closeButton" prefHeight="40.0" prefWidth="350.0" text="Close">
+      <Button fx:id="closeButton" layoutX="421.0" layoutY="463.0" mnemonicParsing="false" onAction="#closeButton" prefHeight="40.0" prefWidth="350.0" style="-fx-border-radius: 20;" stylesheets="@LoginStyle.css" text="Close">
          <styleClass>
             <String fx:value="closeBtn" />
             <String fx:value="buttonHover" />
@@ -51,7 +54,7 @@
             <Font name="Ebrima Bold" size="13.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #87CEFA;" styleClass="vboxBackground" stylesheets="@LoginStyle.css">
+      <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #87CEFA;" styleClass="vboxBackground" stylesheets="@Logo.css">
          <children>
             <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -61,7 +64,7 @@
                   <Insets right="50.0" top="10.0" />
                </VBox.margin>
             </ImageView>
-            <Label text="Schedule " textFill="#fcfcfc">
+            <Label stylesheets="@Logo.css" text="Schedule " textFill="#fcfcfc">
                <font>
                   <Font name="Ebrima Bold" size="48.0" />
                </font>
@@ -72,7 +75,7 @@
                   <Insets right="60.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <Label text="IT" textFill="#fcfcfc">
+            <Label stylesheets="@Logo.css" text="IT" textFill="#fcfcfc">
                <font>
                   <Font name="Impact" size="64.0" />
                </font>
