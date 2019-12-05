@@ -11,21 +11,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" styleClass="buttonHover" stylesheets="@MainScreenStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #FFFAF0;" styleClass="buttonHover" stylesheets="@MainScreenStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainScreenController">
    <children>
       <DatePicker fx:id="datePicker" layoutX="285.0" layoutY="79.0" promptText="Select Date " />
-      <Label layoutX="852.0" layoutY="14.0" text="Schedule">
+      <Label layoutX="852.0" layoutY="14.0" text="Schedule" textFill="DEEPSKYBLUE">
          <font>
             <Font name="Ebrima Bold" size="24.0" />
          </font>
          <padding>
             <Insets right="10.0" />
          </padding></Label>
-      <Label layoutX="926.0" layoutY="41.0" minHeight="-Infinity" minWidth="-Infinity" text="IT">
+      <Label layoutX="926.0" layoutY="41.0" minHeight="-Infinity" minWidth="-Infinity" text="IT" textFill="DEEPSKYBLUE">
          <font>
             <Font name="Impact" size="24.0" />
          </font></Label>
-  <TableView fx:id="table" layoutX="295.0" layoutY="121.0" prefHeight="463.0" prefWidth="683.0">
+  <TableView fx:id="table" layoutX="295.0" layoutY="121.0" prefHeight="367.0" prefWidth="683.0">
         <columns>
           <TableColumn fx:id="customerNameColumn" minWidth="20.0" prefWidth="109.0" text="Customer" />
           <TableColumn fx:id="startTimeColumn" prefWidth="97.0" text="Start Time" />
@@ -35,14 +35,14 @@
             <TableColumn fx:id="appointmentTypeColumn" minWidth="20.0" prefWidth="139.0" text="Appointment Type" />
         </columns>
       </TableView>
-      <VBox layoutX="-3.0" prefHeight="700.0" prefWidth="280.0" spacing="30.0" style="-fx-background-color: #1E90FF;">
+      <VBox layoutX="-3.0" prefHeight="700.0" prefWidth="280.0" spacing="30.0" style="-fx-background-color: #FFFAF0;">
          <children>
-            <Label text="Menu" textFill="#f5f5f5">
+            <Label text="Menu" textFill="DEEPSKYBLUE">
                <font>
                   <Font name="Ebrima Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="createCustomerBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Create Customer ">
+            <Button fx:id="createCustomerBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" stylesheets="@MainScreenStyle.css" text="Create Customer ">
                <font>
                   <Font name="Ebrima Bold" size="12.0" />
                </font>
