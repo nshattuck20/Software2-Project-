@@ -25,7 +25,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
+import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
+import softwareII.Model.Customer;
 
 /**
  * FXML Controller class
@@ -63,14 +65,14 @@ public class MainScreen_with_ListViewController implements Initializable {
     @FXML
     private RadioButton MonthRadioBtn;
     @FXML
-    private ListView<?> listview;
+    private ListView<Customer> listview;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       // Customer customer = new Customer(CustomerImplementation.getAllCustomerNames());
     }    
 
  @FXML

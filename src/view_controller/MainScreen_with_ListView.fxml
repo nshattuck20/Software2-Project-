@@ -31,7 +31,7 @@
                   <Font name="Ebrima Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="createCustomerBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" stylesheets="@MainScreenStyle.css" text="Create Customer ">
+            <Button fx:id="createCustomerBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" stylesheets="@MainScreenStyle.css" text="Create Customer ">
                <font>
                   <Font name="Ebrima Bold" size="12.0" />
                </font>

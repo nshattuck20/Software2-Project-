@@ -42,6 +42,21 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Customer, String> customerNameColumn;
 
+    @FXML
+    private TableColumn<Customer, String> startTimeColumn;
+
+    @FXML
+    private TableColumn<Customer, String> endTimeColumn;
+
+    @FXML
+    private TableColumn<Customer, String> cityColumn;
+
+    @FXML
+    private TableColumn<Customer, String> countryColumn;
+
+    @FXML
+    private TableColumn<Customer, String> appointmentTypeColumn;
+
     //Extra space for table column names 
     //Buttons
     @FXML
@@ -56,40 +71,36 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-       // ObservableList<Schedule> customers = FXCollections.observableArrayList();
-        ObservableList<Customer> customers = FXCollections.observableArrayList();
-        
+        ObservableList<Customer> customer = FXCollections.observableArrayList();
+
         //Lambas for columns 
         customerNameColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerName();
         });
 
-//        startTimeColumn.setCellValueFactory(cellData -> {
-//            return cellData.getValue().getStarTime();
-//        });
+        startTimeColumn.setCellValueFactory(cellData -> {
+            return cellData.getValue().getStartTime();
+        });
 //        endTimeColumn.setCellValueFactory(cellData -> {
 //            return cellData.getValue().getEndTime();
 //        });
-//        cityColumn.setCellValueFactory(cellData -> {
-//            return cellData.getValue().getCity();
-//        });
-//
-//        countryColumn.setCellValueFactory(cellData -> {
-//            return cellData.getValue().getCountry();
-//        });
-//        appointmentTypeColumn.setCellValueFactory(cellData -> {
-//            return cellData.getValue().getAppointmentType();
-//        });
+        cityColumn.setCellValueFactory(cellData -> {
+            return cellData.getValue().getCity();
+        });
 
-
+        countryColumn.setCellValueFactory(cellData -> {
+            return cellData.getValue().getCountry();
+        });
+        appointmentTypeColumn.setCellValueFactory(cellData -> {
+            return cellData.getValue().getType();
+        });
 
         try {
-            customers.clear(); 
-            customers.addAll(CustomerImplementation.getAllCustomerNames());
-            
-            table.setItems(customers);
-//            TableRow s = new TableRow((ObservableValue<Appointment>) customers); 
-//            appointmentTable.setItems((ObservableList<Schedule>) s);
+            customer.clear();
+            customer.addAll(CustomerImplementation.getCustomerData());
+
+            table.setItems(customer);
+
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
             // appointmentTable.setItems(appointments);
@@ -97,6 +108,7 @@ public class MainScreenController implements Initializable {
 
     }
 //Buttons
+
     @FXML
     public void logoutButton(ActionEvent event) throws IOException, SQLException, Exception {
         System.out.println("Logout Button Clicked!");
@@ -141,16 +153,15 @@ public class MainScreenController implements Initializable {
             mainStage.show();
         }
     }
-    
-    
-    @FXML 
-    public void createCustomer(ActionEvent event ) throws IOException{
+
+    @FXML
+    public void createCustomer(ActionEvent event) throws IOException {
         System.out.println("Create customer clicked!");
-            Parent createCustomerScreen = FXMLLoader.load(getClass().getResource("CreateCustomer.fxml"));
-            Scene createCustomerScene = new Scene(createCustomerScreen);
-            Stage createCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            createCustomerStage.setScene(createCustomerScene);
-            createCustomerStage.show();
+        Parent createCustomerScreen = FXMLLoader.load(getClass().getResource("CreateCustomer.fxml"));
+        Scene createCustomerScene = new Scene(createCustomerScreen);
+        Stage createCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        createCustomerStage.setScene(createCustomerScene);
+        createCustomerStage.show();
     }
 
 }
