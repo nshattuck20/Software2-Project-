@@ -17,8 +17,8 @@ and open the template in the editor.
     -fx-text-fill: #F8F8FF; 
     -fx-font-weight:bold;
     -fx-font-size:15px;
-    -fx-border-color:transparent;
-    -fx-border-color:#ff9999;
+    /*-fx-border-color:#87CEFA;*/
+    -fx-border-color:#87CEFA;
 }
 
 .closeBtn{
@@ -27,7 +27,7 @@ and open the template in the editor.
     -fx-border: 5px; 
     -fx-font-weight:bold;
     -fx-font-size:15px; 
-    -fx-border-color:transparent;
+    -fx-border-color:#87CEFA;
 }
 
 
