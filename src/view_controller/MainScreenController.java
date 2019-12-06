@@ -24,10 +24,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import softwareII.Implementation.CustomerImplementation;
+import softwareII.Implementation.AppointmentImplementation;
 import softwareII.Implementation.DBConnection;
-import softwareII.Model.Customer;
-import softwareII.Model.TableRow;
+import softwareII.Model.Appointment;
 
 /**
  * FXML Controller class
@@ -37,26 +36,23 @@ import softwareII.Model.TableRow;
 public class MainScreenController implements Initializable {
 
     @FXML
-    private TableView<Customer> table;
+    private TableView<Appointment> table;
 
     @FXML
-    private TableColumn<Customer, String> customerNameColumn;
+    private TableColumn<Appointment, String> startTimeColumn;
 
     @FXML
-    private TableColumn<Customer, String> startTimeColumn;
+    private TableColumn<Appointment, String> endTimeColumn;
 
+    //Something to display customer data. 
+//    @FXML
+//    private TableColumn<Customer, String> cityColumn;
+//
+//    @FXML
+//    private TableColumn<Customer, String> countryColumn;
+//
     @FXML
-    private TableColumn<Customer, String> endTimeColumn;
-
-    @FXML
-    private TableColumn<Customer, String> cityColumn;
-
-    @FXML
-    private TableColumn<Customer, String> countryColumn;
-
-    @FXML
-    private TableColumn<Customer, String> appointmentTypeColumn;
-
+    private TableColumn<Appointment, String> appointmentTypeColumn;
     //Extra space for table column names 
     //Buttons
     @FXML
@@ -71,35 +67,25 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        ObservableList<Customer> customer = FXCollections.observableArrayList();
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
-        //Lambas for columns 
-        customerNameColumn.setCellValueFactory(cellData -> {
-            return cellData.getValue().getCustomerName();
-        });
-
+//        //Lambas for columns customer table 
         startTimeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getStartTime();
         });
-//        endTimeColumn.setCellValueFactory(cellData -> {
-//            return cellData.getValue().getEndTime();
-//        });
-        cityColumn.setCellValueFactory(cellData -> {
-            return cellData.getValue().getCity();
+        endTimeColumn.setCellValueFactory(cellData -> {
+            return cellData.getValue().getEndTime();
         });
 
-        countryColumn.setCellValueFactory(cellData -> {
-            return cellData.getValue().getCountry();
-        });
         appointmentTypeColumn.setCellValueFactory(cellData -> {
-            return cellData.getValue().getType();
+            return cellData.getValue().getAppointmentType();
         });
 
         try {
-            customer.clear();
-            customer.addAll(CustomerImplementation.getCustomerData());
+            appointments.clear();
+            appointments.addAll(AppointmentImplementation.getAllAppointments());
 
-            table.setItems(customer);
+            table.setItems(appointments);
 
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,4 +1,3 @@
-
 package softwareII.Model;
 
 import java.util.Calendar;
@@ -6,152 +5,45 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
-
+ *
  * @author Nick Shattuck
  */
 public class Appointment {
-    private int customerID; 
-    private StringProperty startTime; 
-    private String endTime; 
-//    private String customerName; 
-//    private int addressID;
-//    private String phoneNumber; 
-//    private boolean Active; 
-//    private Calendar createDate; 
-//    private String createdBy; 
-//    private Calendar lastUpdate; 
-//    private String lastUpdateBy; 
 
-  
+    private int customerID;
+    private StringProperty startTime;
+    private StringProperty endTime;
+    private StringProperty appointmentType;
 
-    //Test Constructor
-    public Appointment(String startTime) {
-        this.startTime = new SimpleStringProperty(); 
+    //Constuctor. Set values of appointment data via getters and setters. 
+    public Appointment() {
+        this.startTime = new SimpleStringProperty();
+        this.endTime = new SimpleStringProperty();
+        this.appointmentType = new SimpleStringProperty();
     }
 
-    /**
-     * @return the customerID
-     */
-    public int getCustomerID() {
-        return customerID;
+    //Getters and setters. 
+    public StringProperty getEndTime() {
+        return endTime;
     }
 
-    /**
-     * @param customerID the customerID to set
-     */
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public void setEndTime(String endTime) {
+        this.endTime.set(endTime);
     }
 
-    /**
-     * @return the customerName
-     */
-//    public String getCustomerName() {
-//        return customerName;
-//    }
-//
-//    /**
-//     * @param customerName the customerName to set
-//     */
-//    public void setCustomerName(String customerName) {
-//        this.customerName = customerName;
-//    }
-//
-//    /**
-//     * @return the addressID
-//     */
-//    public int getAddressID() {
-//        return addressID;
-//    }
-//
-//    /**
-//     * @param addressID the addressID to set
-//     */
-//    public void setAddressID(int addressID) {
-//        this.addressID = addressID;
-//    }
-//
-//    /**
-//     * @return the phoneNumber
-//     */
-//    public String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//
-//    /**
-//     * @param phoneNumber the phoneNumber to set
-//     */
-//    public void setPhoneNumber(String phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//    }
-//
-//    /**
-//     * @return the Active
-//     */
-//    public boolean isActive() {
-//        return Active;
-//    }
-//
-//    /**
-//     * @param Active the Active to set
-//     */
-//    public void setActive(boolean Active) {
-//        this.Active = Active;
-//    }
-//
-//    /**
-//     * @return the createDate
-//     */
-//    public Calendar getCreateDate() {
-//        return createDate;
-//    }
-//
-//    /**
-//     * @param createDate the createDate to set
-//     */
-//    public void setCreateDate(Calendar createDate) {
-//        this.createDate = createDate;
-//    }
-//
-//    /**
-//     * @return the createdBy
-//     */
-//    public String getCreatedBy() {
-//        return createdBy;
-//    }
-//
-//    /**
-//     * @param createdBy the createdBy to set
-//     */
-//    public void setCreatedBy(String createdBy) {
-//        this.createdBy = createdBy;
-//    }
-//
-//    /**
-//     * @return the lastUpdate
-//     */
-//    public Calendar getLastUpdate() {
-//        return lastUpdate;
-//    }
-//
-//    /**
-//     * @param lastUpdate the lastUpdate to set
-//     */
-//    public void setLastUpdate(Calendar lastUpdate) {
-//        this.lastUpdate = lastUpdate;
-//    }
-//
-//    /**
-//     * @return the lastUpdateBy
-//     */
-//    public String getLastUpdateBy() {
-//        return lastUpdateBy;
-//    }
-//
-//    /**
-//     * @param lastUpdateBy the lastUpdateBy to set
-//     */
-//    public void setLastUpdateBy(String lastUpdateBy) {
-//        this.lastUpdateBy = lastUpdateBy;
-//    }
+    public StringProperty getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(String appointmentType) {
+        this.appointmentType.set(appointmentType);
+    }
+
+    public StringProperty getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime.set(startTime);
+    }
 }
