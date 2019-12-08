@@ -7,13 +7,55 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #FFFAF0;" styleClass="buttonHover" stylesheets="@MainScreenStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #FFFAF0; -fx-cursor: hand;" styleClass="buttonHover" stylesheets="@MainScreenStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainScreenController">
    <children>
-      <DatePicker fx:id="datePicker" layoutX="285.0" layoutY="79.0" promptText="Select Date " />
+      <AnchorPane layoutY="-1.0" prefHeight="700.0" prefWidth="272.0" style="-fx-background-color: #fbefcc;">
+         <children>
+            <Button fx:id="createCustomerBtn" layoutX="14.0" layoutY="79.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" stylesheets="@MainScreenStyle.css" text="Create Customer ">
+               <font>
+                  <Font name="Ebrima Bold" size="12.0" />
+               </font>
+               <graphic>
+               
+               </graphic>
+            </Button>
+            <Button fx:id="editCustomerBtn" layoutX="14.0" layoutY="145.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Edit Customer" />
+            <Button fx:id="deleteCustomerBtn" layoutX="14.0" layoutY="211.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Customer " />
+            <Button fx:id="addApptBtn" layoutX="14.0" layoutY="277.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Add Appt" />
+            <Button fx:id="editApptBtn" layoutX="14.0" layoutY="343.0" mnemonicParsing="false" onAction="#editAppt" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Edit Appt" />
+            <Button fx:id="deleteApptBtn" alignment="CENTER" layoutX="14.0" layoutY="409.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Appt" />
+            <Button fx:id="sortByMonthBtn" layoutX="14.0" layoutY="475.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort Appt By Month" />
+            <Button fx:id="sortByUserBtn" layoutX="14.0" layoutY="541.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort Appt By User" />
+            <Button fx:id="sortByReportBtn" layoutX="14.0" layoutY="607.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort Appt By Report " />
+          
+            <Label fx:id="usernameDisplay" layoutX="14.0" layoutY="7.0" text="Welcome ">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="usernameLabel" layoutX="81.0" layoutY="41.0" text="Username">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="37.0" fitWidth="42.0" layoutX="14.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/avatar_icon.png" />
+               </image>
+            </ImageView>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+      <DatePicker fx:id="datePicker" layoutX="378.0" layoutY="57.0" promptText="Select Date " />
       <Label layoutX="852.0" layoutY="14.0" text="Schedule" textFill="DEEPSKYBLUE">
          <font>
             <Font name="Ebrima Bold" size="24.0" />
@@ -25,38 +67,16 @@
          <font>
             <Font name="Impact" size="24.0" />
          </font></Label>
-  <TableView fx:id="table" layoutX="295.0" layoutY="121.0" prefHeight="367.0" prefWidth="632.0">
+  <TableView fx:id="table" layoutX="450.0" layoutY="122.0" prefHeight="367.0" prefWidth="417.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
         <columns>
           <TableColumn fx:id="startTimeColumn" prefWidth="143.0" text="Start Time" />
-            <TableColumn fx:id="endTimeColumn" prefWidth="143.0" text="End Time " />
-            <TableColumn fx:id="appointmentTypeColumn" minWidth="20.0" prefWidth="143.0" text="Appointment Type" />
+            <TableColumn fx:id="endTimeColumn" prefWidth="121.0" text="End Time " />
+            <TableColumn fx:id="appointmentTypeColumn" minWidth="20.0" prefWidth="165.0" text="Appointment Type" />
         </columns>
+         <effect>
+            <Glow />
+         </effect>
       </TableView>
-      <VBox layoutX="-3.0" prefHeight="700.0" prefWidth="280.0" spacing="30.0" style="-fx-background-color: #FFFAF0;">
-         <children>
-            <Label text="Menu" textFill="DEEPSKYBLUE">
-               <font>
-                  <Font name="Ebrima Bold" size="24.0" />
-               </font>
-            </Label>
-            <Button fx:id="createCustomerBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" stylesheets="@MainScreenStyle.css" text="Create Customer ">
-               <font>
-                  <Font name="Ebrima Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="editCustomerBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Edit Customer" />
-            <Button fx:id="deleteCustomerBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Customer " />
-            <Button fx:id="addApptBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Add Appt" />
-            <Button fx:id="editApptBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Edit Appt" />
-            <Button fx:id="deleteApptBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Appt" />
-            <Button fx:id="sortByMonthBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort Appt By Month" />
-            <Button fx:id="sortByUserBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort Appt By User" />
-            <Button fx:id="sortByReportBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort Appt By Report " />
-         </children>
-         <padding>
-            <Insets left="15.0" top="30.0" />
-         </padding>
-      </VBox>
       <Button fx:id="logoutBtn" layoutX="394.0" layoutY="641.0" mnemonicParsing="false" onAction="#logoutButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Log out " />
       <Button fx:id="exitBtn" layoutX="703.0" layoutY="641.0" mnemonicParsing="false" onAction="#exitButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Exit " />
       <Label layoutX="603.0" layoutY="59.0" text="View By ">

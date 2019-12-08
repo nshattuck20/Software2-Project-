@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #fbefcc;" stylesheets="@createcustomer.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@createcustomer.css" text="Edit Appointment">
+         <font>
+            <Font name="Ebrima Bold" size="36.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="181.0" layoutY="40.0" prefHeight="224.0" prefWidth="205.0">
+         <children>
+            <Label alignment="TOP_LEFT" layoutX="25.0" layoutY="39.0" text="Start Time">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="111.0" text="End Time">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="16.0" layoutY="185.0" text="Type of Appointment">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <AnchorPane layoutX="406.0" layoutY="42.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="261.0" prefWidth="225.0">
+         <children>
+            <TextField alignment="CENTER" layoutX="14.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css" />
+            <TextField alignment="CENTER" layoutX="14.0" layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css" />
+            <TextField alignment="CENTER" layoutX="14.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="btn_cancel" layoutX="406.0" layoutY="334.0" mnemonicParsing="false" onAction="#btncancel" prefHeight="37.0" prefWidth="216.0" style="-fx-background-radius: 20;" stylesheets="@createcustomer.css" text="Cancel">
+         <styleClass>
+            <String fx:value="exitbbutton" />
+            <String fx:value="createCustomer" />
+         </styleClass>
+      </Button>
+      <Button fx:id="btn_confirm" layoutX="105.0" layoutY="334.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="37.0" prefWidth="225.0" style="-fx-background-radius: 20;" text="Confirm">
+         <font>
+            <Font name="Ebrima Bold" size="12.0" />
+         </font>
+         <styleClass>
+            <String fx:value="createCustomer" />
+            <String fx:value="confirmbutton" />
+         </styleClass>
+      </Button>
+   </children>
+</AnchorPane>

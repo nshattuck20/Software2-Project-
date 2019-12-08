@@ -21,12 +21,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import softwareII.Implementation.AppointmentImplementation;
 import softwareII.Implementation.DBConnection;
+import softwareII.Implementation.UserImplementation;
 import softwareII.Model.Appointment;
+import softwareII.Model.User;
 
 /**
  * FXML Controller class
@@ -44,13 +49,6 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Appointment, String> endTimeColumn;
 
-    //Something to display customer data. 
-//    @FXML
-//    private TableColumn<Customer, String> cityColumn;
-//
-//    @FXML
-//    private TableColumn<Customer, String> countryColumn;
-//
     @FXML
     private TableColumn<Appointment, String> appointmentTypeColumn;
     //Extra space for table column names 
@@ -60,6 +58,34 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private Button exitBtn;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private Button createCustomerBtn;
+    @FXML
+    private Button editCustomerBtn;
+    @FXML
+    private Button deleteCustomerBtn;
+    @FXML
+    private Button addApptBtn;
+    @FXML
+    private Button editApptBtn;
+    @FXML
+    private Button deleteApptBtn;
+    @FXML
+    private Button sortByMonthBtn;
+    @FXML
+    private Button sortByUserBtn;
+    @FXML
+    private Button sortByReportBtn;
+    @FXML
+    private RadioButton weekRadioBtn;
+    @FXML
+    private RadioButton MonthRadioBtn;
+    @FXML
+    private Label usernameLabel;
+
+    User user;
 
     /**
      * Initializes the controller class.
@@ -68,6 +94,14 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        try {
+            //TODO Display username on main screen
+
+        } catch (Exception ex) {
+            Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        String userName = userLabel.toString(); 
+//        usernameLabel.setText(userName);
 
 //        //Lambas for columns customer table 
         startTimeColumn.setCellValueFactory(cellData -> {
@@ -148,6 +182,39 @@ public class MainScreenController implements Initializable {
         Stage createCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         createCustomerStage.setScene(createCustomerScene);
         createCustomerStage.show();
+    }
+
+    public void editCustomer(ActionEvent event) throws IOException {
+        //TODO 
+        // Show an alert if no customer table row is selected. 
+        System.out.println("Edit customer clicked!");
+        Parent editCustomerScreen = FXMLLoader.load(getClass().getResource("CreateCustomer.fxml"));
+        Scene editCustomerScene = new Scene(editCustomerScreen);
+        Stage editCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        editCustomerStage.setScene(editCustomerScene);
+        editCustomerStage.show();
+    }
+
+    @FXML
+    public void addAppt(ActionEvent event) throws IOException {
+        System.out.println("Add appointment clicked!");
+        Parent addApptScreen = FXMLLoader.load(getClass().getResource("AddAppt.fxml"));
+        Scene addApptScene = new Scene(addApptScreen);
+        Stage addApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        addApptStage.setScene(addApptScene);
+        addApptStage.show();
+    }
+
+    @FXML
+    public void editAppt(ActionEvent event) throws IOException {
+        //TODO 
+        // Show an alert if no appointment table row is selected. 
+        System.out.println("Edit appointment clicked!");
+        Parent addApptScreen = FXMLLoader.load(getClass().getResource("AddAppt.fxml"));
+        Scene addApptScene = new Scene(addApptScreen);
+        Stage addApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        addApptStage.setScene(addApptScene);
+        addApptStage.show();
     }
 
 }

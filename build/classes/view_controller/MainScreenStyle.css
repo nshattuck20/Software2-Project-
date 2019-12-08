@@ -30,14 +30,17 @@ and open the template in the editor.
 }
 .table-view:focused{
     -fx-background-color:transparent; 
+    -fx-text-fill:black; 
 }
 
 .table-row-cell:odd{
     -fx-background-color:#87CEFA; 
+    -fx-text-fill:black; 
     
 }
 .table-row-cell:even{
     -fx-background-color: #F8F8FF; 
+    -fx-text-fill:black; 
 }
 
 
