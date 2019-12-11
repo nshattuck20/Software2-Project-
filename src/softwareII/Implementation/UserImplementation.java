@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package softwareII.Implementation;
 
 import java.sql.ResultSet;
@@ -41,7 +37,7 @@ public class UserImplementation {
             String lastUpdateby = result.getString("lastUpdateBy");
             Calendar createDateCalendar = stringToCalendar(createDate);
             Calendar lastUpdateCalendar = stringToCalendar(lastUpdate);
-            userResult = new User(userid, userName, password, isActive, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby);
+            userResult = new User(userid, userNameG, passwordG, isActive, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby);
             return userResult;
         }
         DBConnection.closeConnection();
