@@ -1,6 +1,7 @@
 
 package softwareII.Model;
 
+import java.util.Calendar;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,6 +15,25 @@ public class Country {
     
     private IntegerProperty countryID; 
     private StringProperty country; 
+    private Calendar createDate; 
+    private Calendar lastUpdate; 
+
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
+    }
+
+    public Calendar getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+    
 
     public IntegerProperty getCountryID() {
         return countryID;

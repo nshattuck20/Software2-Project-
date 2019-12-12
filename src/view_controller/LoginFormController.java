@@ -103,10 +103,7 @@ public class LoginFormController implements Initializable {
             Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             mainStage.setScene(main);
             mainStage.show();
-            //Some test print statements to test connectivity
-//            System.out.println(user.getPassword());
-//            System.out.println(user.getUserName());
-//            System.out.println(user.isActive());
+
 
         } else {
             Alert alert = new Alert(AlertType.ERROR);

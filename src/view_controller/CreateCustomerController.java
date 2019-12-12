@@ -22,8 +22,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import softwareII.Implementation.CountryImplementation;
 import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
+import softwareII.Model.Country;
 import softwareII.Model.Customer;
 
 /**
@@ -59,26 +61,25 @@ public class CreateCustomerController implements Initializable {
 
     private Customer newCustomer;
 
+    private Country newCountry = new Country();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     @FXML
     public void confirmButton(ActionEvent event) throws IOException, SQLException, Exception {
         //TODO 
-        /*
-        This method creates a query to add a new customer to the DB. 
-        It also creates a new local based on the location of the customer. 
-         */
 
         String newCustomerName = txtField_name.getText();
-        String address = txt_address.getText(); 
-        String country = txt_country.getText(); 
-        String city = txt_city.getText(); 
-        String phone = txt_phone.getText(); 
-        String address2 = txt_address2.getText(); 
-        newCustomer = CustomerImplementation.addCustomer(newCustomerName);
+        String address = txt_address.getText();
+        String countryName = txt_country.getText();
+        String city = txt_city.getText();
+        String phone = txt_phone.getText();
+        String address2 = txt_address2.getText();
+        
+        String countryId = CountryImplementation.insertCountry(countryName); 
 
         try {
             exceptionMessage = validateNewEntry(newCustomerName, exceptionMessage);
