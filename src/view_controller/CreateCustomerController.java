@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import softwareII.Implementation.CityImplementation;
 import softwareII.Implementation.CountryImplementation;
 import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
@@ -80,6 +81,7 @@ public class CreateCustomerController implements Initializable {
         String address2 = txt_address2.getText();
         
         String countryId = CountryImplementation.insertCountry(countryName); 
+        String cityId = CityImplementation.insertCity(countryId, city); 
 
         try {
             exceptionMessage = validateNewEntry(newCustomerName, exceptionMessage);

@@ -21,8 +21,6 @@ import softwareII.Model.User;
  */
 public class CountryImplementation {
 
-  
-    User user; 
     public static String insertCountry(String newCountry) throws SQLException, Exception{
         
         //grab user, country to be inserted, and timestamp 
@@ -31,7 +29,6 @@ public class CountryImplementation {
        //See code example in repository (insert example) 
         DBConnection.makeConnection(); 
         String sql = "INSERT INTO country (country, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, now(), 'test', now(), 'test')";
-        
         String countryId = null;
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -45,13 +42,13 @@ public class CountryImplementation {
         } catch (SQLException ex) {
             Logger.getLogger(CountryImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        DBConnection.closeConnection();
         return countryId;
         
         
          
     }
-    
+    //Do not know if I will be using this method but will keep in case...
     public static Country getCountryID() throws SQLException, Exception{
         DBConnection.makeConnection();
         String countryIdSQL= "SELECT id from country";
