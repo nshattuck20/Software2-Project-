@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import softwareII.Implementation.AddressImplementation;
 import softwareII.Implementation.CityImplementation;
 import softwareII.Implementation.CountryImplementation;
 import softwareII.Implementation.CustomerImplementation;
@@ -60,6 +61,9 @@ public class CreateCustomerController implements Initializable {
     @FXML
     private TextField txt_address;
 
+    @FXML
+    private TextField txt_postal;
+
     private Customer newCustomer;
 
     private Country newCountry = new Country();
@@ -78,10 +82,12 @@ public class CreateCustomerController implements Initializable {
         String countryName = txt_country.getText();
         String city = txt_city.getText();
         String phone = txt_phone.getText();
+        String postalCode = txt_postal.getText();
         String address2 = txt_address2.getText();
-        
-        String countryId = CountryImplementation.insertCountry(countryName); 
-        String cityId = CityImplementation.insertCity(countryId, city); 
+
+        String countryId = CountryImplementation.insertCountry(countryName);
+        String cityId = CityImplementation.insertCity(countryId, city);
+        String addressId = AddressImplementation.insertAddress(cityId, address, address2,postalCode, phone);
 
         try {
             exceptionMessage = validateNewEntry(newCustomerName, exceptionMessage);

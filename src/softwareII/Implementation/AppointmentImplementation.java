@@ -5,10 +5,14 @@
  */
 package softwareII.Implementation;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import static softwareII.Implementation.DBConnection.conn;
 import softwareII.Model.Appointment;
 
 /**
@@ -16,6 +20,10 @@ import softwareII.Model.Appointment;
  * @author Nick Shattuck
  */
 public class AppointmentImplementation {
+    
+    
+        
+    
     
     public static Appointment getAppointmentData() throws SQLException, Exception {
         DBConnection.makeConnection();

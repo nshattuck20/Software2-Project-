@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #fbefcc;" stylesheets="@createcustomer.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.CreateCustomerController">
+<AnchorPane prefHeight="650.0" prefWidth="850.0" style="-fx-background-color: #fbefcc;" stylesheets="@createcustomer.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.CreateCustomerController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@createcustomer.css" text="Create">
          <font>
             <Font name="Ebrima Bold" size="48.0" />
          </font>
       </Label>
-      <Button fx:id="confirmButton" layoutX="162.0" layoutY="549.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmButton" prefHeight="37.0" prefWidth="225.0" style="-fx-background-radius: 20;" text="Confirm">
+      <Button fx:id="confirmButton" layoutX="171.0" layoutY="591.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmButton" prefHeight="37.0" prefWidth="225.0" style="-fx-background-radius: 20;" text="Confirm">
          <font>
             <Font name="Ebrima Bold" size="12.0" />
          </font>
@@ -23,12 +23,12 @@
             <String fx:value="createCustomer" />
             <String fx:value="confirmbutton" />
          </styleClass></Button>
-      <Button fx:id="btn_cancel" layoutX="493.0" layoutY="549.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="37.0" prefWidth="216.0" style="-fx-background-radius: 20;" stylesheets="@createcustomer.css" text="Cancel">
+      <Button fx:id="btn_cancel" layoutX="502.0" layoutY="591.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="37.0" prefWidth="216.0" style="-fx-background-radius: 20;" stylesheets="@createcustomer.css" text="Cancel">
          <styleClass>
             <String fx:value="exitbbutton" />
             <String fx:value="createCustomer" />
          </styleClass></Button>
-      <AnchorPane layoutX="181.0" layoutY="40.0" prefHeight="476.0" prefWidth="205.0">
+      <AnchorPane layoutX="185.0" layoutY="14.0" prefHeight="476.0" prefWidth="205.0">
          <children>
             <Label alignment="TOP_LEFT" layoutX="25.0" layoutY="39.0" text="Customer Name">
                <font>
@@ -50,30 +50,58 @@
                   <Font name="Ebrima" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="58.0" layoutY="330.0" text="Country">
+            <Label layoutX="58.0" layoutY="338.0" text="Country">
                <font>
                   <Font name="Ebrima" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="407.0" text="Phone Number">
+            <Label layoutX="42.0" layoutY="423.0" text="Phone Number">
                <font>
                   <Font name="Ebrima" size="18.0" />
                </font>
             </Label>
          </children></AnchorPane>
-      <AnchorPane layoutX="406.0" layoutY="42.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="225.0">
+      <AnchorPane layoutX="400.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="225.0">
          <children>
-            <TextField fx:id="txt_address2" alignment="CENTER" layoutX="14.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css" />
-            <TextField fx:id="txt_phone" alignment="CENTER" layoutX="14.0" layoutY="416.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css" />
+            <TextField fx:id="txt_address2" alignment="CENTER" layoutX="14.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="txt_phone" alignment="CENTER" layoutX="14.0" layoutY="419.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
             <TextField fx:id="txt_city" alignment="CENTER" layoutX="14.0" layoutY="264.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css">
                <padding>
                   <Insets left="5.0" right="5.0" />
                </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </TextField>
-            <TextField fx:id="txt_country" alignment="CENTER" layoutX="14.0" layoutY="338.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css" />
-            <TextField fx:id="txtField_name" alignment="CENTER" layoutX="14.0" layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css" />
-            <TextField fx:id="txt_address" alignment="CENTER" layoutX="14.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css" />
+            <TextField fx:id="txt_country" alignment="CENTER" layoutX="14.0" layoutY="338.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="txtField_name" alignment="CENTER" layoutX="14.0" layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css">
+               <font>
+                  <Font name="Ebrima" size="14.0" />
+               </font></TextField>
+            <TextField fx:id="txt_address" alignment="CENTER" layoutX="14.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
          </children>
       </AnchorPane>
+      <Label layoutX="238.0" layoutY="517.0" text="Postal Code ">
+         <font>
+            <Font name="Ebrima" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txt_postal" alignment="CENTER" layoutX="412.0" layoutY="508.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="180.0" style="-fx-font-family: Ebrima; -fx-pref-height: 30;" stylesheets="@createcustomer.css">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>
