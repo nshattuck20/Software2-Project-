@@ -5,7 +5,7 @@ and open the template in the editor.
 */
 /* 
     Created on : Nov 25, 2019, 4:19:36 PM
-    Author     : Nick
+    Author     : Nick Shattuck
 */
 
 
@@ -39,7 +39,7 @@ and open the template in the editor.
     
 }
 .table-row-cell:even{
-    -fx-background-color: #F8F8FF; 
+    -fx-background-color:#fbefcc; 
     -fx-text-fill:black; 
 }
 

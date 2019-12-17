@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #FFFAF0; -fx-cursor: hand;" styleClass="buttonHover" stylesheets="@MainScreenStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="919.0" prefWidth="1000.0" style="-fx-background-color: #FFFAF0; -fx-cursor: hand;" styleClass="buttonHover" stylesheets="@MainScreenStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainScreenController">
    <children>
-      <AnchorPane layoutY="-1.0" prefHeight="700.0" prefWidth="272.0" style="-fx-background-color: #fbefcc;">
+      <AnchorPane layoutY="-1.0" prefHeight="912.0" prefWidth="272.0" style="-fx-background-color: #fbefcc;">
          <children>
             <Button fx:id="createCustomerBtn" layoutX="14.0" layoutY="79.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" stylesheets="@MainScreenStyle.css" text="Create Customer ">
                <font>
@@ -50,41 +50,69 @@
                   <Image url="@../images/avatar_icon.png" />
                </image>
             </ImageView>
+            <Button fx:id="logoutBtn" layoutX="11.0" layoutY="787.0" mnemonicParsing="false" onAction="#logoutButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Log out " />
+            <Button fx:id="exitBtn" layoutX="11.0" layoutY="849.0" mnemonicParsing="false" onAction="#exitButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Exit " />
          </children>
          <effect>
             <DropShadow />
          </effect>
       </AnchorPane>
-      <DatePicker fx:id="datePicker" layoutX="378.0" layoutY="57.0" promptText="Select Date " />
-      <Label layoutX="852.0" layoutY="14.0" text="Schedule" textFill="DEEPSKYBLUE">
+      <DatePicker fx:id="datePicker" layoutX="289.0" layoutY="27.0" promptText="Select Date " />
+      <Label layoutX="1155.0" layoutY="11.0" text="Schedule" textFill="DEEPSKYBLUE">
          <font>
             <Font name="Ebrima Bold" size="24.0" />
          </font>
          <padding>
             <Insets right="10.0" />
          </padding></Label>
-      <Label layoutX="926.0" layoutY="41.0" minHeight="-Infinity" minWidth="-Infinity" text="IT" textFill="DEEPSKYBLUE">
+      <Label layoutX="1229.0" layoutY="38.0" minHeight="-Infinity" minWidth="-Infinity" text="IT" textFill="DEEPSKYBLUE">
          <font>
             <Font name="Impact" size="24.0" />
          </font></Label>
-  <TableView fx:id="table" layoutX="450.0" layoutY="122.0" prefHeight="367.0" prefWidth="417.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
+  <TableView fx:id="table" layoutX="303.0" layoutY="97.0" prefHeight="367.0" prefWidth="634.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
         <columns>
-          <TableColumn fx:id="startTimeColumn" prefWidth="143.0" text="Start Time" />
-            <TableColumn fx:id="endTimeColumn" prefWidth="121.0" text="End Time " />
-            <TableColumn fx:id="appointmentTypeColumn" minWidth="20.0" prefWidth="165.0" text="Appointment Type" />
+          <TableColumn fx:id="startTimeColumn" prefWidth="170.0" text="Start Time" />
+            <TableColumn fx:id="endTimeColumn" prefWidth="145.0" text="End Time " />
+            <TableColumn fx:id="appointmentTypeColumn" minWidth="20.0" prefWidth="184.0" text="Appointment Type" />
         </columns>
          <effect>
             <Glow />
          </effect>
       </TableView>
-      <Button fx:id="logoutBtn" layoutX="394.0" layoutY="641.0" mnemonicParsing="false" onAction="#logoutButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Log out " />
-      <Button fx:id="exitBtn" layoutX="703.0" layoutY="641.0" mnemonicParsing="false" onAction="#exitButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Exit " />
-      <Label layoutX="603.0" layoutY="59.0" text="View By ">
+      <Label layoutX="508.0" layoutY="27.0" text="View By " textFill="DEEPSKYBLUE">
          <font>
             <Font name="Ebrima Bold" size="18.0" />
          </font>
       </Label>
-      <RadioButton fx:id="weekRadioBtn" layoutX="706.0" layoutY="40.0" mnemonicParsing="false" text="Week" />
-      <RadioButton fx:id="MonthRadioBtn" layoutX="706.0" layoutY="77.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" text="Month" />
+      <RadioButton fx:id="weekRadioBtn" layoutX="602.0" layoutY="25.0" mnemonicParsing="false" text="Week" textFill="DEEPSKYBLUE">
+         <font>
+            <Font name="Ebrima Bold" size="14.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="MonthRadioBtn" layoutX="690.0" layoutY="25.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" text="Month" textFill="DEEPSKYBLUE">
+         <font>
+            <Font name="Ebrima Bold" size="14.0" />
+         </font></RadioButton>
+      <TableView fx:id="customerTable" layoutX="309.0" layoutY="504.0" prefHeight="367.0" prefWidth="634.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
+         <columns>
+            <TableColumn fx:id="column_Customer_Name" prefWidth="112.0" text="Name" />
+            <TableColumn fx:id="column_Customer_Address" prefWidth="126.0" text="Address " />
+            <TableColumn fx:id="column_Customer_Phone" minWidth="20.0" prefWidth="120.0" text="Phone" />
+            <TableColumn fx:id="column_Customer_City" prefWidth="142.0" text="City " />
+            <TableColumn fx:id="column_Customer_Country" prefWidth="133.0" text="Country" />
+         </columns>
+         <effect>
+            <Glow />
+         </effect>
+      </TableView>
+      <Label layoutX="309.0" layoutY="74.0" text="Appointments">
+         <font>
+            <Font name="Ebrima Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="309.0" layoutY="472.0" text="Customers">
+         <font>
+            <Font name="Ebrima Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

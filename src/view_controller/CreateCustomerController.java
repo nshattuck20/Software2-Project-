@@ -88,6 +88,7 @@ public class CreateCustomerController implements Initializable {
         String countryId = CountryImplementation.insertCountry(countryName);
         String cityId = CityImplementation.insertCity(countryId, city);
         String addressId = AddressImplementation.insertAddress(cityId, address, address2,postalCode, phone);
+        // TO DO: Still need to insert the customer name into the DB. 
 
         try {
             exceptionMessage = validateNewEntry(newCustomerName, exceptionMessage);
