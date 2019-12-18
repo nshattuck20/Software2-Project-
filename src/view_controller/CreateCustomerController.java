@@ -88,6 +88,7 @@ public class CreateCustomerController implements Initializable {
         String countryId = CountryImplementation.insertCountry(countryName);
         String cityId = CityImplementation.insertCity(countryId, city);
         String addressId = AddressImplementation.insertAddress(cityId, address, address2,postalCode, phone);
+        String customerId = CustomerImplementation.insertCustomer(addressId, newCustomerName); 
         // TO DO: Still need to insert the customer name into the DB. 
 
         try {
@@ -101,7 +102,7 @@ public class CreateCustomerController implements Initializable {
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error while creating new customer");
-            alert.setHeaderText("Error!");
+            alert.setHeaderText("An error has occured!");
             alert.setContentText("Your form contains blank fields or invalid entries."
                     + " Please make the necessary corrections before confirming.");
             alert.showAndWait();

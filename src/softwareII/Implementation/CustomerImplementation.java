@@ -1,11 +1,14 @@
 
 package softwareII.Implementation;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import softwareII.Model.Address;
+import static softwareII.Implementation.DBConnection.conn;
 import softwareII.Model.Customer;
 
 /**
@@ -15,23 +18,28 @@ import softwareII.Model.Customer;
  */
 public class CustomerImplementation {
     
+    static boolean isActive; 
     
-    
-    public static Customer addCustomer(String name) throws SQLException, Exception {
-        /*
-         Provide the ability to add, update, and delete customer records in the database, including name, address, and phone number.
-        */
+    public static String insertCustomer(String addressID, String customer) throws SQLException, Exception {
+        //TODO 12/18/19
+        
         DBConnection.makeConnection(); 
-        String addCustomerSQL = "INSERT into customer (customerName) values ( ' + name + ' ) WHERE customer.name = customer.addressId" ; 
-        Query.makeQuery(addCustomerSQL);
-        Customer addCustomer = new Customer(); 
-        addCustomer.setCustomerName(name);
-        
-       // addCustomer.setAddressID(address);
-        
+        String sql = "INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, '" + addressID +"', 1, now(), 'test', now() , 'test')";
+        String customerID = null; 
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, customer);
+
+            ps.execute();
+            ps = conn.prepareStatement("SELECT LAST_INSERT_ID() FROM customer"); //retrieve newly assigned country id
+            ResultSet rs = ps.executeQuery();
+            rs.next(); //only one record, so no need for a loop.  
+            customerID = rs.getString(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(CountryImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
         DBConnection.closeConnection();
-        
-        return addCustomer; 
+        return customerID;
     }
     
 
