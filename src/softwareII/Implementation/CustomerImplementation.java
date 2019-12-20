@@ -64,18 +64,23 @@ public class CustomerImplementation {
     public static ObservableList<Customer> getCustomerData() throws SQLException, Exception {
         ObservableList<Customer> customerData = FXCollections.observableArrayList();
         DBConnection.makeConnection();
-        String sqlStatement = "select name FROM customer";
-        Query.makeQuery(sqlStatement);
+        String sqlStatement = "select customerName FROM customer";
+        //Using PreparedStatement 
+        //PreparedStatement ps = conn.prepareStatement(sqlStatement); 
+       Query.makeQuery(sqlStatement);
         ResultSet result = Query.getResult();
+      // ResultSet result = ps.executeQuery();
         result.beforeFirst();
         while (result.next()) {
-            String name = result.getString("name");
+            String name = result.getString("customerName");
             Customer customerResult = new Customer();
             customerResult.setCustomerName(name);
             
             //customerData.clear();
             customerData.add(customerResult);
+            // result.close();
         }
+       
         DBConnection.closeConnection();
         return customerData;
     }

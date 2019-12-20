@@ -44,7 +44,7 @@ public class CreateCustomerController implements Initializable {
     private TextField txtField_name;
 
     @FXML
-    private String exceptionMessage;
+    private String exceptionMessage = ""; 
 
     @FXML
     private TextField txt_address2;
@@ -64,10 +64,7 @@ public class CreateCustomerController implements Initializable {
     @FXML
     private TextField txt_postal;
 
-    private Customer newCustomer;
-
-    private Country newCountry = new Country();
-
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -75,7 +72,6 @@ public class CreateCustomerController implements Initializable {
 
     @FXML
     public void confirmButton(ActionEvent event) throws IOException, SQLException, Exception {
-        //TODO 
 
         String newCustomerName = txtField_name.getText();
         String address = txt_address.getText();
@@ -87,24 +83,51 @@ public class CreateCustomerController implements Initializable {
 
         String countryId = CountryImplementation.insertCountry(countryName);
         String cityId = CityImplementation.insertCity(countryId, city);
-        String addressId = AddressImplementation.insertAddress(cityId, address, address2,postalCode, phone);
-        String customerId = CustomerImplementation.insertCustomer(addressId, newCustomerName); 
-        // TO DO: Still need to insert the customer name into the DB. 
+        String addressId = AddressImplementation.insertAddress(cityId, address, address2, postalCode, phone);
+        String customerId = CustomerImplementation.insertCustomer(addressId, newCustomerName);
 
+        //Check to see if the customer name text field is empty 
         try {
-            exceptionMessage = validateNewEntry(newCustomerName, exceptionMessage);
-            if (exceptionMessage.length() > 0) {
+            exceptionMessage = exceptionMessage + validateNewEntry(newCustomerName, exceptionMessage);
+            int length = exceptionMessage.length();
+            if (length > 0) {
+                //The name field is empty. Display an alert. 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Error while creating new customer");
-                alert.setHeaderText("Uh oh");
+                alert.setTitle("Uh oh");
+                alert.setHeaderText("An error has occured while creating a new customer");
                 alert.setContentText(exceptionMessage);
-            }
+
+                Optional<ButtonType> confirm = alert.showAndWait();
+                if (confirm.get() == ButtonType.OK) {
+                    exceptionMessage = "";
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("CreateCustomer.fxml"));
+                    Parent createCustomerParent = loader.load();
+                    Scene createCustomerScene = new Scene(createCustomerParent);
+                    CreateCustomerController controller = loader.getController();
+                    controller.txtField_name.setText(newCustomerName);
+                    controller.txt_address.setText(address);
+                    controller.txt_address2.setText(address2);
+                    controller.txt_phone.setText(phone);
+                    controller.txt_postal.setText(postalCode);
+                    controller.txt_city.setText(city);
+                    controller.txt_country.setText(countryName);
+                } 
+            }else {
+                //There was no exception, get the data and return to the home screen. 
+                    exceptionMessage = ""; 
+                    Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+                    Scene main = new Scene(mainScreen);
+                    Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    mainStage.setScene(main);
+                    mainStage.show();
+                }
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error while creating new customer");
-            alert.setHeaderText("An error has occured!");
-            alert.setContentText("Your form contains blank fields or invalid entries."
-                    + " Please make the necessary corrections before confirming.");
+            alert.setHeaderText("An error has occured");
+            alert.setContentText("Something went wrong. ");
             alert.showAndWait();
         }
 
@@ -138,10 +161,10 @@ public class CreateCustomerController implements Initializable {
 
     }
 
-    //This method will validate entries in text fields
-    public static String validateNewEntry(String name, String message) {
-        if (name.equals("")) {
-            message = message + "Name field is empty. Please enter a name";
+    //This method will check to see if the customer name text field is null
+    public static String validateNewEntry(String name, String message) throws IOException {
+        if (name.isEmpty()) {
+            message = "Name field is empty. Please enter a name";
         }
         return message;
     }

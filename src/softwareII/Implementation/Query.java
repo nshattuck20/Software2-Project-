@@ -5,6 +5,7 @@
  */
 package softwareII.Implementation;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import static softwareII.Implementation.DBConnection.conn;
@@ -18,6 +19,7 @@ public class Query {
     private static String query;
     private static Statement stmt;
     private static ResultSet result;
+    private static PreparedStatement ps; 
 
     //When this method is called, it will assign 
     //q to our query field.
@@ -34,9 +36,12 @@ public class Query {
           if(query.toLowerCase().startsWith("select"))
               result = stmt.executeQuery(query);
           
+          //TODO (?) handle prepared statement code 
+          
                //Query to handle select statements 
           if(query.toLowerCase().startsWith("delete")|| query.toLowerCase().startsWith("insert") || query.toLowerCase().startsWith("update"))
               stmt.executeUpdate(query);
+          //TODO (?) handle prepared statement code 
             
            
         } catch (Exception e) {
@@ -47,5 +52,9 @@ public class Query {
     
     public static ResultSet getResult(){
         return result; 
+    }
+    
+    public static PreparedStatement getPreparedStatement(){
+        return ps; 
     }
 }

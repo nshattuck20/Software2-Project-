@@ -28,9 +28,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import softwareII.Implementation.AppointmentImplementation;
+import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
-import softwareII.Implementation.UserImplementation;
 import softwareII.Model.Appointment;
+import softwareII.Model.Customer;
 import softwareII.Model.User;
 
 /**
@@ -40,6 +41,7 @@ import softwareII.Model.User;
  */
 public class MainScreenController implements Initializable {
 
+    //TableView For Appointments 
     @FXML
     private TableView<Appointment> table;
 
@@ -51,7 +53,25 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private TableColumn<Appointment, String> appointmentTypeColumn;
-    //Extra space for table column names 
+    //TableView for Customers 
+    @FXML
+    private TableView<Customer> customerTable;
+
+    @FXML
+    private TableColumn<Customer, String> column_Customer_Name;
+
+    @FXML
+    private TableColumn<Customer, String> column_Customer_Address;
+
+    @FXML
+    private TableColumn<Customer, String> column_Customer_Phone;
+
+    @FXML
+    private TableColumn<Customer, String> column_Customer_City;
+
+    @FXML
+    private TableColumn<Customer, String> column_Customer_Country;
+
     //Buttons
     @FXML
     private Button logoutBtn;
@@ -94,16 +114,15 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        ObservableList<Customer> customers = FXCollections.observableArrayList(); 
         try {
             //TODO Display username on main screen
 
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        String userName = userLabel.toString(); 
-//        usernameLabel.setText(userName);
 
-//        //Lambas for columns customer table 
+//        //Lambas for columns Appointment table 
         startTimeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getStartTime();
         });
@@ -114,12 +133,30 @@ public class MainScreenController implements Initializable {
         appointmentTypeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getAppointmentType();
         });
+        
+        
+        //Lambdas for Customer Table 
+         column_Customer_Name.setCellValueFactory(cellData -> {
+            return cellData.getValue().getCustomerName();
+        });
+      
+//         column_Customer_Address.setCellValueFactory(cellData -> {
+//            return cellData.getValue().;
+//        });
 
         try {
+            //appointments
             appointments.clear();
             appointments.addAll(AppointmentImplementation.getAllAppointments());
+            
+            //customers
+            customerTable.getItems().clear(); 
+            customerTable.getItems().addAll(customers); 
+            customers.addAll(CustomerImplementation.getCustomerData());
 
+            //set the data in the tables
             table.setItems(appointments);
+            customerTable.setItems(customers);
 
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);

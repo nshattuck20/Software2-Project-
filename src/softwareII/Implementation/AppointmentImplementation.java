@@ -22,8 +22,7 @@ import softwareII.Model.Appointment;
 public class AppointmentImplementation {
     
     
-        
-    
+      
     
     public static Appointment getAppointmentData() throws SQLException, Exception {
         DBConnection.makeConnection();
