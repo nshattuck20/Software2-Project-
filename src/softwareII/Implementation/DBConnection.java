@@ -25,10 +25,13 @@ public class DBConnection {
     private static final String password = "53688647344";
     //Get drive path 
     private static final String driver = "com.mysql.jdbc.Driver";
-    public static Connection conn;
-
+    public static Connection conn = null;
+    
     //This method will establish a connection to the data base. 
     public static void makeConnection() throws ClassNotFoundException, SQLException, Exception {
+        if(conn != null){
+            return; 
+        }
         Class.forName(driver);
         //Make a Connection object 
         conn = (Connection) DriverManager.getConnection(DB_URL, username, password);
@@ -38,8 +41,8 @@ public class DBConnection {
     //This method will close the connection 
     public static void closeConnection() throws ClassNotFoundException, SQLException, Exception {
 
-        conn.close();
-        System.out.println("Connection closed");
+//        conn.close();
+//        System.out.println("Connection closed");
     }
 
 }

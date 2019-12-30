@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -109,7 +110,24 @@ public class LoginFormController implements Initializable {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setHeaderText(bundle.getString("header"));
             alert.setContentText(bundle.getString("alert"));
-            alert.showAndWait();
+            //This lambda was added but I am not sure if it's functioning correctly. 
+            alert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                    System.out.println("Alerting!");
+                    Parent main = null;
+                    try {
+                        main = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
+                        Scene scene = new Scene(main);
+
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.setScene(scene);
+
+                        stage.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }));;
         }
 
     }

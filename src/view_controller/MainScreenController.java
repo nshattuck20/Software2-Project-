@@ -27,6 +27,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import softwareII.Implementation.AddressImplementation;
 import softwareII.Implementation.AppointmentImplementation;
 import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
@@ -114,7 +115,7 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        ObservableList<Customer> customers = FXCollections.observableArrayList(); 
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
         try {
             //TODO Display username on main screen
 
@@ -133,25 +134,32 @@ public class MainScreenController implements Initializable {
         appointmentTypeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getAppointmentType();
         });
-        
-        
+
         //Lambdas for Customer Table 
-         column_Customer_Name.setCellValueFactory(cellData -> {
+        column_Customer_Name.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerName();
         });
-      
-//         column_Customer_Address.setCellValueFactory(cellData -> {
-//            return cellData.getValue().;
+
+        column_Customer_Address.setCellValueFactory(cellData -> {
+            return cellData.getValue().getCustomerAddress();
+        });
+
+        column_Customer_Phone.setCellValueFactory(cellData -> {
+            return cellData.getValue().getCustomerPhoneNumber();
+        });
+
+//        column_Customer_City.setCellValueFactory(cellData -> {
+//            return cellData.getValue().getCustomerCity();
 //        });
 
         try {
             //appointments
             appointments.clear();
             appointments.addAll(AppointmentImplementation.getAllAppointments());
-            
+
             //customers
-            customerTable.getItems().clear(); 
-            customerTable.getItems().addAll(customers); 
+            customerTable.getItems().clear();
+            customerTable.getItems().addAll(customers);
             customers.addAll(CustomerImplementation.getCustomerData());
 
             //set the data in the tables

@@ -18,7 +18,7 @@ public class AddressImplementation {
     
     
     public static String insertAddress (String cityId, String address, String address2, String postalCode, String phoneNumber) throws SQLException, Exception{
-        DBConnection.makeConnection();
+        //DBConnection.makeConnection();
         String sql = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) "
                 + "VALUES (?, ?,'" + cityId + "', ?, ?, now(), 'test', now(), 'test'  )"; 
         String addressId = null; 
@@ -36,22 +36,27 @@ public class AddressImplementation {
         } catch (SQLException ex){
             Logger.getLogger(AddressImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DBConnection.closeConnection();
+        //DBConnection.closeConnection();
         return addressId; 
     }
     
     
-    public static Address getAddress() throws SQLException, Exception{
-        DBConnection.makeConnection(); 
-        String getAddressSQL = "SELECT addressId from address";
+    public static Address getAddress(int aId) throws SQLException, Exception{
+       // DBConnection.makeConnection(); 
+        String getAddressSQL = "SELECT addressId, address, phone from address WHERE addressId = " + Integer.toString(aId);
         Address addressId = new Address(); 
+        Query.makeQuery(getAddressSQL);
         ResultSet addressIdResult = Query.getResult(); 
         while(addressIdResult.next()){
             int id = addressIdResult.getInt("addressId");
             addressId.setAddressID(id);
+            String address = addressIdResult.getString("address"); 
+            String phone = addressIdResult.getString("phone"); 
+            addressId.setAddress(address);
+            addressId.setPhoneNumber(phone);
             return addressId; 
         }
-        DBConnection.closeConnection();
+       // DBConnection.closeConnection();
         
         return null; 
     }

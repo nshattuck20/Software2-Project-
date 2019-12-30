@@ -1,4 +1,3 @@
-
 package softwareII.Implementation;
 
 import java.sql.PreparedStatement;
@@ -9,6 +8,10 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import static softwareII.Implementation.DBConnection.conn;
+import softwareII.Model.Address;
+import softwareII.Model.Appointment;
+import softwareII.Model.City;
+import softwareII.Model.Country;
 import softwareII.Model.Customer;
 
 /**
@@ -17,15 +20,14 @@ import softwareII.Model.Customer;
  * @author Nick Shattuck
  */
 public class CustomerImplementation {
-    
-    static boolean isActive; 
-    
+
+    static boolean isActive;
+
     public static String insertCustomer(String addressID, String customer) throws SQLException, Exception {
-        //TODO 12/18/19
-        
-        DBConnection.makeConnection(); 
-        String sql = "INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, '" + addressID +"', 1, now(), 'test', now() , 'test')";
-        String customerID = null; 
+
+        // DBConnection.makeConnection();
+        String sql = "INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, '" + addressID + "', 1, now(), 'test', now() , 'test')";
+        String customerID = null;
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, customer);
@@ -38,50 +40,55 @@ public class CustomerImplementation {
         } catch (SQLException ex) {
             Logger.getLogger(CountryImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DBConnection.closeConnection();
+        //DBConnection.closeConnection();
         return customerID;
     }
-    
 
     public static Customer getCustomer() throws SQLException, Exception {
-        DBConnection.makeConnection();
+        //DBConnection.makeConnection();
 //        String sqlStatement = "select name, start, end, city, country, apptType FROM customer, appointment, city, country";
         String sqlStatement = "select name FROM customer";
         Query.makeQuery(sqlStatement);
         Customer customerResult;
+        Appointment appointmentResult;
+        Address addressResult;
+        City cityResult;
+        Country countryResult;
         ResultSet result = Query.getResult();
         while (result.next()) {
             String name = result.getString("name");
             customerResult = new Customer();
             customerResult.setCustomerName(name);
-            
-          return customerResult; 
+
+            return customerResult;
         }
-        DBConnection.closeConnection();
+        //DBConnection.closeConnection();
         return null;
     }
 
     public static ObservableList<Customer> getCustomerData() throws SQLException, Exception {
         ObservableList<Customer> customerData = FXCollections.observableArrayList();
-        DBConnection.makeConnection();
-        String sqlStatement = "select customerName FROM customer";
-        //Using PreparedStatement 
-        //PreparedStatement ps = conn.prepareStatement(sqlStatement); 
-       Query.makeQuery(sqlStatement);
+        // DBConnection.makeConnection();
+        String sqlStatement = "select customerName, addressId, cityId FROM customer, city";
+        Query.makeQuery(sqlStatement);
         ResultSet result = Query.getResult();
-      // ResultSet result = ps.executeQuery();
+        // ResultSet result = ps.executeQuery();
         result.beforeFirst();
         while (result.next()) {
             String name = result.getString("customerName");
+            int address = result.getInt("addressId");
+            int city = result.getInt("cityId");
+            //Customer
             Customer customerResult = new Customer();
             customerResult.setCustomerName(name);
-            
-            //customerData.clear();
+            customerResult.setAddressID(address);
+            //customerResult.setCityId(city); 
+
             customerData.add(customerResult);
-            // result.close();
+
         }
-       
-        DBConnection.closeConnection();
+
+        // DBConnection.closeConnection();
         return customerData;
     }
 

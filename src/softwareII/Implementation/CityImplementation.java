@@ -15,19 +15,22 @@ import softwareII.Model.City;
  */
 public class CityImplementation {
     
-    public static City getCity() throws SQLException, Exception{
+    public static City getCity(int cId) throws SQLException, Exception{
         
-        DBConnection.makeConnection(); 
-        String getCity = "SELECT from city WHERE city.countryID = country.countryID " ; 
-        Query.makeQuery(getCity);
-        City addCity = new City(); 
-        ResultSet cityResult = Query.getResult(); 
-        while(cityResult.next()){
-            String city = cityResult.getString("city");
-            addCity.setCity(city);
-            return addCity; 
+      //  DBConnection.makeConnection(); 
+//        String getCitySQL = "SELECT from city WHERE city.countryID = country.countryID " ; 
+        String getCitySQL = "SELECT cityId, city from city WHERE cityId = " + Integer.toString(cId) ; 
+         City cityId = new City();
+        Query.makeQuery(getCitySQL); 
+        ResultSet cityIdResult = Query.getResult(); 
+        while(cityIdResult.next()){
+            int id = cityIdResult.getInt("cityId"); 
+            cityId.setCityID(id);
+            String city = cityIdResult.getString("city");
+            cityId.setCity(city);
+            return cityId; 
         }
-        DBConnection.closeConnection();
+       //DBConnection.closeConnection();
         return null; 
     }
     
@@ -47,7 +50,7 @@ public class CityImplementation {
         } catch (SQLException ex){
             Logger.getLogger(CityImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DBConnection.closeConnection();
+       DBConnection.closeConnection();
         return cityId; 
     }
     

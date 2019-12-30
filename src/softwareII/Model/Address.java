@@ -11,13 +11,14 @@ import javafx.beans.property.StringProperty;
  */
 public class Address {
     
-    private StringProperty address;    
+    private StringProperty address;
+    private StringProperty phoneNumber; 
     private IntegerProperty addressID;
 
     public Address() {
         this.address = new SimpleStringProperty();        
         this.addressID = new SimpleIntegerProperty();        
-        
+        this.phoneNumber = new SimpleStringProperty(); 
     }
     
     public StringProperty getAddress() {
@@ -36,4 +37,10 @@ public class Address {
         this.addressID.set(addressID);
     }
     
+    public StringProperty getPhoneNumber(){ 
+        return phoneNumber; 
+    }
+    public void setPhoneNumber(String phone){
+        this.phoneNumber.set(phone); 
+    }
 }
