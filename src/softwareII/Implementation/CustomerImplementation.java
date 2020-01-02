@@ -69,7 +69,7 @@ public class CustomerImplementation {
     public static ObservableList<Customer> getCustomerData() throws SQLException, Exception {
         ObservableList<Customer> customerData = FXCollections.observableArrayList();
         // DBConnection.makeConnection();
-        String sqlStatement = "select customerName, addressId, cityId FROM customer, city";
+        String sqlStatement = "select customerName, addressId FROM customer";
         Query.makeQuery(sqlStatement);
         ResultSet result = Query.getResult();
         // ResultSet result = ps.executeQuery();
@@ -77,7 +77,7 @@ public class CustomerImplementation {
         while (result.next()) {
             String name = result.getString("customerName");
             int address = result.getInt("addressId");
-            int city = result.getInt("cityId");
+            
             //Customer
             Customer customerResult = new Customer();
             customerResult.setCustomerName(name);

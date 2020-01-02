@@ -72,15 +72,19 @@ public class Customer {
         }
     }
 
-//    public StringProperty getCustomerCity() {
-//        try {
-//            City c = CityImplementation.getCity(cityID.get());
-//            return new SimpleStringProperty(c.getCity().get());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+    public StringProperty getCustomerCity() {
+        try {
+            Address a = AddressImplementation.getAddress(addressID.get());
+            City c = AddressImplementation.getCity(a.getCityID().get()); 
+            //int id = c.getCityID().get(); 
+           // Address a = new Address(); 
+           // a.setCityID(id);
+            return c.getCity();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     //Constructor
     public Customer() {

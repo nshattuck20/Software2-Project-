@@ -148,9 +148,9 @@ public class MainScreenController implements Initializable {
             return cellData.getValue().getCustomerPhoneNumber();
         });
 
-//        column_Customer_City.setCellValueFactory(cellData -> {
-//            return cellData.getValue().getCustomerCity();
-//        });
+        column_Customer_City.setCellValueFactory(cellData -> {
+            return cellData.getValue().getCustomerCity();
+        }); // Null Pointer Exception getting city data. 
 
         try {
             //appointments
