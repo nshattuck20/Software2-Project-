@@ -1,11 +1,14 @@
 package softwareII.Model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import softwareII.Implementation.AddressImplementation;
 import softwareII.Implementation.CityImplementation;
+import softwareII.Implementation.CountryImplementation;
 
 /**
  *
@@ -75,15 +78,35 @@ public class Customer {
     public StringProperty getCustomerCity() {
         try {
             Address a = AddressImplementation.getAddress(addressID.get());
-            City c = AddressImplementation.getCity(a.getCityID().get()); 
+            City c = CityImplementation.getCity(a.getCityID().get()); 
+            //get country based on cityId 
+            
             //int id = c.getCityID().get(); 
-           // Address a = new Address(); 
+           // Address a = new Address(); +
            // a.setCityID(id);
             return c.getCity();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    public StringProperty getCustomerCountry(){
+        try {
+            //Get customer address from address id
+            Address a = AddressImplementation.getAddress(addressID.get());
+            //Get address city from address city id
+            City c = CityImplementation.getCity(a.getCityID().get()); 
+          
+            // Get city's country from city's country id
+            Country ctry = CountryImplementation.getCountry(c.getCountryID().get());
+            //Display country
+            return ctry.getCountry(); 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null; 
+        }
+        
     }
 
     //Constructor

@@ -14,23 +14,20 @@ import softwareII.Model.City;
  * @author Nick Shattuck
  */
 public class CityImplementation {
-    //TODO SHOW MARK ON THURSDAY 
 
-    public static City getCity(int cId) throws SQLException, Exception {
+      public static City getCity(int cId) throws SQLException, Exception {
         // DBConnection.makeConnection(); 
-        String getAddressSQL = "SELECT cityId, city from city WHERE cityId= " + Integer.toString(cId);
-        // String getAddressSQL = "SELECT addressId, address, phone from address WHERE addressId = " + Integer.toString(aId) + "&& WHERE cityId = " + Integer.toString(cId);
+        String getAddressSQL = "SELECT city, countryId from city WHERE cityId = " + Integer.toString(cId);
         City cityId = new City();
         Query.makeQuery(getAddressSQL);
         ResultSet cityIdResult = Query.getResult();
         while (cityIdResult.next()) {
-            int id = cityIdResult.getInt("cityId");
-            // int cityId = addressIdResult.getInt("cityId"); 
-            cityId.setCityID(id);
-            // addressId.setCityID(cityId);
             String city = cityIdResult.getString("city");
-
+            int countryId = cityIdResult.getInt("countryId");
+            cityId.setCityID(cId);
             cityId.setCity(city);
+            cityId.setCountryID(countryId);
+         
 
             return cityId;
         }

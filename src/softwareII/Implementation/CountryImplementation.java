@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static softwareII.Implementation.DBConnection.conn;
+import softwareII.Model.City;
 
 import softwareII.Model.Country;
 import softwareII.Model.User;
@@ -49,20 +50,23 @@ public class CountryImplementation {
          
     }
     //Do not know if I will be using this method but will keep in case...
-    public static Country getCountryID() throws SQLException, Exception{
-        DBConnection.makeConnection();
-        String countryIdSQL= "SELECT id from country";
-        Query.makeQuery(countryIdSQL);
-        Country idResult; 
-        ResultSet result = Query.getResult(); 
-        while(result.next()){
-            int countryID = result.getInt("countryId");
-            idResult = new Country(); 
-            idResult.setCountryID(countryID);
-            return idResult; 
+  public static Country getCountry(int ctryId) throws SQLException, Exception {
+        String getAddressSQL = "SELECT country, countryId from country WHERE countryId = " + Integer.toString(ctryId);
+        Country ctry = new Country();
+        Query.makeQuery(getAddressSQL);
+        ResultSet country = Query.getResult();
+        while (country.next()) {
+            String c = country.getString("country");
+            int countryId = country.getInt("countryId");
+            //ctry.setCountryID(ctryId);
+            ctry.setCountry(c);
+            ctry.setCountryID(countryId);
+         
+
+            return ctry;
         }
-        
-        return null; 
+
+        return null;
     }
     
 }
