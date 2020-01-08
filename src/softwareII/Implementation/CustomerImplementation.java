@@ -7,12 +7,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import static softwareII.Implementation.CustomerImplementation.updateCustomer;
 import static softwareII.Implementation.DBConnection.conn;
-import softwareII.Model.Address;
-import softwareII.Model.Appointment;
-import softwareII.Model.City;
-import softwareII.Model.Country;
 import softwareII.Model.Customer;
+import view_controller.MainScreenController;
 
 /**
  * Class that will hold Customer data for the main Screen Table view.
@@ -22,10 +20,10 @@ import softwareII.Model.Customer;
 public class CustomerImplementation {
 
     static boolean isActive;
+    private static Customer updateCustomer = MainScreenController.getUpdateCustomer(); 
 
     public static String insertCustomer(String addressID, String customer) throws SQLException, Exception {
 
-        // DBConnection.makeConnection();
         String sql = "INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, '" + addressID + "', 1, now(), 'test', now() , 'test')";
         String customerID = null;
         try {
@@ -40,35 +38,21 @@ public class CustomerImplementation {
         } catch (SQLException ex) {
             Logger.getLogger(CountryImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //DBConnection.closeConnection();
         return customerID;
     }
-
-    public static Customer getCustomer() throws SQLException, Exception {
-        //DBConnection.makeConnection();
-//        String sqlStatement = "select name, start, end, city, country, apptType FROM customer, appointment, city, country";
-        String sqlStatement = "select name FROM customer";
-        Query.makeQuery(sqlStatement);
-        Customer customerResult;
-        Appointment appointmentResult;
-        Address addressResult;
-        City cityResult;
-        Country countryResult;
-        ResultSet result = Query.getResult();
-        while (result.next()) {
-            String name = result.getString("name");
-            customerResult = new Customer();
-            customerResult.setCustomerName(name);
-
-            return customerResult;
-        }
-        //DBConnection.closeConnection();
-        return null;
+    
+    
+    public static void updateCustomer(String updatedCustomer, String customerId) throws SQLException, Exception {
+        //TODO
+        System.out.println("Updating customer!");
+       int id = updateCustomer.getCustomerID().getValue(); 
+       String sql = "UPDATE customer SET customer = " + updatedCustomer + "WHERE customerId = " + customerId; 
     }
+
+
 
     public static ObservableList<Customer> getCustomerData() throws SQLException, Exception {
         ObservableList<Customer> customerData = FXCollections.observableArrayList();
-        // DBConnection.makeConnection();
         String sqlStatement = "select customerName, addressId FROM customer";
         Query.makeQuery(sqlStatement);
         ResultSet result = Query.getResult();
@@ -82,13 +66,11 @@ public class CustomerImplementation {
             Customer customerResult = new Customer();
             customerResult.setCustomerName(name);
             customerResult.setAddressID(address);
-            //customerResult.setCityId(city); 
 
             customerData.add(customerResult);
 
         }
 
-        // DBConnection.closeConnection();
         return customerData;
     }
 

@@ -27,11 +27,13 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import softwareII.Implementation.AddressImplementation;
 import softwareII.Implementation.AppointmentImplementation;
 import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
+import softwareII.Model.Address;
 import softwareII.Model.Appointment;
+import softwareII.Model.City;
+import softwareII.Model.Country;
 import softwareII.Model.Customer;
 import softwareII.Model.User;
 
@@ -107,6 +109,16 @@ public class MainScreenController implements Initializable {
     private Label usernameLabel;
 
     User user;
+    
+    private static Customer updateCustomer;
+    private static Address updateAddress; 
+    private static City updateCity; 
+    private static Country updateCountry; 
+    //private static int customerIndex; 
+
+  
+
+    
 
     /**
      * Initializes the controller class.
@@ -151,8 +163,8 @@ public class MainScreenController implements Initializable {
         column_Customer_City.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerCity();
         }); // Null Pointer Exception getting city data. 
-        
-         column_Customer_Country.setCellValueFactory(cellData -> {
+
+        column_Customer_Country.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerCountry();
         });
 
@@ -176,7 +188,25 @@ public class MainScreenController implements Initializable {
         }
 
     }
+    
+    //I built this because I thought I would reuse 
+      public static Customer getUpdateCustomer() {
+        return updateCustomer;
+    }
+      
+       public static Address getUpdateAddress() {
+        return updateAddress;
+    }
+       
+        public static City getUpdateCity() {
+        return updateCity;
+    }
+        
+          public static Country getUpdateCountry() {
+        return updateCountry;
+    }
 //Buttons
+    
 
     @FXML
     public void logoutButton(ActionEvent event) throws IOException, SQLException, Exception {
@@ -233,15 +263,25 @@ public class MainScreenController implements Initializable {
         createCustomerStage.show();
     }
 
-    public void editCustomer(ActionEvent event) throws IOException {
+    public void editCustomer(ActionEvent event) throws IOException, SQLException, Exception {
         //TODO 
         // Show an alert if no customer table row is selected. 
-        System.out.println("Edit customer clicked!");
-        Parent editCustomerScreen = FXMLLoader.load(getClass().getResource("CreateCustomer.fxml"));
-        Scene editCustomerScene = new Scene(editCustomerScreen);
-        Stage editCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        editCustomerStage.setScene(editCustomerScene);
-        editCustomerStage.show();
+        updateCustomer = customerTable.getSelectionModel().getSelectedItem();
+         
+        if (updateCustomer != null) {
+          // customerIndex = CustomerImplementation.getCustomerData().indexOf(updateCustomer);
+            Parent editCustomerScreen = FXMLLoader.load(getClass().getResource("EditCustomer.fxml"));
+            Scene editCustomerScene = new Scene(editCustomerScreen);
+            Stage editCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            editCustomerStage.setScene(editCustomerScene);
+            editCustomerStage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Customer Not Selected");
+            alert.setContentText("You have not selected a customer. Please"
+                    + " select a customer from the table to update a customer.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
