@@ -74,6 +74,16 @@ public class Customer {
             return null;
         }
     }
+    
+     public StringProperty getCustomerPostalCode() {
+        try {
+            Address a = AddressImplementation.getAddress(addressID.get());
+            return new SimpleStringProperty(a.getPhoneNumber().get());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public StringProperty getCustomerCity() {
         try {

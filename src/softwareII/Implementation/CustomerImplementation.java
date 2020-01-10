@@ -42,11 +42,20 @@ public class CustomerImplementation {
     }
     
     
-    public static void updateCustomer(String updatedCustomer, String customerId) throws SQLException, Exception {
+    public static void updateCustomer(String updatedCustomer) throws SQLException, Exception {
         //TODO
         System.out.println("Updating customer!");
-       int id = updateCustomer.getCustomerID().getValue(); 
-       String sql = "UPDATE customer SET customer = " + updatedCustomer + "WHERE customerId = " + customerId; 
+       String id = updateCustomer.getCustomerID().getValue().toString(); 
+         String sql = "UPDATE country SET country = ? WHERE countryId = ?";
+       
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, updatedCustomer);
+            ps.setString(2, id);
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 

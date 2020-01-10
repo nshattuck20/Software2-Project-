@@ -37,7 +37,7 @@ public class AddressImplementation {
     }
 
     public static Address getAddress(int aId) throws SQLException, Exception {
-        String getAddressSQL = "SELECT addressId, address, phone, cityId from address WHERE addressId = " + Integer.toString(aId);
+        String getAddressSQL = "SELECT addressId, address, phone, postalCode, cityId from address WHERE addressId = " + Integer.toString(aId);
         Address addressId = new Address();
         Query.makeQuery(getAddressSQL);
         ResultSet addressIdResult = Query.getResult();
@@ -46,11 +46,13 @@ public class AddressImplementation {
             addressId.setAddressID(id);
             String address = addressIdResult.getString("address");
             String phone = addressIdResult.getString("phone");
+            String postalCode = addressIdResult.getString("postalCode"); 
             int city = addressIdResult.getInt("cityId");
             
 
             addressId.setAddress(address);
             addressId.setPhoneNumber(phone);
+            addressId.setPostalCode(postalCode);
             addressId.setCityID(city);
             
             return addressId;

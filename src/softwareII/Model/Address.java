@@ -13,6 +13,9 @@ public class Address {
 
     private StringProperty address;
     private StringProperty phoneNumber;
+    private StringProperty postalCode; 
+
+ 
     private IntegerProperty addressID;
     private IntegerProperty cityID; 
 
@@ -30,6 +33,15 @@ public class Address {
         this.addressID = new SimpleIntegerProperty();
         this.phoneNumber = new SimpleStringProperty();
         this.cityID = new SimpleIntegerProperty(); 
+        this.postalCode = new SimpleStringProperty(); 
+    }
+    
+       public StringProperty getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode.set(postalCode);
     }
 
     public StringProperty getAddress() {

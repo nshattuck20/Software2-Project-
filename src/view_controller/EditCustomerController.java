@@ -54,19 +54,22 @@ public class EditCustomerController implements Initializable {
     @FXML
     private TextField address_Text;
     
+    @FXML
+    private TextField postalCode_Text;
+     
    private Customer updateCustomer = MainScreenController.getUpdateCustomer(); 
    
    //int tempCustomerIndex = MainScreenController.getCustomerIndex(); 
   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         
-//        try {
-//            name_Text.setText(CustomerImplementation.getCustomerData().get(tempCustomerIndex).getCustomerName().get());
-//        } catch (Exception ex) {
-//            Logger.getLogger(EditCustomerController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+         //Get the values of the selected Customer
         name_Text.setText(updateCustomer.getCustomerName().get()); 
+        address_Text.setText(updateCustomer.getCustomerAddress().get());
+        phone_Text.setText(updateCustomer.getCustomerName().get()); 
+        city_Text.setText(updateCustomer.getCustomerCity().get());
+        country_Text.setText(updateCustomer.getCustomerCity().get());
+        postalCode_Text.setText(updateCustomer.getCustomerPostalCode().get()); 
     
     }    
       @FXML
@@ -101,5 +104,14 @@ public class EditCustomerController implements Initializable {
     @FXML
       public void updateButton(ActionEvent event ) throws IOException, SQLException, Exception{
             System.out.println("Update button clicked!");
+            String customerName = name_Text.getText();
+            if(customerName.isEmpty()){
+                //Name is empty 
+                //Alert 
+            }
+            else 
+            {
+                CustomerImplementation.updateCustomer(customerName);
+            }
         }
 }
