@@ -20,7 +20,7 @@ import view_controller.MainScreenController;
 public class CustomerImplementation {
 
     static boolean isActive;
-    private static Customer updateCustomer = MainScreenController.getUpdateCustomer(); 
+    private static Customer updateCustomer = MainScreenController.getUpdateCustomer();
 
     public static String insertCustomer(String addressID, String customer) throws SQLException, Exception {
 
@@ -40,39 +40,35 @@ public class CustomerImplementation {
         }
         return customerID;
     }
-    
-    
-    public static void updateCustomer(String updatedCustomer) throws SQLException, Exception {
-        //TODO
-        System.out.println("Updating customer!");
-       String id = updateCustomer.getCustomerID().getValue().toString(); 
-         String sql = "UPDATE country SET country = ? WHERE countryId = ?";
-       
+
+    public static void updateCustomer(int customerId, String updatedCustomer) throws SQLException, Exception {
+        String sql = "UPDATE customer SET customerName = ? WHERE customerId = ?";
+
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, updatedCustomer);
-            ps.setString(2, id);
+            ps.setInt(2, customerId);
             ps.execute();
         } catch (SQLException ex) {
             Logger.getLogger(CustomerImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-
-
     public static ObservableList<Customer> getCustomerData() throws SQLException, Exception {
         ObservableList<Customer> customerData = FXCollections.observableArrayList();
-        String sqlStatement = "select customerName, addressId FROM customer";
+        String sqlStatement = "select customerId,  customerName, addressId FROM customer";
         Query.makeQuery(sqlStatement);
         ResultSet result = Query.getResult();
         // ResultSet result = ps.executeQuery();
         result.beforeFirst();
         while (result.next()) {
+            int cId = result.getInt("customerId");
             String name = result.getString("customerName");
             int address = result.getInt("addressId");
-            
+
             //Customer
             Customer customerResult = new Customer();
+            customerResult.setCustomerID(cId);
             customerResult.setCustomerName(name);
             customerResult.setAddressID(address);
 

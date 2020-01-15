@@ -95,30 +95,17 @@ public class MainScreenController implements Initializable {
     private Button editApptBtn;
     @FXML
     private Button deleteApptBtn;
-    @FXML
-    private Button sortByMonthBtn;
-    @FXML
-    private Button sortByUserBtn;
-    @FXML
-    private Button sortByReportBtn;
-    @FXML
-    private RadioButton weekRadioBtn;
-    @FXML
-    private RadioButton MonthRadioBtn;
+
     @FXML
     private Label usernameLabel;
 
     User user;
-    
+
     private static Customer updateCustomer;
-    private static Address updateAddress; 
-    private static City updateCity; 
-    private static Country updateCountry; 
+    private static Address updateAddress;
+    private static City updateCity;
+    private static Country updateCountry;
     //private static int customerIndex; 
-
-  
-
-    
 
     /**
      * Initializes the controller class.
@@ -188,25 +175,24 @@ public class MainScreenController implements Initializable {
         }
 
     }
-    
+
     //I built this because I thought I would reuse 
-      public static Customer getUpdateCustomer() {
+    public static Customer getUpdateCustomer() {
         return updateCustomer;
     }
-      
-       public static Address getUpdateAddress() {
+
+    public static Address getUpdateAddress() {
         return updateAddress;
     }
-       
-        public static City getUpdateCity() {
+
+    public static City getUpdateCity() {
         return updateCity;
     }
-        
-          public static Country getUpdateCountry() {
+
+    public static Country getUpdateCountry() {
         return updateCountry;
     }
 //Buttons
-    
 
     @FXML
     public void logoutButton(ActionEvent event) throws IOException, SQLException, Exception {
@@ -267,9 +253,9 @@ public class MainScreenController implements Initializable {
         //TODO 
         // Show an alert if no customer table row is selected. 
         updateCustomer = customerTable.getSelectionModel().getSelectedItem();
-         
+
         if (updateCustomer != null) {
-          // customerIndex = CustomerImplementation.getCustomerData().indexOf(updateCustomer);
+            // customerIndex = CustomerImplementation.getCustomerData().indexOf(updateCustomer);
             Parent editCustomerScreen = FXMLLoader.load(getClass().getResource("EditCustomer.fxml"));
             Scene editCustomerScene = new Scene(editCustomerScreen);
             Stage editCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

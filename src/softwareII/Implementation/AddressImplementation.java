@@ -8,12 +8,15 @@ import java.util.logging.Logger;
 import static softwareII.Implementation.DBConnection.conn;
 import softwareII.Model.Address;
 import softwareII.Model.City;
+import view_controller.MainScreenController;
 
 /**
  *
  * @author Nick Shattuck
  */
 public class AddressImplementation {
+
+    private static Address addressUpdate = MainScreenController.getUpdateAddress();
 
     public static String insertAddress(String cityId, String address, String address2, String postalCode, String phoneNumber) throws SQLException, Exception {
         String sql = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) "
@@ -36,6 +39,24 @@ public class AddressImplementation {
         return addressId;
     }
 
+    public static void updateAddress(int addressId, String address, String phone, String postal) throws SQLException, Exception {
+        String sql = "UPDATE address SET address = ?, phone = ?, postalCode = ?  WHERE addressId = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, address);
+            ps.setString(2, phone);
+            ps.setString(3, postal);
+            ps.setInt(4, addressId);
+
+            //phone
+            //postal code 
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public static Address getAddress(int aId) throws SQLException, Exception {
         String getAddressSQL = "SELECT addressId, address, phone, postalCode, cityId from address WHERE addressId = " + Integer.toString(aId);
         Address addressId = new Address();
@@ -46,15 +67,14 @@ public class AddressImplementation {
             addressId.setAddressID(id);
             String address = addressIdResult.getString("address");
             String phone = addressIdResult.getString("phone");
-            String postalCode = addressIdResult.getString("postalCode"); 
+            String postalCode = addressIdResult.getString("postalCode");
             int city = addressIdResult.getInt("cityId");
-            
 
             addressId.setAddress(address);
             addressId.setPhoneNumber(phone);
             addressId.setPostalCode(postalCode);
             addressId.setCityID(city);
-            
+
             return addressId;
         }
 
@@ -72,7 +92,6 @@ public class AddressImplementation {
             cityId.setCityID(cId);
             cityId.setCity(city);
             cityId.setCountryID(countryId);
-            
 
             return cityId;
         }

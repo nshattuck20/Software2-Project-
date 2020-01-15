@@ -25,8 +25,8 @@ public class Customer {
         return customerID;
     }
 
-    public void setCustomerID(IntegerProperty customerID) {
-        this.customerID = customerID;
+    public void setCustomerID(int customerID) {
+        this.customerID.set(customerID);
     }
 
     public IntegerProperty getAddressID() {
