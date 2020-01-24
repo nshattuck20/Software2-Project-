@@ -37,9 +37,9 @@ public class Customer {
         this.addressID.set(addressID);
     }
 
-    public void setCustomerName(StringProperty customerName) {
-        this.customerName = customerName;
-    }
+//    public void setCustomerName(StringProperty customerName) {
+//        this.customerName = customerName;
+//    }
 
     public StringProperty getCustomerName() {
         return customerName;

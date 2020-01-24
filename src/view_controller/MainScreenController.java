@@ -56,6 +56,10 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private TableColumn<Appointment, String> appointmentTypeColumn;
+    
+    @FXML
+    private TableColumn<Appointment, String> appointmentCustomerCol;
+    
     //TableView for Customers 
     @FXML
     private TableView<Customer> customerTable;
@@ -105,6 +109,7 @@ public class MainScreenController implements Initializable {
     private static Address updateAddress;
     private static City updateCity;
     private static Country updateCountry;
+    private static Appointment appointment; 
     //private static int customerIndex; 
 
     /**
@@ -126,12 +131,17 @@ public class MainScreenController implements Initializable {
         startTimeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getStartTime();
         });
+        
         endTimeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getEndTime();
         });
 
         appointmentTypeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getAppointmentType();
+        });
+        
+         appointmentCustomerCol.setCellValueFactory(cellData -> {
+            return cellData.getValue().getAssociatedCustomer();
         });
 
         //Lambdas for Customer Table 
@@ -176,7 +186,8 @@ public class MainScreenController implements Initializable {
 
     }
 
-    //I built this because I thought I would reuse 
+    //Getters to update instances of the customer object on 
+    //main screen. 
     public static Customer getUpdateCustomer() {
         return updateCustomer;
     }
@@ -249,6 +260,7 @@ public class MainScreenController implements Initializable {
         createCustomerStage.show();
     }
 
+    //edit customer button 
     public void editCustomer(ActionEvent event) throws IOException, SQLException, Exception {
         //TODO 
         // Show an alert if no customer table row is selected. 
@@ -268,6 +280,10 @@ public class MainScreenController implements Initializable {
                     + " select a customer from the table to update a customer.");
             alert.showAndWait();
         }
+    }
+    //delete customer button 
+    public void deleteCustomer(ActionEvent event) throws IOException, SQLException, Exception{
+        //Delete addressId, appointment, customerId
     }
 
     @FXML

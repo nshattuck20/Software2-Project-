@@ -5,15 +5,16 @@
  */
 package softwareII.Implementation;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import static softwareII.Implementation.DBConnection.conn;
 import softwareII.Model.Appointment;
+import softwareII.Model.City;
+import softwareII.Model.Customer;
 
 /**
  *
@@ -22,45 +23,63 @@ import softwareII.Model.Appointment;
 public class AppointmentImplementation {
     
     
-      
-    
-    public static Appointment getAppointmentData() throws SQLException, Exception {
-        DBConnection.makeConnection();
-        String sqlStatement = "SELECT start, end, apptType  FROM appointment";
-        Query.makeQuery(sqlStatement);
-        Appointment appointmentResult;
-        ResultSet result = Query.getResult();
-        //result.beforeFirst();
-        while (result.next()) {
-            String startTime = result.getString("start"); //the name of the column in the customer table in DB. 
-            String endTime = result.getString("end");
-            String appType = result.getString("apptType");
-            appointmentResult = new Appointment();
-            appointmentResult.setStartTime(startTime);
-            appointmentResult.setEndTime(endTime);
-            return appointmentResult;
-        }
-        DBConnection.closeConnection();
-        return null;
-    }
+//    public static Appointment getAppointment(int customerId) throws SQLException, Exception{
+//        //this will return the customer's name associated with the appointment
+//       // String sql = "SELECT appointmentId from appointment WHERE appointmentId = " + Integer.toString(customerId);
+//       String sql = "SELECT customerId from appointment a, customer c WHERE a.customerId = " + Integer.toString(customerId) + " AND c.customerId = " + Integer.toString(customerId); 
+//       Appointment app = new Appointment(); 
+//        Query.makeQuery(sql);
+//        ResultSet result = Query.getResult(); 
+//        while(result.next()){
+//            int id  = result.getInt("appointmentId"); 
+//            app.setCustomerID(id);
+//            
+//            return app; 
+//        }
+//        return null; 
+//    }
+   
     
     public static ObservableList<Appointment> getAllAppointments() throws SQLException, Exception {
+        //use LocalDateTime
+        //use PreparedStatement 
+        //Put Timestamp into DB 
+        //Put LocalDateTime into the Appointment 
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         DBConnection.makeConnection();
-        String sqlStatement = "SELECT start, end, apptType FROM appointment";
+        String sqlStatement = "SELECT start, end, apptType, customerId, appointmentId FROM appointment";
         Query.makeQuery(sqlStatement);
         ResultSet result = Query.getResult();
         while (result.next()) {
-            String startTime = result.getString("start");
-            String endTime = result.getString("end");
+            //These need to be TimeStamps 
+            Timestamp startDate = result.getTimestamp("start");
+            LocalDateTime start = startDate.toLocalDateTime();
+            //format start time 
+            start.format(DateTimeFormatter.ISO_LOCAL_DATE); 
+            /*Use in the insert/update method
+            *  Timestamp convertDate = Timestamp.valueOf(start); 
+            //Repeat for endTime
+            */          
+            Timestamp endDate = result.getTimestamp("end"); 
+            LocalDateTime end = endDate.toLocalDateTime();
+            //format end time 
+            end.format(DateTimeFormatter.ISO_LOCAL_DATE); 
+            
             String appType = result.getString("apptType");
+            int customerId = result.getInt("customerId"); 
+            int apptId = result.getInt("appointmentId"); 
+            
             Appointment appointmentResult = new Appointment();
-            appointmentResult.setStartTime(startTime);
-            appointmentResult.setEndTime(endTime);
+            appointmentResult.setStartTime(start.toString());
+            appointmentResult.setEndTime(end.toString());
+            
             appointmentResult.setAppointmentType(appType);
+            appointmentResult.setCustomerID(customerId);
+            appointmentResult.setAppointmentID(apptId);
+            
             allAppointments.add(appointmentResult);
         }
-        DBConnection.closeConnection();
+        //DBConnection.closeConnection();
         return allAppointments;
     }
     
