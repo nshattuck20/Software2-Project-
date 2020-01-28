@@ -78,22 +78,22 @@ public class CustomerImplementation {
 
         return customerData;
     }
-    
-    public static Customer getCustomer(int customerID) throws SQLException, Exception{
+
+    public static Customer getCustomer(int customerID) throws SQLException, Exception {
         String sql = "SELECT customerId, customerName from customer WHERE customerId = " + Integer.toString(customerID);
-        Customer customer = new Customer(); 
+        Customer customer = new Customer();
         Query.makeQuery(sql);
-        ResultSet idResult = Query.getResult(); 
-        while(idResult.next()){
+        ResultSet idResult = Query.getResult();
+        while (idResult.next()) {
             int id = idResult.getInt("customerId");
             customer.setCustomerID(id);
-            String name = idResult.getString("customerName"); 
-            
+            String name = idResult.getString("customerName");
+
             customer.setCustomerName(name);
-            return customer; 
-            
+            return customer;
+
         }
-        return null; 
+        return null;
     }
 
 }

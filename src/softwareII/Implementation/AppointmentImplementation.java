@@ -21,26 +21,16 @@ import softwareII.Model.Customer;
  * @author Nick Shattuck
  */
 public class AppointmentImplementation {
-    
-    
-//    public static Appointment getAppointment(int customerId) throws SQLException, Exception{
-//        //this will return the customer's name associated with the appointment
-//       // String sql = "SELECT appointmentId from appointment WHERE appointmentId = " + Integer.toString(customerId);
-//       String sql = "SELECT customerId from appointment a, customer c WHERE a.customerId = " + Integer.toString(customerId) + " AND c.customerId = " + Integer.toString(customerId); 
-//       Appointment app = new Appointment(); 
-//        Query.makeQuery(sql);
-//        ResultSet result = Query.getResult(); 
-//        while(result.next()){
-//            int id  = result.getInt("appointmentId"); 
-//            app.setCustomerID(id);
-//            
-//            return app; 
-//        }
-//        return null; 
-//    }
-   
-    
-    public static ObservableList<Appointment> getAllAppointments() throws SQLException, Exception {
+
+    public static String insertAppointment(String customerID, String customer) throws SQLException, Exception {
+        String sql = "INSERT INTO appointment";
+        String appointmentID = null;
+        //TODO
+
+        return appointmentID;
+    }
+
+    public static ObservableList<Appointment> getAppointmentData() throws SQLException, Exception {
         //use LocalDateTime
         //use PreparedStatement 
         //Put Timestamp into DB 
@@ -55,32 +45,32 @@ public class AppointmentImplementation {
             Timestamp startDate = result.getTimestamp("start");
             LocalDateTime start = startDate.toLocalDateTime();
             //format start time 
-            start.format(DateTimeFormatter.ISO_LOCAL_DATE); 
+            start.format(DateTimeFormatter.ISO_LOCAL_DATE);
             /*Use in the insert/update method
             *  Timestamp convertDate = Timestamp.valueOf(start); 
             //Repeat for endTime
-            */          
-            Timestamp endDate = result.getTimestamp("end"); 
+             */
+            Timestamp endDate = result.getTimestamp("end");
             LocalDateTime end = endDate.toLocalDateTime();
             //format end time 
-            end.format(DateTimeFormatter.ISO_LOCAL_DATE); 
-            
+            end.format(DateTimeFormatter.ISO_LOCAL_DATE);
+
             String appType = result.getString("apptType");
-            int customerId = result.getInt("customerId"); 
-            int apptId = result.getInt("appointmentId"); 
-            
+            int customerId = result.getInt("customerId");
+            int apptId = result.getInt("appointmentId");
+
             Appointment appointmentResult = new Appointment();
             appointmentResult.setStartTime(start.toString());
             appointmentResult.setEndTime(end.toString());
-            
+
             appointmentResult.setAppointmentType(appType);
             appointmentResult.setCustomerID(customerId);
             appointmentResult.setAppointmentID(apptId);
-            
+
             allAppointments.add(appointmentResult);
         }
         //DBConnection.closeConnection();
         return allAppointments;
     }
-    
+
 }

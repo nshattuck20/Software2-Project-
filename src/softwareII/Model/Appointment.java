@@ -15,12 +15,11 @@ import softwareII.Implementation.CustomerImplementation;
  */
 public class Appointment {
 
-  
     private StringProperty startTime;
     private StringProperty endTime;
     private StringProperty appointmentType;
-    private IntegerProperty customerID; 
-     private IntegerProperty appointmentID; 
+    private IntegerProperty customerID;
+    private IntegerProperty appointmentID;
 
     public IntegerProperty getCustomerID() {
         return customerID;
@@ -29,8 +28,6 @@ public class Appointment {
 //    public void setCustomerID(int customerID) {
 //        this.customerID .set(customerID);
 //    }
-   
-
     public IntegerProperty getAppointmentID() {
         return appointmentID;
     }
@@ -44,29 +41,28 @@ public class Appointment {
         this.startTime = new SimpleStringProperty();
         this.endTime = new SimpleStringProperty();
         this.appointmentType = new SimpleStringProperty();
-        this.customerID = new SimpleIntegerProperty(); 
-        this.appointmentID = new SimpleIntegerProperty(); 
+        this.customerID = new SimpleIntegerProperty();
+        this.appointmentID = new SimpleIntegerProperty();
     }
-
-   
 
     public void setCustomerID(int customerID) {
         this.customerID.set(customerID);
     }
+
     /* 
     This method will eventually grab the Customer's name 
     with the ID value associated with the appropriate appointment. 
-    */
-    public StringProperty getAssociatedCustomer(){ 
-        
+     */
+    public StringProperty getAssociatedCustomer() {
+
         try {
-          
-          Customer c = CustomerImplementation.getCustomer(getCustomerID().get()); 
-         
-        return c.getCustomerName();
-        }catch (Exception ex){
+
+            Customer c = CustomerImplementation.getCustomer(getCustomerID().get());
+
+            return c.getCustomerName();
+        } catch (Exception ex) {
             ex.printStackTrace();
-            return null; 
+            return null;
         }
     }
 
@@ -93,5 +89,9 @@ public class Appointment {
 
     public void setStartTime(String startTime) {
         this.startTime.set(startTime);
+    }
+
+    public String toString() {
+        return this.appointmentType.get();
     }
 }

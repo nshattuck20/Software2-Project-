@@ -9,11 +9,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,10 +30,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.MenuButton;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import softwareII.Implementation.AppointmentImplementation;
+import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
+import softwareII.Model.Appointment;
+import softwareII.Model.Customer;
 
 /**
  * FXML Controller class
@@ -53,9 +57,19 @@ public class AddApptController implements Initializable {
     private ComboBox startTimeDropDown;
 
     @FXML
-    private MenuButton endTimeDropDown;
+    private ComboBox endTimeDropDown;
 
+    @FXML
+    private ComboBox<Customer> customerDropDown;
+
+    @FXML
+    private ComboBox apptTypeDropDown;
+
+    //Customer object for customers with scheduled appointments 
     private ObservableList<String> startTimes = FXCollections.observableArrayList();
+    private ObservableList<String> endTimes = FXCollections.observableArrayList();
+    private ObservableList<Customer> customers = FXCollections.observableArrayList();
+    private ObservableList<String> appointmentTypes = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
@@ -87,18 +101,60 @@ public class AddApptController implements Initializable {
         };
         date.setDayCellFactory(dayCellFactory);
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-
-        LocalTime lt = LocalTime.of(8, 0);
-        //original time 
-        LocalTime ltf = LocalTime.of(17, 0);
+        /*
+        The code below populates the combo boxes with start and 
+        end times. 
+         */
+        //POPULATE START TIMES 
+        DateTimeFormatter startdtf = DateTimeFormatter.ofPattern("HH:mm");
+        //Start hour is 8am 
+        LocalTime ltStart = LocalTime.of(8, 0);
+        //Closing time is 5pm 
+        LocalTime ltfStart = LocalTime.of(17, 0);
         startTimeDropDown.setItems(startTimes);
-        //populate Dropdown Menu 
-        while (lt.isBefore(ltf)) {
-            startTimes.add(dtf.format(lt));
-            lt = lt.plusMinutes(15);
+
+        while (ltStart.isBefore(ltfStart)) {
+            startTimes.add(startdtf.format(ltStart));
+            ltStart = ltStart.plusMinutes(15);
         }
         startTimeDropDown.getSelectionModel().select(0);
+
+        //POPULATE END TIMES 
+        DateTimeFormatter enddtf = DateTimeFormatter.ofPattern("HH:mm");
+        //Start of end times. Increment 15 min
+        LocalTime ltEnd = LocalTime.of(8, 15);
+        //Last closing time is 5pm 
+        LocalTime ltfEnd = LocalTime.of(17, 45);
+        endTimeDropDown.setItems(endTimes);
+
+        while (ltEnd.isBefore(ltfEnd)) {
+            endTimes.add(enddtf.format(ltEnd));
+            ltEnd = ltEnd.plusMinutes(15);
+        }
+        endTimeDropDown.getSelectionModel().select(0);
+
+        //POPULATE Customer Combobox with Customers.
+        try {
+            customers = CustomerImplementation.getCustomerData();
+
+        } catch (Exception ex) {
+            Logger.getLogger(AddApptController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //populate customer drop box 
+        for (int i = 0; i < customers.size(); i++) {
+
+            customerDropDown.setItems(customers);
+
+        }
+        customerDropDown.getSelectionModel().select(0);
+
+        //populate appt type
+        appointmentTypes.add("Presentation");
+        appointmentTypes.add("Scrum");
+
+        apptTypeDropDown.setItems(appointmentTypes);
+
+        apptTypeDropDown.getSelectionModel().select(0);
 
     }
 
@@ -130,7 +186,31 @@ public class AddApptController implements Initializable {
 
     }
 
-    public void confirmButtons(ActionEvent event) {
-        //TODO
+    @FXML
+    public void confirmButton(ActionEvent event) {
+        //1. Get the selected date from the date picker. 
+        System.out.println("Confirm button clicked!");
+        System.out.println("Adding a new appointment...");
+        LocalDate ld = date.getValue();
+        System.out.println("");
+        //2. Get the indexes of the selected start, end times & customer. 
+        int index = startTimeDropDown.getSelectionModel().getSelectedIndex();
+        int index2 = endTimeDropDown.getSelectionModel().getSelectedIndex();
+        int index3 = customerDropDown.getSelectionModel().getSelectedIndex();
+
+        //2. Compare to other scheduled appointments to ensure no overlaps 
+        LocalTime lt = LocalTime.of(8, 0);
+        while (lt.isBefore(LocalTime.of(17, 0))) {
+            lt = lt.plusMinutes(index * 15);
+            if (lt.equals(index)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Time conflict!");
+                alert.setContentText("You already have selected an appointment for client " + customers.get(index3) + " at " + startTimes.get(index) + " ");
+            } else {
+                //Handle the insert query 
+            }
+        }
+
+        //3. 
     }
 }

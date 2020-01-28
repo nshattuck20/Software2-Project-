@@ -3,6 +3,7 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,7 +24,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -56,10 +56,13 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private TableColumn<Appointment, String> appointmentTypeColumn;
-    
+
     @FXML
     private TableColumn<Appointment, String> appointmentCustomerCol;
-    
+
+    @FXML
+    private TableColumn<Appointment, String> dateColumn;
+
     //TableView for Customers 
     @FXML
     private TableView<Customer> customerTable;
@@ -109,7 +112,7 @@ public class MainScreenController implements Initializable {
     private static Address updateAddress;
     private static City updateCity;
     private static Country updateCountry;
-    private static Appointment appointment; 
+    private static Appointment updateAppointment;
     //private static int customerIndex; 
 
     /**
@@ -131,7 +134,7 @@ public class MainScreenController implements Initializable {
         startTimeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getStartTime();
         });
-        
+
         endTimeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getEndTime();
         });
@@ -139,8 +142,8 @@ public class MainScreenController implements Initializable {
         appointmentTypeColumn.setCellValueFactory(cellData -> {
             return cellData.getValue().getAppointmentType();
         });
-        
-         appointmentCustomerCol.setCellValueFactory(cellData -> {
+
+        appointmentCustomerCol.setCellValueFactory(cellData -> {
             return cellData.getValue().getAssociatedCustomer();
         });
 
@@ -168,7 +171,7 @@ public class MainScreenController implements Initializable {
         try {
             //appointments
             appointments.clear();
-            appointments.addAll(AppointmentImplementation.getAllAppointments());
+            appointments.addAll(AppointmentImplementation.getAppointmentData());
 
             //customers
             customerTable.getItems().clear();
@@ -202,6 +205,10 @@ public class MainScreenController implements Initializable {
 
     public static Country getUpdateCountry() {
         return updateCountry;
+    }
+
+    public static Appointment getUpdateAppointment() {
+        return updateAppointment;
     }
 //Buttons
 
@@ -281,8 +288,9 @@ public class MainScreenController implements Initializable {
             alert.showAndWait();
         }
     }
+
     //delete customer button 
-    public void deleteCustomer(ActionEvent event) throws IOException, SQLException, Exception{
+    public void deleteCustomer(ActionEvent event) throws IOException, SQLException, Exception {
         //Delete addressId, appointment, customerId
     }
 

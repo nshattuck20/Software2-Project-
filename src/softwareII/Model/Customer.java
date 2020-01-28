@@ -118,6 +118,11 @@ public class Customer {
         }
         
     }
+    
+    @Override 
+    public String toString(){
+        return this.customerName.get();
+    }
 
     //Constructor
     public Customer() {
