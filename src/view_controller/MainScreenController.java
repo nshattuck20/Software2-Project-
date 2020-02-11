@@ -184,8 +184,8 @@ public class MainScreenController implements Initializable {
 
             //set the data in the tables
 //            table.getItems().clear();
-            table.getItems().addAll(appointments); 
-            table.setItems(appointments);
+              table.getItems().addAll(appointments); 
+              table.setItems(appointments);
 //            
 
         } catch (Exception ex) {
@@ -332,11 +332,13 @@ public class MainScreenController implements Initializable {
             alert.setHeaderText("Confirmation Needed");
             alert.setContentText("Are you sure you want to delete the appointment " + updateAppointment.getAppointmentType().get() + " for customer " + updateAppointment.getAssociatedCustomer().get() + " ?");
            // alert.showAndWait();
-            Optional<ButtonType> confirm = alert.showAndWait();
-                if(confirm.equals(ButtonType.OK)){
+            Optional<ButtonType> result = alert.showAndWait();
+                if(result.isPresent() && result.get() == ButtonType.OK){
+                    System.out.println("Deleting appointment");
                     AppointmentImplementation.deleteAppointment(updateAppointment.getAppointmentID().get());
                 }
-                else if (confirm.equals(ButtonType.CANCEL)){
+                if (result.isPresent() && result.get() == ButtonType.CANCEL){
+                    System.out.println("Canceled");
                     alert.close();
                 }
         } else {

@@ -250,6 +250,12 @@ public class AddApptController implements Initializable {
             
             String apptInsert = AppointmentImplementation.insertAppointment(newAppt);
             
+            Parent main = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+            Scene mainScene = new Scene(main);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(mainScene);
+            mainStage.show();
+            
             
         } catch (Exception ex) {
             Logger.getLogger(AddApptController.class.getName()).log(Level.SEVERE, null, ex);
