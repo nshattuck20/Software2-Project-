@@ -1,12 +1,10 @@
 package softwareII.Model;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.time.LocalDateTime;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import softwareII.Implementation.AppointmentImplementation;
 import softwareII.Implementation.CustomerImplementation;
 
 /**
@@ -15,11 +13,20 @@ import softwareII.Implementation.CustomerImplementation;
  */
 public class Appointment {
 
-    private StringProperty startTime;
-    private StringProperty endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private StringProperty appointmentType;
     private IntegerProperty customerID;
     private IntegerProperty appointmentID;
+    private IntegerProperty userID; 
+
+    public IntegerProperty getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID.set(userID);
+    }
 
     public IntegerProperty getCustomerID() {
         return customerID;
@@ -38,11 +45,12 @@ public class Appointment {
 
     //Constuctor. Set values of appointment data via getters and setters. 
     public Appointment() {
-        this.startTime = new SimpleStringProperty();
-        this.endTime = new SimpleStringProperty();
+        this.startTime = LocalDateTime.now();
+        this.endTime = LocalDateTime.now();
         this.appointmentType = new SimpleStringProperty();
         this.customerID = new SimpleIntegerProperty();
         this.appointmentID = new SimpleIntegerProperty();
+        this.userID = new SimpleIntegerProperty(); 
     }
 
     public void setCustomerID(int customerID) {
@@ -65,14 +73,22 @@ public class Appointment {
             return null;
         }
     }
+    
+    public StringProperty getAppointment(){
+        
+        
+        
+        
+        return null ; 
+    }
 
     //Getters and setters. 
-    public StringProperty getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime.set(endTime);
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime; 
     }
 
     public StringProperty getAppointmentType() {
@@ -83,12 +99,12 @@ public class Appointment {
         this.appointmentType.set(appointmentType);
     }
 
-    public StringProperty getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime.set(startTime);
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime; 
     }
 
     public String toString() {

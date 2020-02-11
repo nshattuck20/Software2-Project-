@@ -16,7 +16,7 @@
    <children>
       <AnchorPane layoutY="-1.0" prefHeight="950.0" prefWidth="272.0" style="-fx-background-color: #fbefcc;">
          <children>
-            <Button fx:id="createCustomerBtn" layoutX="14.0" layoutY="79.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" stylesheets="@MainScreenStyle.css" text="Create Customer ">
+            <Button fx:id="createCustomerBtn" layoutX="14.0" layoutY="79.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" stylesheets="@MainScreenStyle.css" text="Create Customer ">
                <font>
                   <Font name="Ebrima Bold" size="12.0" />
                </font>
@@ -28,7 +28,7 @@
             <Button fx:id="deleteCustomerBtn" layoutX="14.0" layoutY="211.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Customer " />
             <Button fx:id="addApptBtn" layoutX="14.0" layoutY="373.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Add Appt" />
             <Button fx:id="editApptBtn" layoutX="14.0" layoutY="439.0" mnemonicParsing="false" onAction="#editAppt" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Edit Appt" />
-            <Button fx:id="deleteApptBtn" alignment="CENTER" layoutX="14.0" layoutY="505.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Appt" />
+            <Button fx:id="deleteApptBtn" alignment="CENTER" layoutX="14.0" layoutY="505.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Appt" />
           
             <Label fx:id="usernameDisplay" layoutX="14.0" layoutY="7.0" text="Welcome ">
                <font>
@@ -68,7 +68,7 @@
          <font>
             <Font name="Impact" size="24.0" />
          </font></Label>
-  <TableView fx:id="table" layoutX="282.0" layoutY="42.0" prefHeight="367.0" prefWidth="705.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
+  <TableView fx:id="table" layoutX="282.0" layoutY="506.0" prefHeight="367.0" prefWidth="705.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
         <columns>
             <TableColumn fx:id="appointmentCustomerCol" minWidth="20.0" prefWidth="140.0" text="Customer" />
             <TableColumn fx:id="dateColumn" minWidth="20.0" prefWidth="86.0" text="Date" />
@@ -80,7 +80,7 @@
             <Glow />
          </effect>
       </TableView>
-      <TableView fx:id="customerTable" layoutX="282.0" layoutY="515.0" prefHeight="367.0" prefWidth="634.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
+      <TableView fx:id="customerTable" layoutX="282.0" layoutY="38.0" prefHeight="367.0" prefWidth="705.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
          <columns>
             <TableColumn fx:id="column_Customer_Name" prefWidth="112.0" text="Name" />
             <TableColumn fx:id="column_Customer_Address" prefWidth="126.0" text="Address " />
@@ -92,17 +92,17 @@
             <Glow />
          </effect>
       </TableView>
-      <Label layoutX="282.0" layoutY="15.0" text="Appointments">
+      <Label layoutX="293.0" layoutY="483.0" text="Appointments">
          <font>
             <Font name="Ebrima Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="303.0" layoutY="483.0" text="Customers">
+      <Label layoutX="293.0" layoutY="15.0" text="Customers">
          <font>
             <Font name="Ebrima Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="sortByMonthBtn" layoutX="314.0" layoutY="438.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="36.0" prefWidth="179.0" style="-fx-background-radius: 20;" text="Sort By Month" />
-      <Button fx:id="sortByWkBtn" layoutX="588.0" layoutY="438.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="37.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort By Week " />
+      <Button fx:id="sortByMonthBtn" layoutX="282.0" layoutY="420.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="36.0" prefWidth="179.0" style="-fx-background-radius: 20;" text="Sort By Month" />
+      <Button fx:id="sortByWkBtn" layoutX="483.0" layoutY="420.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="37.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort By Week " />
    </children>
 </AnchorPane>

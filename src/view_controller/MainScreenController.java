@@ -3,12 +3,12 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,7 +23,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -103,8 +102,8 @@ public class MainScreenController implements Initializable {
     @FXML
     private Button deleteApptBtn;
 
-    @FXML
-    private Label usernameLabel;
+
+  
 
     User user;
 
@@ -125,6 +124,7 @@ public class MainScreenController implements Initializable {
         ObservableList<Customer> customers = FXCollections.observableArrayList();
         try {
             //TODO Display username on main screen
+          
 
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
@@ -132,11 +132,11 @@ public class MainScreenController implements Initializable {
 
 //        //Lambas for columns Appointment table 
         startTimeColumn.setCellValueFactory(cellData -> {
-            return cellData.getValue().getStartTime();
+            return new SimpleStringProperty (cellData.getValue().getStartTime().toString());
         });
 
         endTimeColumn.setCellValueFactory(cellData -> {
-            return cellData.getValue().getEndTime();
+            return new SimpleStringProperty (cellData.getValue().getEndTime().toString());
         });
 
         appointmentTypeColumn.setCellValueFactory(cellData -> {
@@ -146,7 +146,10 @@ public class MainScreenController implements Initializable {
         appointmentCustomerCol.setCellValueFactory(cellData -> {
             return cellData.getValue().getAssociatedCustomer();
         });
-
+        
+        dateColumn.setCellValueFactory(cellData -> {
+            return new SimpleStringProperty (cellData.getValue().getStartTime().toString());
+        });
         //Lambdas for Customer Table 
         column_Customer_Name.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerName();
@@ -176,11 +179,14 @@ public class MainScreenController implements Initializable {
             //customers
             customerTable.getItems().clear();
             customerTable.getItems().addAll(customers);
+            customerTable.setItems(customers);
             customers.addAll(CustomerImplementation.getCustomerData());
 
             //set the data in the tables
+//            table.getItems().clear();
+            table.getItems().addAll(appointments); 
             table.setItems(appointments);
-            customerTable.setItems(customers);
+//            
 
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
@@ -258,7 +264,7 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    public void createCustomer(ActionEvent event) throws IOException {
+    public void addCustomer(ActionEvent event) throws IOException {
         System.out.println("Create customer clicked!");
         Parent createCustomerScreen = FXMLLoader.load(getClass().getResource("CreateCustomer.fxml"));
         Scene createCustomerScene = new Scene(createCustomerScreen);
@@ -314,6 +320,31 @@ public class MainScreenController implements Initializable {
         Stage addApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         addApptStage.setScene(addApptScene);
         addApptStage.show();
+    }
+    
+    @FXML 
+    public void deleteAppointment(ActionEvent event) throws IOException{
+        updateAppointment = table.getSelectionModel().getSelectedItem();
+        
+        if (updateAppointment != null) {
+           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+           
+            alert.setHeaderText("Confirmation Needed");
+            alert.setContentText("Are you sure you want to delete the appointment " + updateAppointment.getAppointmentType().get() + " for customer " + updateAppointment.getAssociatedCustomer().get() + " ?");
+           // alert.showAndWait();
+            Optional<ButtonType> confirm = alert.showAndWait();
+                if(confirm.equals(ButtonType.OK)){
+                    AppointmentImplementation.deleteAppointment(updateAppointment.getAppointmentID().get());
+                }
+                else if (confirm.equals(ButtonType.CANCEL)){
+                    alert.close();
+                }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("No Selection Found");
+            alert.setContentText("You have not selected an appointment to delete. Please select an appointment from the appointment table. ");
+            alert.showAndWait();
+        }
     }
 
 }

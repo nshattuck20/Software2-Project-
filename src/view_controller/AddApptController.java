@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -44,24 +45,24 @@ import softwareII.Model.Customer;
  * @author Nick Shattuck
  */
 public class AddApptController implements Initializable {
-
+    
     @FXML
     private Button btn_cancel;
     @FXML
     private Button btn_confirm;
-
+    
     @FXML
     private DatePicker date;
-
+    
     @FXML
     private ComboBox startTimeDropDown;
-
+    
     @FXML
     private ComboBox endTimeDropDown;
-
+    
     @FXML
     private ComboBox<Customer> customerDropDown;
-
+    
     @FXML
     private ComboBox apptTypeDropDown;
 
@@ -70,6 +71,8 @@ public class AddApptController implements Initializable {
     private ObservableList<String> endTimes = FXCollections.observableArrayList();
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<String> appointmentTypes = FXCollections.observableArrayList();
+    final static LocalTime BASE_START_TIME = LocalTime.of(8, 0);
+    final static LocalTime BASE_END_TIME = LocalTime.of(17, 0);
 
     /**
      * Initializes the controller class.
@@ -89,7 +92,7 @@ public class AddApptController implements Initializable {
                     @Override
                     public void updateItem(LocalDate item, boolean empty) {
                         super.updateItem(item, empty);
-
+                        
                         if (item.isBefore(LocalDate.now().minusDays(0))) {
                             //can't schedule a date in the past!
                             setDisable(true);
@@ -108,12 +111,12 @@ public class AddApptController implements Initializable {
         //POPULATE START TIMES 
         DateTimeFormatter startdtf = DateTimeFormatter.ofPattern("HH:mm");
         //Start hour is 8am 
-        LocalTime ltStart = LocalTime.of(8, 0);
+        LocalTime ltStart = BASE_START_TIME;
         //Closing time is 5pm 
-        LocalTime ltfStart = LocalTime.of(17, 0);
+//        LocalTime ltfStart = BASE_END_TIME; 
         startTimeDropDown.setItems(startTimes);
-
-        while (ltStart.isBefore(ltfStart)) {
+        
+        while (ltStart.isBefore(BASE_END_TIME)) {
             startTimes.add(startdtf.format(ltStart));
             ltStart = ltStart.plusMinutes(15);
         }
@@ -122,11 +125,11 @@ public class AddApptController implements Initializable {
         //POPULATE END TIMES 
         DateTimeFormatter enddtf = DateTimeFormatter.ofPattern("HH:mm");
         //Start of end times. Increment 15 min
-        LocalTime ltEnd = LocalTime.of(8, 15);
+        LocalTime ltEnd = BASE_START_TIME.plusMinutes(15);
         //Last closing time is 5pm 
         LocalTime ltfEnd = LocalTime.of(17, 45);
         endTimeDropDown.setItems(endTimes);
-
+        
         while (ltEnd.isBefore(ltfEnd)) {
             endTimes.add(enddtf.format(ltEnd));
             ltEnd = ltEnd.plusMinutes(15);
@@ -136,28 +139,30 @@ public class AddApptController implements Initializable {
         //POPULATE Customer Combobox with Customers.
         try {
             customers = CustomerImplementation.getCustomerData();
-
+            
         } catch (Exception ex) {
             Logger.getLogger(AddApptController.class.getName()).log(Level.SEVERE, null, ex);
         }
         //populate customer drop box 
         for (int i = 0; i < customers.size(); i++) {
-
+            
             customerDropDown.setItems(customers);
-
+            
         }
         customerDropDown.getSelectionModel().select(0);
 
         //populate appt type
         appointmentTypes.add("Presentation");
         appointmentTypes.add("Scrum");
-
+        appointmentTypes.add("Phone");
+        appointmentTypes.add("Skype");
+        
         apptTypeDropDown.setItems(appointmentTypes);
-
+        
         apptTypeDropDown.getSelectionModel().select(0);
-
+        
     }
-
+    
     @FXML
     public void btncancel(ActionEvent event) throws IOException, SQLException, Exception {
         System.out.println("Cancel Button Clicked!");
@@ -174,43 +179,81 @@ public class AddApptController implements Initializable {
             DBConnection.closeConnection();
             mainStage.show();
         }
-
+        
         if (confirm == null) {
-
+            
             Parent addAppointment = FXMLLoader.load(getClass().getResource("AddAppt.fxml"));
             Scene newAppt = new Scene(addAppointment);
             Stage newApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             newApptStage.setScene(newAppt);
             newApptStage.show();
         }
-
+        
     }
-
+    
     @FXML
     public void confirmButton(ActionEvent event) {
         //1. Get the selected date from the date picker. 
-        System.out.println("Confirm button clicked!");
-        System.out.println("Adding a new appointment...");
         LocalDate ld = date.getValue();
-        System.out.println("");
         //2. Get the indexes of the selected start, end times & customer. 
         int index = startTimeDropDown.getSelectionModel().getSelectedIndex();
         int index2 = endTimeDropDown.getSelectionModel().getSelectedIndex();
-        int index3 = customerDropDown.getSelectionModel().getSelectedIndex();
-
-        //2. Compare to other scheduled appointments to ensure no overlaps 
-        LocalTime lt = LocalTime.of(8, 0);
-        while (lt.isBefore(LocalTime.of(17, 0))) {
-            lt = lt.plusMinutes(index * 15);
-            if (lt.equals(index)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Time conflict!");
-                alert.setContentText("You already have selected an appointment for client " + customers.get(index3) + " at " + startTimes.get(index) + " ");
-            } else {
-                //Handle the insert query 
+        LocalTime ltStart = BASE_START_TIME;
+        ltStart = ltStart.plusMinutes(index * 15);
+        LocalTime ltEnd = BASE_START_TIME.plusMinutes(15);
+        ltEnd = ltEnd.plusMinutes(index2 * 15);
+        Customer customer = customerDropDown.getSelectionModel().getSelectedItem();
+        String type = (String) apptTypeDropDown.getSelectionModel().getSelectedItem();
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");
+        try {
+            //3. Compare to other scheduled appointments to ensure no overlaps
+            ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
+            for (Appointment appt : appts) {
+                if (LoginFormController.user.getUserID() == appt.getUserID().get()) {
+                    //If appt matches user...check time for overlaps 
+                    boolean overlap = false;
+                    //grab the local date 
+                    //if it doesn't match our date 
+                    //use 'continue' if the two dates do not match 
+                    LocalTime start = (LocalTime)appt.getStartTime().toLocalTime();
+                    LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
+                    //Overlap if you fall between this window. 
+                    if (ltStart.isAfter(start) && ltStart.isBefore(end)) {
+                        overlap = true;
+                    }
+                    if (ltEnd.isAfter(start) && ltEnd.isBefore(end)) {
+                        overlap = true;
+                    }
+                    if (ltStart.isBefore(start) && ltEnd.isAfter(end)) {
+                        overlap = true;
+                    }
+                    
+                    if (overlap) {
+                        //If overlap is found
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setHeaderText("Time conflict!");
+                        alert.setContentText("You already have selected an appointment for client " + customer.getCustomerName() + " at " + startTimes.get(index) + " ");
+                        alert.showAndWait();
+                        return;
+                    }
+                }
             }
+            //4. Save and insert into Database extract customer, apptType, and userID 
+            Appointment newAppt = new Appointment();
+            newAppt.setUserID(LoginFormController.user.getUserID());
+            newAppt.setCustomerID(customer.getCustomerID().get());
+            newAppt.setAppointmentID(0);
+            newAppt.setStartTime(LocalDateTime.of(ld, ltStart));
+            newAppt.setEndTime(LocalDateTime.of(ld, ltEnd));
+            newAppt.setAppointmentType(type);
+            
+            String apptInsert = AppointmentImplementation.insertAppointment(newAppt);
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(AddApptController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        //3. 
+        
     }
 }

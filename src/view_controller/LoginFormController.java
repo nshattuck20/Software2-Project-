@@ -69,7 +69,7 @@ public class LoginFormController implements Initializable {
     
    
 
-    User user;
+   public static User user;
 
     ResourceBundle bundle;
 
