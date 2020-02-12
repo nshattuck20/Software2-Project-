@@ -3,6 +3,7 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -102,9 +103,6 @@ public class MainScreenController implements Initializable {
     @FXML
     private Button deleteApptBtn;
 
-
-  
-
     User user;
 
     private static Customer updateCustomer;
@@ -124,7 +122,6 @@ public class MainScreenController implements Initializable {
         ObservableList<Customer> customers = FXCollections.observableArrayList();
         try {
             //TODO Display username on main screen
-          
 
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
@@ -132,11 +129,11 @@ public class MainScreenController implements Initializable {
 
 //        //Lambas for columns Appointment table 
         startTimeColumn.setCellValueFactory(cellData -> {
-            return new SimpleStringProperty (cellData.getValue().getStartTime().toString());
+            return new SimpleStringProperty(cellData.getValue().getStartTime().toString());
         });
 
         endTimeColumn.setCellValueFactory(cellData -> {
-            return new SimpleStringProperty (cellData.getValue().getEndTime().toString());
+            return new SimpleStringProperty(cellData.getValue().getEndTime().toString());
         });
 
         appointmentTypeColumn.setCellValueFactory(cellData -> {
@@ -146,9 +143,9 @@ public class MainScreenController implements Initializable {
         appointmentCustomerCol.setCellValueFactory(cellData -> {
             return cellData.getValue().getAssociatedCustomer();
         });
-        
+
         dateColumn.setCellValueFactory(cellData -> {
-            return new SimpleStringProperty (cellData.getValue().getStartTime().toString());
+            return new SimpleStringProperty(cellData.getValue().getStartTime().toString());
         });
         //Lambdas for Customer Table 
         column_Customer_Name.setCellValueFactory(cellData -> {
@@ -184,8 +181,8 @@ public class MainScreenController implements Initializable {
 
             //set the data in the tables
 //            table.getItems().clear();
-              table.getItems().addAll(appointments); 
-              table.setItems(appointments);
+            table.getItems().addAll(appointments);
+            table.setItems(appointments);
 //            
 
         } catch (Exception ex) {
@@ -321,32 +318,49 @@ public class MainScreenController implements Initializable {
         addApptStage.setScene(addApptScene);
         addApptStage.show();
     }
-    
-    @FXML 
-    public void deleteAppointment(ActionEvent event) throws IOException{
+
+    @FXML
+    public void deleteAppointment(ActionEvent event) throws IOException, Exception {
         updateAppointment = table.getSelectionModel().getSelectedItem();
+        ObservableList<Appointment> appts = table.getItems();
+        List<Appointment> toRemove = FXCollections.observableArrayList(); 
+         
         
         if (updateAppointment != null) {
-           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-           
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
             alert.setHeaderText("Confirmation Needed");
             alert.setContentText("Are you sure you want to delete the appointment " + updateAppointment.getAppointmentType().get() + " for customer " + updateAppointment.getAssociatedCustomer().get() + " ?");
-           // alert.showAndWait();
+            // alert.showAndWait();
             Optional<ButtonType> result = alert.showAndWait();
-                if(result.isPresent() && result.get() == ButtonType.OK){
-                    System.out.println("Deleting appointment");
-                    AppointmentImplementation.deleteAppointment(updateAppointment.getAppointmentID().get());
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                
+               
+                for (Appointment appt : appts) {
+                    if (appt.getAppointmentID().get() == updateAppointment.getAppointmentID().get()) {
+                        System.out.println("Deleting appointment");
+                        AppointmentImplementation.deleteAppointment(updateAppointment.getAppointmentID().get());
+                        toRemove.add(appt); 
+                    
+                    }
                 }
-                if (result.isPresent() && result.get() == ButtonType.CANCEL){
-                    System.out.println("Canceled");
-                    alert.close();
-                }
+                appts.removeAll(toRemove); 
+
+            }
+
+            if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+                System.out.println("Canceled");
+                alert.close();
+            }
+
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("No Selection Found");
             alert.setContentText("You have not selected an appointment to delete. Please select an appointment from the appointment table. ");
             alert.showAndWait();
         }
+
     }
 
 }

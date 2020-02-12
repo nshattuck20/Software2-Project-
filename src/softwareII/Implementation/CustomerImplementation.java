@@ -53,6 +53,10 @@ public class CustomerImplementation {
             Logger.getLogger(CustomerImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static void deleteCustomer(int customerId) throws SQLException, Exception{
+        
+    }
 
     public static ObservableList<Customer> getCustomerData() throws SQLException, Exception {
         ObservableList<Customer> customerData = FXCollections.observableArrayList();
