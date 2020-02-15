@@ -25,7 +25,7 @@
                </graphic>
             </Button>
             <Button fx:id="editCustomerBtn" layoutX="14.0" layoutY="145.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Edit Customer" />
-            <Button fx:id="deleteCustomerBtn" layoutX="14.0" layoutY="211.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Customer " />
+            <Button fx:id="deleteCustomerBtn" layoutX="14.0" layoutY="211.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Customer " />
             <Button fx:id="addApptBtn" layoutX="14.0" layoutY="373.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Add Appt" />
             <Button fx:id="editApptBtn" layoutX="14.0" layoutY="439.0" mnemonicParsing="false" onAction="#editAppt" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Edit Appt" />
             <Button fx:id="deleteApptBtn" alignment="CENTER" layoutX="14.0" layoutY="505.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Delete Appt" />

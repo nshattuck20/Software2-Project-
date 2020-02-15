@@ -20,6 +20,14 @@ public class Customer {
     private IntegerProperty customerID;
     private IntegerProperty addressID;
     private IntegerProperty cityID;
+    private IntegerProperty countryID; 
+    
+    public IntegerProperty getCityID(){
+        return cityID; 
+    }
+    public IntegerProperty getCounryID(){
+        return countryID; 
+    }
 
     public IntegerProperty getCustomerID() {
         return customerID;
@@ -130,6 +138,7 @@ public class Customer {
         this.customerID = new SimpleIntegerProperty();
         this.addressID = new SimpleIntegerProperty();
         this.cityID = new SimpleIntegerProperty(); 
+        this.countryID = new SimpleIntegerProperty(); 
 
     }
 

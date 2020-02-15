@@ -16,7 +16,7 @@ import softwareII.Model.City;
 public class CityImplementation {
 
       public static City getCity(int cId) throws SQLException, Exception {
-        // DBConnection.makeConnection(); 
+       
         String getAddressSQL = "SELECT city, countryId from city WHERE cityId = " + Integer.toString(cId);
         City cityId = new City();
         Query.makeQuery(getAddressSQL);
@@ -32,12 +32,12 @@ public class CityImplementation {
             return cityId;
         }
 
-        // DBConnection.closeConnection();
+       
         return null;
     }
 
     public static String insertCity(String countryId, String city) throws SQLException, Exception {
-        DBConnection.makeConnection();
+       
         String sql = "INSERT INTO city (city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, '" + countryId + "', now(), 'test', now(), 'test'  )";
         String cityId = null;
         try {
@@ -52,7 +52,7 @@ public class CityImplementation {
         } catch (SQLException ex) {
             Logger.getLogger(CityImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DBConnection.closeConnection();
+       
         return cityId;
     }
 

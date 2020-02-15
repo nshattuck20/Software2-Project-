@@ -20,7 +20,7 @@ import view_controller.MainScreenController;
 public class CustomerImplementation {
 
     static boolean isActive;
-    private static Customer updateCustomer = MainScreenController.getUpdateCustomer();
+    private static Customer updateCustomer = MainScreenController.getCustomerRow();
 
     public static String insertCustomer(String addressID, String customer) throws SQLException, Exception {
 
@@ -53,9 +53,33 @@ public class CustomerImplementation {
             Logger.getLogger(CustomerImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void deleteCustomer(int customerId) throws SQLException, Exception{
+
+    public static void deleteCustomer(int customerId, int addressId, int cityId, int countryId) throws SQLException, Exception {
+        String sql = "DELETE from appointment WHERE customerId = ?";
+        String sql2 = "DELETE from customer WHERE customerId = ?"; 
+        String sql3 = "DELETE from address where addressId = ?"; 
+        String sql4 = "DELETE from city where cityId = ?"; 
+        String sql5 = "DELETE from country where countryId = ?"; 
         
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps1 = conn.prepareStatement(sql2);
+            PreparedStatement ps2 = conn.prepareStatement(sql3);
+            PreparedStatement ps3 = conn.prepareStatement(sql4);
+            PreparedStatement ps4 = conn.prepareStatement(sql5);
+            ps.setInt(1, customerId);
+            ps1.setInt(1, customerId);
+            ps2.setInt(1, addressId);
+            ps3.setInt(1, cityId);
+            ps4.setInt(1, countryId);
+            ps.execute(); 
+            ps1.execute(); 
+            ps2.execute(); 
+            ps3.execute(); 
+            ps4.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static ObservableList<Customer> getCustomerData() throws SQLException, Exception {

@@ -50,7 +50,7 @@ public class EditCustomerController implements Initializable {
     @FXML
     private TextField postalCode_Text;
 
-    private Customer updateCustomer = MainScreenController.getUpdateCustomer();
+    private Customer updateCustomer = MainScreenController.getCustomerRow();
 
     //int tempCustomerIndex = MainScreenController.getCustomerIndex(); 
     @Override

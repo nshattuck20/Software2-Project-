@@ -28,6 +28,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import softwareII.Implementation.AppointmentImplementation;
+import softwareII.Implementation.CityImplementation;
+import softwareII.Implementation.CountryImplementation;
 import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
 import softwareII.Model.Address;
@@ -105,10 +107,10 @@ public class MainScreenController implements Initializable {
 
     User user;
 
-    private static Customer updateCustomer;
+    private static Customer customer;
     private static Address updateAddress;
-    private static City updateCity;
-    private static Country updateCountry;
+    private static City city;
+    private static Country country;
     private static Appointment updateAppointment;
     //private static int customerIndex; 
 
@@ -192,22 +194,22 @@ public class MainScreenController implements Initializable {
 
     }
 
-    //Getters to update instances of the customer object on 
+    //Getters to update table rows of the customer table on 
     //main screen. 
-    public static Customer getUpdateCustomer() {
-        return updateCustomer;
+    public static Customer getCustomerRow() {
+        return customer;
     }
 
     public static Address getUpdateAddress() {
         return updateAddress;
     }
 
-    public static City getUpdateCity() {
-        return updateCity;
+    public static City getCityRow() {
+        return city;
     }
 
-    public static Country getUpdateCountry() {
-        return updateCountry;
+    public static Country getCountryRow() {
+        return country;
     }
 
     public static Appointment getUpdateAppointment() {
@@ -274,10 +276,10 @@ public class MainScreenController implements Initializable {
     public void editCustomer(ActionEvent event) throws IOException, SQLException, Exception {
         //TODO 
         // Show an alert if no customer table row is selected. 
-        updateCustomer = customerTable.getSelectionModel().getSelectedItem();
+        customer = customerTable.getSelectionModel().getSelectedItem();
 
-        if (updateCustomer != null) {
-            // customerIndex = CustomerImplementation.getCustomerData().indexOf(updateCustomer);
+        if (customer != null) {
+            // customerIndex = CustomerImplementation.getCustomerData().indexOf(customer);
             Parent editCustomerScreen = FXMLLoader.load(getClass().getResource("EditCustomer.fxml"));
             Scene editCustomerScene = new Scene(editCustomerScreen);
             Stage editCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -294,7 +296,42 @@ public class MainScreenController implements Initializable {
 
     //delete customer button 
     public void deleteCustomer(ActionEvent event) throws IOException, SQLException, Exception {
-        //Delete addressId, appointment, customerId
+
+        customer = customerTable.getSelectionModel().getSelectedItem();
+        ObservableList<Customer> myCustomers = customerTable.getItems();
+        List<Customer> toRemove = FXCollections.observableArrayList();
+
+        if (customer != null) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setHeaderText("Confirmation needed");
+            alert.setContentText("Are you sure that you want to delete " + customer.getCustomerName().get() + " ? All appointments associated with this customer will be lost.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                //delete the customer, appointments, address, city, and country
+                for (Customer c : myCustomers) {
+                    if (c.getCustomerID().get() == customer.getCustomerID().get()) {
+                        CustomerImplementation.deleteCustomer(customer.getCustomerID().get(), customer.getAddressID().get(), customer.getCityID().get(), customer.getCounryID().get());
+                        toRemove.add(c);
+                    }
+                }
+                myCustomers.removeAll(toRemove);
+            Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+            Scene main = new Scene(mainScreen);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(main);
+            mainStage.show();
+            }
+            if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+                System.out.println("Canceled");
+                alert.close();
+          
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("No Selection Found");
+            alert.setContentText("You have not selected an appointment to delete. Please select an appointment from the appointment table. ");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -322,10 +359,14 @@ public class MainScreenController implements Initializable {
     @FXML
     public void deleteAppointment(ActionEvent event) throws IOException, Exception {
         updateAppointment = table.getSelectionModel().getSelectedItem();
+        //Make list to store current appointments
         ObservableList<Appointment> appts = table.getItems();
-        List<Appointment> toRemove = FXCollections.observableArrayList(); 
-         
-        
+        /*
+        Enhanced for loops use an Iterator that prohibit the programmer to add or remove while looping. 
+        This list stores the object I want to remove and removes it once the loop is complete. 
+         */
+        List<Appointment> toRemove = FXCollections.observableArrayList();
+
         if (updateAppointment != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
@@ -335,17 +376,16 @@ public class MainScreenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                
-               
+
                 for (Appointment appt : appts) {
                     if (appt.getAppointmentID().get() == updateAppointment.getAppointmentID().get()) {
                         System.out.println("Deleting appointment");
                         AppointmentImplementation.deleteAppointment(updateAppointment.getAppointmentID().get());
-                        toRemove.add(appt); 
-                    
+                        toRemove.add(appt);
+
                     }
                 }
-                appts.removeAll(toRemove); 
+                appts.removeAll(toRemove);
 
             }
 
