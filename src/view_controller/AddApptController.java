@@ -211,37 +211,7 @@ public class AddApptController implements Initializable {
                         return;
             }
             
-//            ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
-//            for (Appointment appt : appts) {
-//                if (LoginFormController.user.getUserID() == appt.getUserID().get()) {
-//                    //If appt matches user...check time for overlaps 
-//                    boolean overlap = false;
-//                    //grab the local date 
-//                    //if it doesn't match our date 
-//                    //use 'continue' if the two dates do not match 
-//                    LocalTime start = (LocalTime) appt.getStartTime().toLocalTime();
-//                    LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
-//                    //Overlap if you fall between this window. 
-//                    if (ltStart.isAfter(start) && ltStart.isBefore(end)) {
-//                        overlap = true;
-//                    }
-//                    if (ltEnd.isAfter(start) && ltEnd.isBefore(end)) {
-//                        overlap = true;
-//                    }
-//                    if (ltStart.isBefore(start) && ltEnd.isAfter(end)) {
-//                        overlap = true;
-//                    }
-//
-//                    if (overlap) {
-//                        //If overlap is found
-//                        Alert alert = new Alert(Alert.AlertType.ERROR);
-//                        alert.setHeaderText("Time conflict!");
-//                        alert.setContentText("You already have selected an appointment for client " + customer.getCustomerName() + " at " + startTimes.get(index) + " ");
-//                        alert.showAndWait();
-//                        return;
-//                    }
-//                }
-            //}
+
             //4. Save and insert into Database extract customer, apptType, and userID 
             Appointment newAppt = new Appointment();
             newAppt.setUserID(LoginFormController.user.getUserID());
@@ -265,31 +235,5 @@ public class AddApptController implements Initializable {
 
     }
 
-//    public static boolean overlapCheck(LocalDate date,LocalTime ltStart, LocalTime ltEnd) throws SQLException, Exception {
-//        ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
-//        for (Appointment appt : appts) {
-//            if (LoginFormController.user.getUserID() == appt.getUserID().get()) {
-//                LocalDate dt = appt.getStartTime().toLocalDate(); 
-//                if(dt.getMonth() != date.getMonth() || dt.getYear() != date.getYear() || date.getDayOfMonth() != dt.getDayOfMonth()){
-//                    //not on same day
-//                    continue; 
-//                }
-//                LocalTime start = (LocalTime) appt.getStartTime().toLocalTime();
-//                LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
-//                //Overlap if you fall between this window. 
-//                if (ltStart.isAfter(start) && ltStart.isBefore(end)) {
-//                    return true;
-//                }
-//                if (ltEnd.isAfter(start) && ltEnd.isBefore(end)) {
-//                    return true;
-//                }
-//                if (ltStart.isBefore(start) && ltEnd.isAfter(end)) {
-//                    return true;
-//                }
-//
-//            }
-//            
-//        }
-//        return false;
-//      }
+
     }
