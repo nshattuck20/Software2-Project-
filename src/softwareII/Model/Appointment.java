@@ -1,11 +1,18 @@
 package softwareII.Model;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import softwareII.Implementation.AppointmentImplementation;
 import softwareII.Implementation.CustomerImplementation;
+import view_controller.LoginFormController;
 
 /**
  *
@@ -19,6 +26,18 @@ public class Appointment {
     private IntegerProperty customerID;
     private IntegerProperty appointmentID;
     private IntegerProperty userID; 
+     private static ObservableList<String> appointmentTypes = FXCollections.observableArrayList();
+
+    public static ObservableList<String> getAppointmentTypes() {
+       if(appointmentTypes.size() == 0){
+        appointmentTypes.add("Presentation");
+        appointmentTypes.add("Scrum");
+        appointmentTypes.add("Phone");
+        appointmentTypes.add("Skype");
+        
+       }
+       return appointmentTypes; 
+    }
 
     public IntegerProperty getUserID() {
         return userID;
@@ -51,6 +70,7 @@ public class Appointment {
         this.customerID = new SimpleIntegerProperty();
         this.appointmentID = new SimpleIntegerProperty();
         this.userID = new SimpleIntegerProperty(); 
+        this.appointmentType = new SimpleStringProperty(); 
     }
 
     public void setCustomerID(int customerID) {
@@ -110,4 +130,32 @@ public class Appointment {
     public String toString() {
         return this.appointmentType.get();
     }
+    
+     public static boolean overlapCheck(LocalDate date,LocalTime ltStart, LocalTime ltEnd) throws SQLException, Exception {
+        ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
+        for (Appointment appt : appts) {
+            if (LoginFormController.user.getUserID() == appt.getUserID().get()) {
+                LocalDate dt = appt.getStartTime().toLocalDate(); 
+                if(dt.getMonth() != date.getMonth() || dt.getYear() != date.getYear() || date.getDayOfMonth() != dt.getDayOfMonth()){
+                    //not on same day
+                    continue; 
+                }
+                LocalTime start = (LocalTime) appt.getStartTime().toLocalTime();
+                LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
+                //Overlap if you fall between this window. 
+                if (ltStart.isAfter(start) && ltStart.isBefore(end)) {
+                    return true;
+                }
+                if (ltEnd.isAfter(start) && ltEnd.isBefore(end)) {
+                    return true;
+                }
+                if (ltStart.isBefore(start) && ltEnd.isAfter(end)) {
+                    return true;
+                }
+
+            }
+            
+        }
+        return false;
+      }
 }

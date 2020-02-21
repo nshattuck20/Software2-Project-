@@ -111,7 +111,7 @@ public class MainScreenController implements Initializable {
     private static Address updateAddress;
     private static City city;
     private static Country country;
-    private static Appointment updateAppointment;
+    private static Appointment appointment;
     //private static int customerIndex; 
 
     /**
@@ -213,7 +213,7 @@ public class MainScreenController implements Initializable {
     }
 
     public static Appointment getUpdateAppointment() {
-        return updateAppointment;
+        return appointment;
     }
 //Buttons
 
@@ -348,17 +348,19 @@ public class MainScreenController implements Initializable {
     public void editAppt(ActionEvent event) throws IOException {
         //TODO 
         // Show an alert if no appointment table row is selected. 
+        appointment = table.getSelectionModel().getSelectedItem();
+        
         System.out.println("Edit appointment clicked!");
-        Parent addApptScreen = FXMLLoader.load(getClass().getResource("AddAppt.fxml"));
-        Scene addApptScene = new Scene(addApptScreen);
-        Stage addApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        addApptStage.setScene(addApptScene);
-        addApptStage.show();
+        Parent editApptParent = FXMLLoader.load(getClass().getResource("EditAppt.fxml"));
+        Scene editApptScene = new Scene(editApptParent);
+        Stage editApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        editApptStage.setScene(editApptScene);
+        editApptStage.show();
     }
 
     @FXML
     public void deleteAppointment(ActionEvent event) throws IOException, Exception {
-        updateAppointment = table.getSelectionModel().getSelectedItem();
+        appointment = table.getSelectionModel().getSelectedItem();
         //Make list to store current appointments
         ObservableList<Appointment> appts = table.getItems();
         /*
@@ -367,20 +369,20 @@ public class MainScreenController implements Initializable {
          */
         List<Appointment> toRemove = FXCollections.observableArrayList();
 
-        if (updateAppointment != null) {
+        if (appointment != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
             alert.setHeaderText("Confirmation Needed");
-            alert.setContentText("Are you sure you want to delete the appointment " + updateAppointment.getAppointmentType().get() + " for customer " + updateAppointment.getAssociatedCustomer().get() + " ?");
+            alert.setContentText("Are you sure you want to delete the appointment " + appointment.getAppointmentType().get() + " for customer " + appointment.getAssociatedCustomer().get() + " ?");
             // alert.showAndWait();
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
                 for (Appointment appt : appts) {
-                    if (appt.getAppointmentID().get() == updateAppointment.getAppointmentID().get()) {
+                    if (appt.getAppointmentID().get() == appointment.getAppointmentID().get()) {
                         System.out.println("Deleting appointment");
-                        AppointmentImplementation.deleteAppointment(updateAppointment.getAppointmentID().get());
+                        AppointmentImplementation.deleteAppointment(appointment.getAppointmentID().get());
                         toRemove.add(appt);
 
                     }

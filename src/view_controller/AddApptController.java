@@ -45,24 +45,24 @@ import softwareII.Model.Customer;
  * @author Nick Shattuck
  */
 public class AddApptController implements Initializable {
-    
+
     @FXML
     private Button btn_cancel;
     @FXML
     private Button btn_confirm;
-    
+
     @FXML
     private DatePicker date;
-    
+
     @FXML
     private ComboBox startTimeDropDown;
-    
+
     @FXML
     private ComboBox endTimeDropDown;
-    
+
     @FXML
     private ComboBox<Customer> customerDropDown;
-    
+
     @FXML
     private ComboBox apptTypeDropDown;
 
@@ -70,7 +70,7 @@ public class AddApptController implements Initializable {
     private ObservableList<String> startTimes = FXCollections.observableArrayList();
     private ObservableList<String> endTimes = FXCollections.observableArrayList();
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
-    private ObservableList<String> appointmentTypes = FXCollections.observableArrayList();
+
     final static LocalTime BASE_START_TIME = LocalTime.of(8, 0);
     final static LocalTime BASE_END_TIME = LocalTime.of(17, 0);
 
@@ -92,7 +92,7 @@ public class AddApptController implements Initializable {
                     @Override
                     public void updateItem(LocalDate item, boolean empty) {
                         super.updateItem(item, empty);
-                        
+
                         if (item.isBefore(LocalDate.now().minusDays(0))) {
                             //can't schedule a date in the past!
                             setDisable(true);
@@ -115,7 +115,7 @@ public class AddApptController implements Initializable {
         //Closing time is 5pm 
 //        LocalTime ltfStart = BASE_END_TIME; 
         startTimeDropDown.setItems(startTimes);
-        
+
         while (ltStart.isBefore(BASE_END_TIME)) {
             startTimes.add(startdtf.format(ltStart));
             ltStart = ltStart.plusMinutes(15);
@@ -129,7 +129,7 @@ public class AddApptController implements Initializable {
         //Last closing time is 5pm 
         LocalTime ltfEnd = LocalTime.of(17, 45);
         endTimeDropDown.setItems(endTimes);
-        
+
         while (ltEnd.isBefore(ltfEnd)) {
             endTimes.add(enddtf.format(ltEnd));
             ltEnd = ltEnd.plusMinutes(15);
@@ -139,30 +139,25 @@ public class AddApptController implements Initializable {
         //POPULATE Customer Combobox with Customers.
         try {
             customers = CustomerImplementation.getCustomerData();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(AddApptController.class.getName()).log(Level.SEVERE, null, ex);
         }
         //populate customer drop box 
         for (int i = 0; i < customers.size(); i++) {
-            
+
             customerDropDown.setItems(customers);
-            
+
         }
         customerDropDown.getSelectionModel().select(0);
 
         //populate appt type
-        appointmentTypes.add("Presentation");
-        appointmentTypes.add("Scrum");
-        appointmentTypes.add("Phone");
-        appointmentTypes.add("Skype");
-        
-        apptTypeDropDown.setItems(appointmentTypes);
-        
+        apptTypeDropDown.setItems(Appointment.getAppointmentTypes());
+
         apptTypeDropDown.getSelectionModel().select(0);
-        
+
     }
-    
+
     @FXML
     public void btncancel(ActionEvent event) throws IOException, SQLException, Exception {
         System.out.println("Cancel Button Clicked!");
@@ -179,18 +174,18 @@ public class AddApptController implements Initializable {
             DBConnection.closeConnection();
             mainStage.show();
         }
-        
+
         if (confirm == null) {
-            
+
             Parent addAppointment = FXMLLoader.load(getClass().getResource("AddAppt.fxml"));
             Scene newAppt = new Scene(addAppointment);
             Stage newApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             newApptStage.setScene(newAppt);
             newApptStage.show();
         }
-        
+
     }
-    
+
     @FXML
     public void confirmButton(ActionEvent event) {
         //1. Get the selected date from the date picker. 
@@ -204,41 +199,49 @@ public class AddApptController implements Initializable {
         ltEnd = ltEnd.plusMinutes(index2 * 15);
         Customer customer = customerDropDown.getSelectionModel().getSelectedItem();
         String type = (String) apptTypeDropDown.getSelectionModel().getSelectedItem();
-        
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");
         try {
             //3. Compare to other scheduled appointments to ensure no overlaps
-            ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
-            for (Appointment appt : appts) {
-                if (LoginFormController.user.getUserID() == appt.getUserID().get()) {
-                    //If appt matches user...check time for overlaps 
-                    boolean overlap = false;
-                    //grab the local date 
-                    //if it doesn't match our date 
-                    //use 'continue' if the two dates do not match 
-                    LocalTime start = (LocalTime)appt.getStartTime().toLocalTime();
-                    LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
-                    //Overlap if you fall between this window. 
-                    if (ltStart.isAfter(start) && ltStart.isBefore(end)) {
-                        overlap = true;
-                    }
-                    if (ltEnd.isAfter(start) && ltEnd.isBefore(end)) {
-                        overlap = true;
-                    }
-                    if (ltStart.isBefore(start) && ltEnd.isAfter(end)) {
-                        overlap = true;
-                    }
-                    
-                    if (overlap) {
-                        //If overlap is found
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
+            if(Appointment.overlapCheck(ld, ltStart, ltEnd)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setHeaderText("Time conflict!");
                         alert.setContentText("You already have selected an appointment for client " + customer.getCustomerName() + " at " + startTimes.get(index) + " ");
                         alert.showAndWait();
                         return;
-                    }
-                }
             }
+            
+//            ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
+//            for (Appointment appt : appts) {
+//                if (LoginFormController.user.getUserID() == appt.getUserID().get()) {
+//                    //If appt matches user...check time for overlaps 
+//                    boolean overlap = false;
+//                    //grab the local date 
+//                    //if it doesn't match our date 
+//                    //use 'continue' if the two dates do not match 
+//                    LocalTime start = (LocalTime) appt.getStartTime().toLocalTime();
+//                    LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
+//                    //Overlap if you fall between this window. 
+//                    if (ltStart.isAfter(start) && ltStart.isBefore(end)) {
+//                        overlap = true;
+//                    }
+//                    if (ltEnd.isAfter(start) && ltEnd.isBefore(end)) {
+//                        overlap = true;
+//                    }
+//                    if (ltStart.isBefore(start) && ltEnd.isAfter(end)) {
+//                        overlap = true;
+//                    }
+//
+//                    if (overlap) {
+//                        //If overlap is found
+//                        Alert alert = new Alert(Alert.AlertType.ERROR);
+//                        alert.setHeaderText("Time conflict!");
+//                        alert.setContentText("You already have selected an appointment for client " + customer.getCustomerName() + " at " + startTimes.get(index) + " ");
+//                        alert.showAndWait();
+//                        return;
+//                    }
+//                }
+            //}
             //4. Save and insert into Database extract customer, apptType, and userID 
             Appointment newAppt = new Appointment();
             newAppt.setUserID(LoginFormController.user.getUserID());
@@ -247,19 +250,46 @@ public class AddApptController implements Initializable {
             newAppt.setStartTime(LocalDateTime.of(ld, ltStart));
             newAppt.setEndTime(LocalDateTime.of(ld, ltEnd));
             newAppt.setAppointmentType(type);
-            
+
             String apptInsert = AppointmentImplementation.insertAppointment(newAppt);
-            
+
             Parent main = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
             Scene mainScene = new Scene(main);
             Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             mainStage.setScene(mainScene);
             mainStage.show();
-            
-            
+
         } catch (Exception ex) {
             Logger.getLogger(AddApptController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-}
+
+//    public static boolean overlapCheck(LocalDate date,LocalTime ltStart, LocalTime ltEnd) throws SQLException, Exception {
+//        ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
+//        for (Appointment appt : appts) {
+//            if (LoginFormController.user.getUserID() == appt.getUserID().get()) {
+//                LocalDate dt = appt.getStartTime().toLocalDate(); 
+//                if(dt.getMonth() != date.getMonth() || dt.getYear() != date.getYear() || date.getDayOfMonth() != dt.getDayOfMonth()){
+//                    //not on same day
+//                    continue; 
+//                }
+//                LocalTime start = (LocalTime) appt.getStartTime().toLocalTime();
+//                LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
+//                //Overlap if you fall between this window. 
+//                if (ltStart.isAfter(start) && ltStart.isBefore(end)) {
+//                    return true;
+//                }
+//                if (ltEnd.isAfter(start) && ltEnd.isBefore(end)) {
+//                    return true;
+//                }
+//                if (ltStart.isBefore(start) && ltEnd.isAfter(end)) {
+//                    return true;
+//                }
+//
+//            }
+//            
+//        }
+//        return false;
+//      }
+    }

@@ -25,15 +25,24 @@ import softwareII.Model.Customer;
  * @author Nick Shattuck
  */
 public class AppointmentImplementation {
-
+    //stub to convert ltd
+    public static LocalDateTime convertToUTC(LocalDateTime ldt){
+    return ldt; 
+    }
+    
+    //stub to convert from ltd
+    public static LocalDateTime convertFromUTC(LocalDateTime ldt){
+    return ldt; 
+    }
     public static String insertAppointment(Appointment appointment) throws SQLException, Exception {
-        String sql = "INSERT INTO appointment( appointmentId, start, end, customerId, userId, apptType, title, description, location, contact, url, "
+        String sql = "INSERT INTO appointment( appointmentId, start, end, customerId, userId, type, title, description, location, contact, url, "
                 + " createDate, createdBy, lastUpdate, lastUpdateBy) VALUES(null, ?, ?,?,?,?,'', '', '', '', '', now(), 'test', now(), 'test')";
         String appointmentID = null;
          try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setTimestamp(1, Timestamp.valueOf(appointment.getStartTime()));
-            ps.setTimestamp(2, Timestamp.valueOf(appointment.getEndTime()));
+            ps.setTimestamp(1, Timestamp.valueOf(convertToUTC(appointment.getStartTime())));
+            //call convert to UTC
+            ps.setTimestamp(2, Timestamp.valueOf(convertToUTC(appointment.getEndTime())));
             ps.setInt(3, appointment.getCustomerID().get());
             ps.setInt(4, appointment.getUserID().get());
             ps.setString(5, appointment.getAppointmentType().get());
@@ -52,7 +61,22 @@ public class AppointmentImplementation {
     }
     
     //stub for update 
-    public static void updateAppointment(){
+    public static void updateAppointment(int appointmentId, LocalDateTime start, LocalDateTime end, String type){
+        System.out.println("Updating appointment...");
+        String sql = "UPDATE appointment SET start = ?,end = ?, type = ? WHERE appointmentId = ?";
+        
+          try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setTimestamp(1, Timestamp.valueOf(convertToUTC(start)));
+            ps.setTimestamp(2, Timestamp.valueOf(convertToUTC(end)));
+            ps.setString(3, type);
+            ps.setInt(4, appointmentId);
+            
+            ps.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
       
     }
 
@@ -72,22 +96,22 @@ public class AppointmentImplementation {
 
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         DBConnection.makeConnection();
-        String sqlStatement = "SELECT start, end, apptType, customerId, userId, appointmentId FROM appointment";
+        String sqlStatement = "SELECT start, end, type, customerId, userId, appointmentId FROM appointment";
         Query.makeQuery(sqlStatement);
         ResultSet result = Query.getResult();
         while (result.next()) {
             //These need to be TimeStamps 
             Timestamp startDate = result.getTimestamp("start");
-            LocalDateTime start = startDate.toLocalDateTime();
+            LocalDateTime start = convertFromUTC(startDate.toLocalDateTime());
             //format start time 
             start.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
             Timestamp endDate = result.getTimestamp("end");
-            LocalDateTime end = endDate.toLocalDateTime();
+            LocalDateTime end = convertFromUTC(endDate.toLocalDateTime());
             //format end time 
             end.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
-            String appType = result.getString("apptType");
+            String appType = result.getString("type");
             int customerId = result.getInt("customerId");
             int userId = result.getInt("userId");
             int apptId = result.getInt("appointmentId");
