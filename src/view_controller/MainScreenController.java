@@ -3,6 +3,7 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -181,15 +182,18 @@ public class MainScreenController implements Initializable {
             customerTable.setItems(customers);
             customers.addAll(CustomerImplementation.getCustomerData());
 
-            //set the data in the tables
-//            table.getItems().clear();
+ 
             table.getItems().addAll(appointments);
             table.setItems(appointments);
-//            
-
+           
+        //Check for 15 minute alert 
+        if(apptAlert(appointments)){
+            System.out.println("apptAlert");
+        }
+            
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
-            // appointmentTable.setItems(appointments);
+           
         }
 
     }
@@ -403,6 +407,38 @@ public class MainScreenController implements Initializable {
             alert.showAndWait();
         }
 
+    }
+
+    private boolean apptAlert(ObservableList<Appointment> appointments) {
+    if(!LoginFormController.fromLogin){
+        return false; 
+    }
+    LoginFormController.fromLogin = false; //turn off fromLogin flag. 
+        for(Appointment appt: appointments){
+          if( LoginFormController.user.getUserID()!= appt.getUserID().get()){
+              continue; 
+          }
+          LocalDateTime now = LocalDateTime.now(); 
+          LocalDateTime start = appt.getStartTime(); 
+          //compare month, day and year with now 
+          if(start.getYear()!= now.getYear()){
+              continue; 
+          }
+           if(start.getMonth()!= now.getMonth()){
+              continue; 
+          }
+            if(start.getDayOfMonth()!= now.getDayOfMonth()){
+              continue; 
+          }
+          //check if start is > now 
+          if(start.isAfter(now) && start.isBefore(now.plusMinutes(15))){
+              return true; 
+          }
+       }
+        
+        
+        
+        return false; 
     }
 
 }

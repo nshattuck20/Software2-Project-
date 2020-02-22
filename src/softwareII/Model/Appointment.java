@@ -143,15 +143,20 @@ public class Appointment {
                 LocalTime start = (LocalTime) appt.getStartTime().toLocalTime();
                 LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
                 //Overlap if you fall between this window. 
-                if (ltStart.isAfter(start) && ltStart.isBefore(end)) {
+                
+                //(a || c) & b                 a || b ltStart is after start OR lsStart is before start  
+                if ((ltStart.isAfter(start)|| ltStart.equals(start)) && ltStart.isBefore(end)) {
                     return true;
                 }
-                if (ltEnd.isAfter(start) && ltEnd.isBefore(end)) {
+                //b & (a || c)
+                if (ltEnd.isAfter(start) && (ltEnd.isBefore(end) || ltEnd.equals(end))) {
                     return true;
                 }
-                if (ltStart.isBefore(start) && ltEnd.isAfter(end)) {
+                //(b || d) && (a || c)
+                if ((ltStart.isBefore(start) || ltStart.equals(end)) && (ltEnd.isAfter(end) || ltEnd.equals(end))) {
                     return true;
                 }
+                
 
             }
             

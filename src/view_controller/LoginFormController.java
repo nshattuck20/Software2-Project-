@@ -36,7 +36,7 @@ import softwareII.Model.User;
 /**
  * FXML Controller class
  *
- * @author Nick
+ * @author Nick Shattuck
  */
 public class LoginFormController implements Initializable {
 
@@ -58,8 +58,8 @@ public class LoginFormController implements Initializable {
     @FXML
     private Label currentCountryLabel;
 
-    @FXML
-    private ObservableList<User> users;
+//    @FXML
+//    private ObservableList<User> users;
 
     @FXML
     private Label signInLabel;
@@ -70,6 +70,8 @@ public class LoginFormController implements Initializable {
    
 
    public static User user;
+   
+   public static boolean fromLogin = false; 
 
     ResourceBundle bundle;
 
@@ -95,10 +97,10 @@ public class LoginFormController implements Initializable {
         String password = passwordText.getText().toString();
         bundle = ResourceBundle.getBundle("resources/Lang");
         //Read all users from a list 
-        users = UserImplementation.getAllUsers();
-        // System.out.println("The size of users is " + users.size());
-        if (users.get(0).getUserName().equals(username) & users.get(0).getPassword().equals(password)) {
-            user = UserImplementation.getUser(username, password);
+        //users = UserImplementation.getAllUsers();
+        user = UserImplementation.getUser(username, password);
+        if (user != null) {
+            fromLogin = true; 
             Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
             Scene main = new Scene(mainScreen);
             Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -110,7 +112,7 @@ public class LoginFormController implements Initializable {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setHeaderText(bundle.getString("header"));
             alert.setContentText(bundle.getString("alert"));
-            //This lambda was added but I am not sure if it's functioning correctly. 
+            //Lamba that throws an alert if username or password isn't correct. 
             alert.showAndWait().ifPresent((response -> {
                 if (response == ButtonType.OK) {
                     System.out.println("Alerting!");
