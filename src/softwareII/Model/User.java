@@ -9,16 +9,14 @@ import java.util.Calendar;
 
 /**
  *
- * @author Nick
- * POJO containing get/set methods to store and retrieve 
- * data from database. 
+ * @author Nick Shattuck
  */
 public class User {
-    private int userID; //Should auto increment 
+    private int userID; 
     private String userName; 
     private String password; 
     private boolean active; 
-    private Calendar createDate; // don't actually need to do a Calendar 
+    private Calendar createDate; 
     private String createdBy; 
     private Calendar lastUpdate; 
     private String lastUpdatedBy; 
@@ -100,6 +98,10 @@ public class User {
 
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public void getTimeStamp (){
+        
     }
     
     

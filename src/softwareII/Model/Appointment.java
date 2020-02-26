@@ -126,7 +126,7 @@ public class Appointment {
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime; 
     }
-
+    @Override
     public String toString() {
         return this.appointmentType.get();
     }

@@ -5,12 +5,19 @@ package view_controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import static java.util.Locale.getDefault;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +39,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import softwareII.Implementation.UserImplementation;
 import softwareII.Model.User;
+
 
 /**
  * FXML Controller class
@@ -88,6 +96,9 @@ public class LoginFormController implements Initializable {
         welcomeLabel.setText(bundle.getString("welcome"));
         signInLabel.setText(bundle.getString("continue"));
 
+        
+       
+        
     }
 
     @FXML
@@ -98,7 +109,7 @@ public class LoginFormController implements Initializable {
         bundle = ResourceBundle.getBundle("resources/Lang");
         //Read all users from a list 
         //users = UserImplementation.getAllUsers();
-        user = UserImplementation.getUser(username, password);
+         user = UserImplementation.getUser(username, password);
         if (user != null) {
             fromLogin = true; 
             Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
@@ -106,6 +117,20 @@ public class LoginFormController implements Initializable {
             Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             mainStage.setScene(main);
             mainStage.show();
+            
+            String userLogFile = "user_log.txt", usersLog, userTime;
+        
+         //TRY WITH RESOURCES 
+            try(PrintWriter pw = new PrintWriter(new FileOutputStream(
+                    new File("user_log.txt"),
+                    true /* append = true */));) {
+
+            pw.append("User " + user.getUserName() + " has logged in at " + LocalDateTime.now() + "\n");
+            pw.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+           
 
 
         } else {

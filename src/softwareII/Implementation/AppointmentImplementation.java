@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,8 +19,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import static softwareII.Implementation.DBConnection.conn;
 import softwareII.Model.Appointment;
-import softwareII.Model.City;
-import softwareII.Model.Customer;
 
 /**
  *
@@ -27,12 +27,24 @@ import softwareII.Model.Customer;
 public class AppointmentImplementation {
     //stub to convert ltd
     public static LocalDateTime convertToUTC(LocalDateTime ldt){
-    return ldt; 
+        //Convert to LocalTime from UTC 
+       
+        //Get ZoneDateTime 
+        ZonedDateTime localZDT = ldt.atZone(ZoneId.systemDefault());
+        //convert localZDT to UTC ZDT 
+        ZonedDateTime utcZDT = localZDT.withZoneSameInstant(ZoneId.of("UTC"));
+        
+    return  utcZDT.toLocalDateTime(); 
     }
     
     //stub to convert from ltd
     public static LocalDateTime convertFromUTC(LocalDateTime ldt){
-    return ldt; 
+        //Convert from UTC to LocalDateTime 
+        ZonedDateTime utcZDT = ldt.atZone(ZoneId.of("UTC"));
+        //switch to another zone 
+        ZonedDateTime localZDT = utcZDT.withZoneSameInstant(ZoneId.systemDefault());
+       
+    return localZDT.toLocalDateTime(); 
     }
     public static String insertAppointment(Appointment appointment) throws SQLException, Exception {
         String sql = "INSERT INTO appointment( appointmentId, start, end, customerId, userId, type, title, description, location, contact, url, "

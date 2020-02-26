@@ -1,6 +1,7 @@
 package view_controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -25,12 +26,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import softwareII.Implementation.AppointmentImplementation;
-import softwareII.Implementation.CityImplementation;
-import softwareII.Implementation.CountryImplementation;
 import softwareII.Implementation.CustomerImplementation;
 import softwareII.Implementation.DBConnection;
 import softwareII.Model.Address;
@@ -105,9 +105,10 @@ public class MainScreenController implements Initializable {
     private Button editApptBtn;
     @FXML
     private Button deleteApptBtn;
+    @FXML 
+    private Label usernameLabel; 
 
-    User user;
-
+    User user = LoginFormController.user; 
     private static Customer customer;
     private static Address updateAddress;
     private static City city;
@@ -123,6 +124,9 @@ public class MainScreenController implements Initializable {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         ObservableList<Customer> customers = FXCollections.observableArrayList();
+       
+        
+         usernameLabel.setText(user.getUserName());
         try {
             //TODO Display username on main screen
 
@@ -182,19 +186,28 @@ public class MainScreenController implements Initializable {
             customerTable.setItems(customers);
             customers.addAll(CustomerImplementation.getCustomerData());
 
- 
             table.getItems().addAll(appointments);
             table.setItems(appointments);
-           
-        //Check for 15 minute alert 
-        if(apptAlert(appointments)){
-            System.out.println("apptAlert");
-        }
-            
+
+            //Check for 15 minute alert 
+            if (apptAlert(appointments)) {
+                //Need to show client name and appointment time\
+               
+                for(Appointment appts: appointments){
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setHeaderText("Upcoming appointment");
+                alert.setContentText("You have an appointment with client " +appts.getAssociatedCustomer().get() + " " + " at" + appts.getStartTime());
+                alert.showAndWait();
+                System.out.println("apptAlert");
+                }
+            }
+
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
-           
+
         }
+        
+       
 
     }
 
@@ -203,6 +216,8 @@ public class MainScreenController implements Initializable {
     public static Customer getCustomerRow() {
         return customer;
     }
+    
+
 
     public static Address getUpdateAddress() {
         return updateAddress;
@@ -319,16 +334,16 @@ public class MainScreenController implements Initializable {
                     }
                 }
                 myCustomers.removeAll(toRemove);
-            Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-            Scene main = new Scene(mainScreen);
-            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            mainStage.setScene(main);
-            mainStage.show();
+                Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+                Scene main = new Scene(mainScreen);
+                Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                mainStage.setScene(main);
+                mainStage.show();
             }
             if (result.isPresent() && result.get() == ButtonType.CANCEL) {
                 System.out.println("Canceled");
                 alert.close();
-          
+
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -353,13 +368,21 @@ public class MainScreenController implements Initializable {
         //TODO 
         // Show an alert if no appointment table row is selected. 
         appointment = table.getSelectionModel().getSelectedItem();
-        
-        System.out.println("Edit appointment clicked!");
+    if (appointment != null) {
+           System.out.println("Edit appointment clicked!");
         Parent editApptParent = FXMLLoader.load(getClass().getResource("EditAppt.fxml"));
         Scene editApptScene = new Scene(editApptParent);
         Stage editApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         editApptStage.setScene(editApptScene);
         editApptStage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Appointment Not Selected");
+            alert.setContentText("You have not selected an appointment. Please"
+                    + " select an appointment from the table.");
+            alert.showAndWait();
+        }
+        
     }
 
     @FXML
@@ -410,35 +433,37 @@ public class MainScreenController implements Initializable {
     }
 
     private boolean apptAlert(ObservableList<Appointment> appointments) {
-    if(!LoginFormController.fromLogin){
-        return false; 
+        if (!LoginFormController.fromLogin) {
+            return false;
+        }
+        LoginFormController.fromLogin = false; //turn off fromLogin flag. 
+        for (Appointment appt : appointments) {
+            if (LoginFormController.user.getUserID() != appt.getUserID().get()) {
+                continue;
+            }
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime start = appt.getStartTime();
+            //compare month, day and year with now 
+            if (start.getYear() != now.getYear()) {
+                continue;
+            }
+            if (start.getMonth() != now.getMonth()) {
+                continue;
+            }
+            if (start.getDayOfMonth() != now.getDayOfMonth()) {
+                continue;
+            }
+            //check if start is > now 
+            if (start.isAfter(now) && start.isBefore(now.plusMinutes(15))) {
+                appt.getAssociatedCustomer();
+                appt.getAppointmentType();
+                return true;
+            }
+        }
+
+        return false;
     }
-    LoginFormController.fromLogin = false; //turn off fromLogin flag. 
-        for(Appointment appt: appointments){
-          if( LoginFormController.user.getUserID()!= appt.getUserID().get()){
-              continue; 
-          }
-          LocalDateTime now = LocalDateTime.now(); 
-          LocalDateTime start = appt.getStartTime(); 
-          //compare month, day and year with now 
-          if(start.getYear()!= now.getYear()){
-              continue; 
-          }
-           if(start.getMonth()!= now.getMonth()){
-              continue; 
-          }
-            if(start.getDayOfMonth()!= now.getDayOfMonth()){
-              continue; 
-          }
-          //check if start is > now 
-          if(start.isAfter(now) && start.isBefore(now.plusMinutes(15))){
-              return true; 
-          }
-       }
-        
-        
-        
-        return false; 
-    }
+
+    
 
 }
