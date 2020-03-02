@@ -1,4 +1,3 @@
-
 package softwareII.Model;
 
 import javafx.beans.property.IntegerProperty;
@@ -8,18 +7,18 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author Nick Shattuck 
+ * @author Nick Shattuck
  */
 public class City {
-    
-    private StringProperty city; 
-    private IntegerProperty cityID; 
-    private IntegerProperty countryID; 
-    
-    public City(){
-        this.city = new SimpleStringProperty(); 
-        this.cityID = new SimpleIntegerProperty(); 
-        this.countryID = new SimpleIntegerProperty(); 
+
+    private StringProperty city;
+    private IntegerProperty cityID;
+    private IntegerProperty countryID;
+
+    public City() {
+        this.city = new SimpleStringProperty();
+        this.cityID = new SimpleIntegerProperty();
+        this.countryID = new SimpleIntegerProperty();
     }
 
     public StringProperty getCity() {
@@ -41,12 +40,9 @@ public class City {
     public void setCountryID(int countryID) {
         this.countryID.set(countryID);
     }
-    public IntegerProperty getCountryID(){
-        return countryID; 
-    }
-    
 
-    
-    
-    
+    public IntegerProperty getCountryID() {
+        return countryID;
+    }
+
 }

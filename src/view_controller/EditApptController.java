@@ -30,11 +30,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import softwareII.Implementation.AppointmentImplementation;
-import softwareII.Implementation.DBConnection;
 import softwareII.Model.Appointment;
-import softwareII.Model.Customer;
-import static view_controller.AddApptController.BASE_START_TIME;
-
 
 /**
  * FXML Controller class
@@ -42,12 +38,6 @@ import static view_controller.AddApptController.BASE_START_TIME;
  * @author Nick Shattuck
  */
 public class EditApptController implements Initializable {
-
-    @FXML
-    private Button btn_cancel;
-
-    @FXML
-    private Button btn_confirm;
 
     @FXML
     private ComboBox<String> startTimes;
@@ -73,9 +63,7 @@ public class EditApptController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-      
-        
+
         customerNameLabel.setText(appointment.getAssociatedCustomer().get());
 
         //1. Set the default date of the datepicker to the date of the appointment. 
@@ -102,8 +90,6 @@ public class EditApptController implements Initializable {
         };
         datePicker.setDayCellFactory(dayCellFactory);
 
-        //3. Get the current start time & then populate the combobox with times before and after start time. 
-        //    LocalDateTime ltStart = appointment.getStartTime(); 
         //POPULATE START TIMES 
         DateTimeFormatter startdtf = DateTimeFormatter.ofPattern("HH:mm");
         //Start hour is 8am 
@@ -132,13 +118,11 @@ public class EditApptController implements Initializable {
         endTimes.getSelectionModel().select(enddtf.format(appointment.getEndTime().toLocalTime()));
 
         //5. Get the appointment types. 
-        
-          //Appt type box grabs correct appt type from customer, but will not populate the remaining types. 
-         
-           appt_type_box.setItems(Appointment.getAppointmentTypes());
-        
+        //Appt type box grabs correct appt type from customer, but will not populate the remaining types. 
+        appt_type_box.setItems(Appointment.getAppointmentTypes());
+
         appt_type_box.getSelectionModel().select(appointment.getAppointmentType().get());
-       
+
     }
 
     @FXML
@@ -156,9 +140,9 @@ public class EditApptController implements Initializable {
             mainStage.setScene(main);
             mainStage.show();
         }
-        
+
         if (confirm == null) {
-            
+
             Parent editAppointment = FXMLLoader.load(getClass().getResource("EditAppt.fxml"));
             Scene editAppt = new Scene(editAppointment);
             Stage editApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -166,35 +150,31 @@ public class EditApptController implements Initializable {
             editApptStage.show();
         }
     }
-    
-    @FXML 
-    private void btn_confirm(ActionEvent event) throws SQLException, Exception{
+
+    @FXML
+    private void btn_confirm(ActionEvent event) throws SQLException, Exception {
         LocalDate ld = datePicker.getValue();
-        
+
         int index = startTimes.getSelectionModel().getSelectedIndex();
         int index2 = endTimes.getSelectionModel().getSelectedIndex();
         LocalTime ltStart = BASE_START_TIME;
         ltStart = ltStart.plusMinutes(index * 15);
         LocalTime ltEnd = BASE_START_TIME.plusMinutes(15);
         ltEnd = ltEnd.plusMinutes(index2 * 15);
-       
+
         String type = (String) appt_type_box.getSelectionModel().getSelectedItem();
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");
         try {
-          
-            if(Appointment.overlapCheck(ld, ltStart, ltEnd)){
+
+            if (Appointment.overlapCheck(ld, ltStart, ltEnd, appointment.getAppointmentID().get())) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setHeaderText("Time conflict!");
-                        alert.setContentText("You already have selected an appointment for client " + appointment.getAssociatedCustomer() + " at " + startingTimes.get(index) + " ");
-                        alert.showAndWait();
-                        return;
+                alert.setHeaderText("Time conflict!");
+                alert.setContentText("You already have selected an appointment for client " + appointment.getAssociatedCustomer().get() + " at " + startingTimes.get(index) + " ");
+                alert.showAndWait();
+                return;
             }
-            
-            
-            
-           
-//            appointment.setAppointmentID(0);
+
             appointment.setStartTime(LocalDateTime.of(ld, ltStart));
             appointment.setEndTime(LocalDateTime.of(ld, ltEnd));
             appointment.setAppointmentType(type);

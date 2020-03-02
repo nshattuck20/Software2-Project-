@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package view_controller;
 
 import java.io.IOException;
@@ -26,7 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
@@ -45,11 +41,6 @@ import softwareII.Model.Customer;
  * @author Nick Shattuck
  */
 public class AddApptController implements Initializable {
-
-    @FXML
-    private Button btn_cancel;
-    @FXML
-    private Button btn_confirm;
 
     @FXML
     private DatePicker date;
@@ -104,16 +95,11 @@ public class AddApptController implements Initializable {
         };
         date.setDayCellFactory(dayCellFactory);
 
-        /*
-        The code below populates the combo boxes with start and 
-        end times. 
-         */
-        //POPULATE START TIMES 
         DateTimeFormatter startdtf = DateTimeFormatter.ofPattern("HH:mm");
         //Start hour is 8am 
         LocalTime ltStart = BASE_START_TIME;
         //Closing time is 5pm 
-//        LocalTime ltfStart = BASE_END_TIME; 
+
         startTimeDropDown.setItems(startTimes);
 
         while (ltStart.isBefore(BASE_END_TIME)) {
@@ -136,14 +122,13 @@ public class AddApptController implements Initializable {
         }
         endTimeDropDown.getSelectionModel().select(0);
 
-        //POPULATE Customer Combobox with Customers.
         try {
             customers = CustomerImplementation.getCustomerData();
 
         } catch (Exception ex) {
             Logger.getLogger(AddApptController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //populate customer drop box 
+
         for (int i = 0; i < customers.size(); i++) {
 
             customerDropDown.setItems(customers);
@@ -151,7 +136,6 @@ public class AddApptController implements Initializable {
         }
         customerDropDown.getSelectionModel().select(0);
 
-        //populate appt type
         apptTypeDropDown.setItems(Appointment.getAppointmentTypes());
 
         apptTypeDropDown.getSelectionModel().select(0);
@@ -166,7 +150,7 @@ public class AddApptController implements Initializable {
         alert.setHeaderText("Confirm Cancellation");
         Optional<ButtonType> confirm = alert.showAndWait();
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            //If user confirms, send user to login screen & close connection
+
             Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
             Scene main = new Scene(mainScreen);
             Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -188,9 +172,9 @@ public class AddApptController implements Initializable {
 
     @FXML
     public void confirmButton(ActionEvent event) {
-        //1. Get the selected date from the date picker. 
+
         LocalDate ld = date.getValue();
-        //2. Get the indexes of the selected start, end times & customer. 
+
         int index = startTimeDropDown.getSelectionModel().getSelectedIndex();
         int index2 = endTimeDropDown.getSelectionModel().getSelectedIndex();
         LocalTime ltStart = BASE_START_TIME;
@@ -202,17 +186,15 @@ public class AddApptController implements Initializable {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");
         try {
-            //3. Compare to other scheduled appointments to ensure no overlaps
-            if(Appointment.overlapCheck(ld, ltStart, ltEnd)){
+            //CHECK FOR APPOINTMENT OVERLAPS. IF APPOINTMENT OVERLAPS, SHOW AN ALERT WITH THE CONFLICTING TIMES. 
+            if (Appointment.overlapCheck(ld, ltStart, ltEnd, -1)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setHeaderText("Time conflict!");
-                        alert.setContentText("You already have selected an appointment for client " + customer.getCustomerName() + " at " + startTimes.get(index) + " ");
-                        alert.showAndWait();
-                        return;
+                alert.setHeaderText("Time conflict!");
+                alert.setContentText("You already have selected an appointment for client " + customer.getCustomerName().get() + " at " + startTimes.get(index) + " ");
+                alert.showAndWait();
+                return;
             }
-            
 
-            //4. Save and insert into Database extract customer, apptType, and userID 
             Appointment newAppt = new Appointment();
             newAppt.setUserID(LoginFormController.user.getUserID());
             newAppt.setCustomerID(customer.getCustomerID().get());
@@ -235,5 +217,4 @@ public class AddApptController implements Initializable {
 
     }
 
-
-    }
+}

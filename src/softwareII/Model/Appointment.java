@@ -1,9 +1,12 @@
 package softwareII.Model;
 
 import java.sql.SQLException;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -25,18 +28,18 @@ public class Appointment {
     private StringProperty appointmentType;
     private IntegerProperty customerID;
     private IntegerProperty appointmentID;
-    private IntegerProperty userID; 
-     private static ObservableList<String> appointmentTypes = FXCollections.observableArrayList();
+    private IntegerProperty userID;
+    private static ObservableList<String> appointmentTypes = FXCollections.observableArrayList();
 
     public static ObservableList<String> getAppointmentTypes() {
-       if(appointmentTypes.size() == 0){
-        appointmentTypes.add("Presentation");
-        appointmentTypes.add("Scrum");
-        appointmentTypes.add("Phone");
-        appointmentTypes.add("Skype");
-        
-       }
-       return appointmentTypes; 
+        if (appointmentTypes.size() == 0) {
+            appointmentTypes.add("Presentation");
+            appointmentTypes.add("Scrum");
+            appointmentTypes.add("Phone");
+            appointmentTypes.add("Skype");
+
+        }
+        return appointmentTypes;
     }
 
     public IntegerProperty getUserID() {
@@ -51,9 +54,6 @@ public class Appointment {
         return customerID;
     }
 
-//    public void setCustomerID(int customerID) {
-//        this.customerID .set(customerID);
-//    }
     public IntegerProperty getAppointmentID() {
         return appointmentID;
     }
@@ -62,25 +62,20 @@ public class Appointment {
         this.appointmentID.set(appointmentID);
     }
 
-    //Constuctor. Set values of appointment data via getters and setters. 
     public Appointment() {
         this.startTime = LocalDateTime.now();
         this.endTime = LocalDateTime.now();
         this.appointmentType = new SimpleStringProperty();
         this.customerID = new SimpleIntegerProperty();
         this.appointmentID = new SimpleIntegerProperty();
-        this.userID = new SimpleIntegerProperty(); 
-        this.appointmentType = new SimpleStringProperty(); 
+        this.userID = new SimpleIntegerProperty();
+        this.appointmentType = new SimpleStringProperty();
     }
 
     public void setCustomerID(int customerID) {
         this.customerID.set(customerID);
     }
 
-    /* 
-    This method will eventually grab the Customer's name 
-    with the ID value associated with the appropriate appointment. 
-     */
     public StringProperty getAssociatedCustomer() {
 
         try {
@@ -93,13 +88,10 @@ public class Appointment {
             return null;
         }
     }
-    
-    public StringProperty getAppointment(){
-        
-        
-        
-        
-        return null ; 
+
+    public StringProperty getAppointment() {
+
+        return null;
     }
 
     //Getters and setters. 
@@ -108,7 +100,7 @@ public class Appointment {
     }
 
     public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime; 
+        this.endTime = endTime;
     }
 
     public StringProperty getAppointmentType() {
@@ -124,43 +116,90 @@ public class Appointment {
     }
 
     public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime; 
+        this.startTime = startTime;
     }
+
     @Override
     public String toString() {
         return this.appointmentType.get();
     }
-    
-     public static boolean overlapCheck(LocalDate date,LocalTime ltStart, LocalTime ltEnd) throws SQLException, Exception {
+
+    //SECTION F REQUIREMENT: METHOD TO CHECK FOR APPOINTMENT OVERLAPS
+    public static boolean overlapCheck(LocalDate date, LocalTime ltStart, LocalTime ltEnd, int apptID) throws SQLException, Exception {
         ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
         for (Appointment appt : appts) {
+            if (appt.appointmentID.get() == apptID) {
+                continue;
+            }
             if (LoginFormController.user.getUserID() == appt.getUserID().get()) {
-                LocalDate dt = appt.getStartTime().toLocalDate(); 
-                if(dt.getMonth() != date.getMonth() || dt.getYear() != date.getYear() || date.getDayOfMonth() != dt.getDayOfMonth()){
+                LocalDate dt = appt.getStartTime().toLocalDate();
+                if (dt.getMonth() != date.getMonth() || dt.getYear() != date.getYear() || date.getDayOfMonth() != dt.getDayOfMonth()) {
                     //not on same day
-                    continue; 
+                    continue;
                 }
                 LocalTime start = (LocalTime) appt.getStartTime().toLocalTime();
                 LocalTime end = (LocalTime) appt.getEndTime().toLocalTime();
                 //Overlap if you fall between this window. 
-                
-                //(a || c) & b                 a || b ltStart is after start OR lsStart is before start  
-                if ((ltStart.isAfter(start)|| ltStart.equals(start)) && ltStart.isBefore(end)) {
+
+                if ((ltStart.isAfter(start) || ltStart.equals(start)) && ltStart.isBefore(end)) {
                     return true;
                 }
-                //b & (a || c)
+
                 if (ltEnd.isAfter(start) && (ltEnd.isBefore(end) || ltEnd.equals(end))) {
                     return true;
                 }
-                //(b || d) && (a || c)
+
                 if ((ltStart.isBefore(start) || ltStart.equals(end)) && (ltEnd.isAfter(end) || ltEnd.equals(end))) {
                     return true;
                 }
-                
 
             }
-            
+
         }
         return false;
-      }
+    }
+
+    public static ObservableList<Appointment> getAppointmentsByMonth() throws SQLException, Exception {
+
+        ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
+
+        ObservableList<Appointment> apptsByMonth = FXCollections.observableArrayList();
+        LocalDateTime today = LocalDateTime.now();
+        for (Appointment a : appts) {
+
+            if (a.startTime.getMonth() == today.getMonth() && a.startTime.getYear() == today.getYear()) {
+
+                apptsByMonth.add(a);
+            }
+        }
+
+        System.out.println(appts.size());
+        return apptsByMonth;
+    }
+
+    public static ObservableList<Appointment> getAppointmentsByWeek() throws SQLException, Exception {
+        ObservableList<Appointment> appts = AppointmentImplementation.getAppointmentData();
+        ObservableList<Appointment> apptsByWeek = FXCollections.observableArrayList();
+        //base is at Sunday
+        LocalDateTime base = LocalDateTime.now();
+        //move base back to be Sunday 
+        while (base.getDayOfWeek() != DayOfWeek.SUNDAY) {
+            //loop back to Sunday minus 1 day
+            base = base.minusDays(1);
+        }
+        for (Appointment a : appts) {
+            LocalDateTime start = a.getStartTime();
+            for (int i = 0; i < 7; i++) {
+                LocalDateTime ldt = base.plusDays(i);
+                //compare year, month, day of month 
+                if (start.getDayOfMonth() == ldt.getDayOfMonth() && start.getMonth() == ldt.getMonth() && start.getYear() == ldt.getYear()) {
+                    apptsByWeek.add(a);
+                    break;
+                }
+            }
+
+        }
+        return apptsByWeek;
+    }
+
 }

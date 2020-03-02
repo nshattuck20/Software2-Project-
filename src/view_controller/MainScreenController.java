@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -48,6 +49,7 @@ import softwareII.Model.User;
 public class MainScreenController implements Initializable {
 
     //TableView For Appointments 
+    //Not the best name for the appointment tableview, but application kept breaking when attempting to reformat. 
     @FXML
     private TableView<Appointment> table;
 
@@ -85,36 +87,22 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Customer, String> column_Customer_Country;
 
-    //Buttons
-    @FXML
-    private Button logoutBtn;
-
     @FXML
     private Button exitBtn;
-    @FXML
-    private DatePicker datePicker;
-    @FXML
-    private Button createCustomerBtn;
-    @FXML
-    private Button editCustomerBtn;
-    @FXML
-    private Button deleteCustomerBtn;
-    @FXML
-    private Button addApptBtn;
-    @FXML
-    private Button editApptBtn;
-    @FXML
-    private Button deleteApptBtn;
-    @FXML 
-    private Label usernameLabel; 
 
-    User user = LoginFormController.user; 
+    @FXML
+    private Label usernameLabel;
+
+    User user = LoginFormController.user;
     private static Customer customer;
     private static Address updateAddress;
     private static City city;
     private static Country country;
     private static Appointment appointment;
     //private static int customerIndex; 
+    private static ObservableList<Appointment> appointments;
+
+    private static ObservableList<Customer> customers;
 
     /**
      * Initializes the controller class.
@@ -122,25 +110,27 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        ObservableList<Customer> customers = FXCollections.observableArrayList();
-       
-        
-         usernameLabel.setText(user.getUserName());
+        appointments = FXCollections.observableArrayList();
+        customers = FXCollections.observableArrayList();
+
+        //Get the user's login name and display it. 
+        usernameLabel.setText(user.getUserName());
         try {
-            //TODO Display username on main screen
 
         } catch (Exception ex) {
             Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //G.   Write two or more lambda expressions to make your program more  efficient, justifying the use of each lambda expression with an in-line  comment. 
+        //************LAMBDAS FOR APPOINTMENT TABLEVIEW COLUMNS*************************
 
-//        //Lambas for columns Appointment table 
+        //Lines 152-194 are lambda expressions that generate the table columns for the table views. 
+        DateTimeFormatter tdtf = DateTimeFormatter.ofPattern("HH:mm");
         startTimeColumn.setCellValueFactory(cellData -> {
-            return new SimpleStringProperty(cellData.getValue().getStartTime().toString());
+            return new SimpleStringProperty(tdtf.format(cellData.getValue().getStartTime()));
         });
 
         endTimeColumn.setCellValueFactory(cellData -> {
-            return new SimpleStringProperty(cellData.getValue().getEndTime().toString());
+            return new SimpleStringProperty(tdtf.format(cellData.getValue().getEndTime()));
         });
 
         appointmentTypeColumn.setCellValueFactory(cellData -> {
@@ -151,10 +141,12 @@ public class MainScreenController implements Initializable {
             return cellData.getValue().getAssociatedCustomer();
         });
 
+        DateTimeFormatter dformat = DateTimeFormatter.ofPattern("YYYY-MM-dd");
         dateColumn.setCellValueFactory(cellData -> {
-            return new SimpleStringProperty(cellData.getValue().getStartTime().toString());
+            return new SimpleStringProperty(dformat.format(cellData.getValue().getStartTime()));
         });
-        //Lambdas for Customer Table 
+        //*************LAMBDAS FOR CUSTOMER TABLEVIEW COLUMNS**********************
+
         column_Customer_Name.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerName();
         });
@@ -169,55 +161,46 @@ public class MainScreenController implements Initializable {
 
         column_Customer_City.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerCity();
-        }); // Null Pointer Exception getting city data. 
+        });
 
         column_Customer_Country.setCellValueFactory(cellData -> {
             return cellData.getValue().getCustomerCountry();
         });
 
         try {
-            //appointments
+
             appointments.clear();
             appointments.addAll(AppointmentImplementation.getAppointmentData());
 
-            //customers
             customerTable.getItems().clear();
             customerTable.getItems().addAll(customers);
             customerTable.setItems(customers);
             customers.addAll(CustomerImplementation.getCustomerData());
 
-            table.getItems().addAll(appointments);
             table.setItems(appointments);
 
-            //Check for 15 minute alert 
-            if (apptAlert(appointments)) {
-                //Need to show client name and appointment time\
-               
-                for(Appointment appts: appointments){
+            //SECTION H: WRITE CODE TO ALERT USER IF AN APPOINTMENT IS WITHIN 15 MINUTES OF USER'S LOGIN
+            Appointment appts = apptAlert(appointments);
+
+            DateTimeFormatter tformat = DateTimeFormatter.ofPattern("HH:mm");
+            if (appts != null) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setHeaderText("Upcoming appointment");
-                alert.setContentText("You have an appointment with client " +appts.getAssociatedCustomer().get() + " " + " at" + appts.getStartTime());
+                alert.setContentText("You have an appointment with client " + appts.getAssociatedCustomer().get() + " " + " at" + tformat.format(appts.getStartTime()));
                 alert.showAndWait();
                 System.out.println("apptAlert");
-                }
             }
-
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         } catch (Exception ex) {
-            Logger.getLogger(MainScreenController.class.getName()).log(Level.SEVERE, null, ex);
-
+            ex.printStackTrace();
         }
-        
-       
 
     }
 
-    //Getters to update table rows of the customer table on 
-    //main screen. 
     public static Customer getCustomerRow() {
         return customer;
     }
-    
-
 
     public static Address getUpdateAddress() {
         return updateAddress;
@@ -234,8 +217,8 @@ public class MainScreenController implements Initializable {
     public static Appointment getUpdateAppointment() {
         return appointment;
     }
-//Buttons
 
+//*****BUTTONS*********
     @FXML
     public void logoutButton(ActionEvent event) throws IOException, SQLException, Exception {
         System.out.println("Logout Button Clicked!");
@@ -258,9 +241,7 @@ public class MainScreenController implements Initializable {
     @FXML
     public void exitButton(ActionEvent event) throws IOException, SQLException, Exception {
         System.out.println("Exit button clicked!");
-        //When the user clicks the Exit button, show an alert asking for confirmation. 
-        //The key difference between this button and the logout button is that this button 
-        //Closes the entire program, so make sure the user understands it. 
+
         Alert alert = new Alert(AlertType.WARNING);
         alert.setContentText("Are you sure you want to exit? Doing so will close the entire program!");
         alert.setHeaderText("Confirm Exit");
@@ -291,14 +272,12 @@ public class MainScreenController implements Initializable {
         createCustomerStage.show();
     }
 
-    //edit customer button 
     public void editCustomer(ActionEvent event) throws IOException, SQLException, Exception {
-        //TODO 
-        // Show an alert if no customer table row is selected. 
+
         customer = customerTable.getSelectionModel().getSelectedItem();
 
         if (customer != null) {
-            // customerIndex = CustomerImplementation.getCustomerData().indexOf(customer);
+
             Parent editCustomerScreen = FXMLLoader.load(getClass().getResource("EditCustomer.fxml"));
             Scene editCustomerScene = new Scene(editCustomerScreen);
             Stage editCustomerStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -313,7 +292,6 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    //delete customer button 
     public void deleteCustomer(ActionEvent event) throws IOException, SQLException, Exception {
 
         customer = customerTable.getSelectionModel().getSelectedItem();
@@ -326,7 +304,7 @@ public class MainScreenController implements Initializable {
             alert.setContentText("Are you sure that you want to delete " + customer.getCustomerName().get() + " ? All appointments associated with this customer will be lost.");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                //delete the customer, appointments, address, city, and country
+
                 for (Customer c : myCustomers) {
                     if (c.getCustomerID().get() == customer.getCustomerID().get()) {
                         CustomerImplementation.deleteCustomer(customer.getCustomerID().get(), customer.getAddressID().get(), customer.getCityID().get(), customer.getCounryID().get());
@@ -341,7 +319,6 @@ public class MainScreenController implements Initializable {
                 mainStage.show();
             }
             if (result.isPresent() && result.get() == ButtonType.CANCEL) {
-                System.out.println("Canceled");
                 alert.close();
 
             }
@@ -365,16 +342,15 @@ public class MainScreenController implements Initializable {
 
     @FXML
     public void editAppt(ActionEvent event) throws IOException {
-        //TODO 
-        // Show an alert if no appointment table row is selected. 
+
         appointment = table.getSelectionModel().getSelectedItem();
-    if (appointment != null) {
-           System.out.println("Edit appointment clicked!");
-        Parent editApptParent = FXMLLoader.load(getClass().getResource("EditAppt.fxml"));
-        Scene editApptScene = new Scene(editApptParent);
-        Stage editApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        editApptStage.setScene(editApptScene);
-        editApptStage.show();
+        if (appointment != null) {
+            System.out.println("Edit appointment clicked!");
+            Parent editApptParent = FXMLLoader.load(getClass().getResource("EditAppt.fxml"));
+            Scene editApptScene = new Scene(editApptParent);
+            Stage editApptStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            editApptStage.setScene(editApptScene);
+            editApptStage.show();
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Appointment Not Selected");
@@ -382,14 +358,12 @@ public class MainScreenController implements Initializable {
                     + " select an appointment from the table.");
             alert.showAndWait();
         }
-        
+
     }
 
     @FXML
     public void deleteAppointment(ActionEvent event) throws IOException, Exception {
         appointment = table.getSelectionModel().getSelectedItem();
-        //Make list to store current appointments
-        ObservableList<Appointment> appts = table.getItems();
         /*
         Enhanced for loops use an Iterator that prohibit the programmer to add or remove while looping. 
         This list stores the object I want to remove and removes it once the loop is complete. 
@@ -401,12 +375,12 @@ public class MainScreenController implements Initializable {
 
             alert.setHeaderText("Confirmation Needed");
             alert.setContentText("Are you sure you want to delete the appointment " + appointment.getAppointmentType().get() + " for customer " + appointment.getAssociatedCustomer().get() + " ?");
-            // alert.showAndWait();
+
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
-                for (Appointment appt : appts) {
+                for (Appointment appt : appointments) {
                     if (appt.getAppointmentID().get() == appointment.getAppointmentID().get()) {
                         System.out.println("Deleting appointment");
                         AppointmentImplementation.deleteAppointment(appointment.getAppointmentID().get());
@@ -414,7 +388,7 @@ public class MainScreenController implements Initializable {
 
                     }
                 }
-                appts.removeAll(toRemove);
+                appointments.removeAll(toRemove);
 
             }
 
@@ -432,9 +406,40 @@ public class MainScreenController implements Initializable {
 
     }
 
-    private boolean apptAlert(ObservableList<Appointment> appointments) {
+    //******BUTTONS TO SORT APPOINTMENTS BY MONTH, WEEK, AND DAY 
+    public void showByMonthBtn(ActionEvent event) throws IOException, Exception {
+
+        appointments.clear();
+        appointments.addAll(Appointment.getAppointmentsByMonth());
+
+    }
+
+    public void showByWeekBtn(ActionEvent event) throws IOException, Exception {
+
+        System.out.println("You clicked me!!");
+        appointments.clear();
+        appointments.addAll(Appointment.getAppointmentsByWeek());
+    }
+
+    public void showAll(ActionEvent event) throws IOException, Exception {
+
+        appointments.clear();
+        appointments.addAll(AppointmentImplementation.getAppointmentData());
+    }
+
+    public void showReportsBtn(ActionEvent event) throws IOException, Exception {
+        System.out.println("Clicked!");
+        Parent showReportsParent = FXMLLoader.load(getClass().getResource("ReportsScreen.fxml"));
+        Scene showReportsScene = new Scene(showReportsParent);
+        Stage showReportsStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        showReportsStage.setScene(showReportsScene);
+        showReportsStage.show();
+    }
+
+    //SECTION H:   Write code to provide an alert if there is an appointment within 15 minutes of the user’s log-in.
+    private Appointment apptAlert(ObservableList<Appointment> appointments) {
         if (!LoginFormController.fromLogin) {
-            return false;
+            return null;
         }
         LoginFormController.fromLogin = false; //turn off fromLogin flag. 
         for (Appointment appt : appointments) {
@@ -455,15 +460,12 @@ public class MainScreenController implements Initializable {
             }
             //check if start is > now 
             if (start.isAfter(now) && start.isBefore(now.plusMinutes(15))) {
-                appt.getAssociatedCustomer();
-                appt.getAppointmentType();
-                return true;
+
+                return appt;
             }
         }
 
-        return false;
+        return null;
     }
-
-    
 
 }

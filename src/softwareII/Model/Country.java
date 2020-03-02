@@ -1,7 +1,5 @@
-
 package softwareII.Model;
 
-import java.util.Calendar;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,11 +10,9 @@ import javafx.beans.property.StringProperty;
  * @author Nick Shattuck
  */
 public class Country {
-    
-    private IntegerProperty countryID; 
-    private StringProperty country; 
 
-    
+    private IntegerProperty countryID;
+    private StringProperty country;
 
     public IntegerProperty getCountryID() {
         return countryID;
@@ -36,10 +32,7 @@ public class Country {
 
     public Country() {
         this.countryID = new SimpleIntegerProperty();
-        this.country = new SimpleStringProperty(); 
+        this.country = new SimpleStringProperty();
     }
-    
-    
-    
-    
+
 }

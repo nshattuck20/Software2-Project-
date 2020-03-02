@@ -13,11 +13,10 @@ public class Address {
 
     private StringProperty address;
     private StringProperty phoneNumber;
-    private StringProperty postalCode; 
+    private StringProperty postalCode;
 
- 
     private IntegerProperty addressID;
-    private IntegerProperty cityID; 
+    private IntegerProperty cityID;
 
     public IntegerProperty getCityID() {
         return cityID;
@@ -26,17 +25,17 @@ public class Address {
     public void setCityID(int cityID) {
         this.cityID.set(cityID);
     }
-    private StringProperty city; 
+    private StringProperty city;
 
     public Address() {
         this.address = new SimpleStringProperty();
         this.addressID = new SimpleIntegerProperty();
         this.phoneNumber = new SimpleStringProperty();
-        this.cityID = new SimpleIntegerProperty(); 
-        this.postalCode = new SimpleStringProperty(); 
+        this.cityID = new SimpleIntegerProperty();
+        this.postalCode = new SimpleStringProperty();
     }
-    
-       public StringProperty getPostalCode() {
+
+    public StringProperty getPostalCode() {
         return postalCode;
     }
 
@@ -67,11 +66,8 @@ public class Address {
     public void setPhoneNumber(String phone) {
         this.phoneNumber.set(phone);
     }
-    
-//     public void setCityID(int cityID) {
-//        this.cityID.set(cityID);
-//    }
-     public void setCity(String city) {
+
+    public void setCity(String city) {
         this.city.set(city);
     }
 }

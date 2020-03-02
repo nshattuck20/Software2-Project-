@@ -5,14 +5,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="950.0" prefWidth="1000.0" style="-fx-background-color: #FFFAF0; -fx-cursor: hand;" styleClass="buttonHover" stylesheets="@MainScreenStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="950.0" prefWidth="1000.0" style="-fx-background-color: #FFFAF0;" stylesheets="@MainScreenStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainScreenController">
    <children>
       <AnchorPane layoutY="-1.0" prefHeight="950.0" prefWidth="272.0" style="-fx-background-color: #fbefcc;">
          <children>
@@ -45,17 +44,20 @@
                   <Image url="@../images/avatar_icon.png" />
                </image>
             </ImageView>
-            <Button fx:id="logoutBtn" layoutX="14.0" layoutY="837.0" mnemonicParsing="false" onAction="#logoutButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Log out " />
-            <Button fx:id="exitBtn" layoutX="14.0" layoutY="899.0" mnemonicParsing="false" onAction="#exitButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Exit " />
+            <Button fx:id="logoutBtn" layoutX="14.0" layoutY="774.0" mnemonicParsing="false" onAction="#logoutButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Log out " />
+            <Button fx:id="exitBtn" layoutX="14.0" layoutY="836.0" mnemonicParsing="false" onAction="#exitButton" prefWidth="200.0" style="-fx-background-radius: 20;" text="Exit " />
             <Label fx:id="usernameLabel1" layoutX="33.0" layoutY="324.0" text="Appointment">
                <font>
                   <Font name="Ebrima" size="18.0" />
                </font>
             </Label>
+            <Label fx:id="usernameLabel11" layoutX="28.0" layoutY="569.0" text="Reports ">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="showReportsBtn" layoutX="14.0" layoutY="617.0" mnemonicParsing="false" onAction="#showReportsBtn" prefHeight="36.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Show Reports" />
          </children>
-         <effect>
-            <DropShadow />
-         </effect>
       </AnchorPane>
       <Label layoutX="1155.0" layoutY="11.0" text="Schedule" textFill="DEEPSKYBLUE">
          <font>
@@ -68,7 +70,7 @@
          <font>
             <Font name="Impact" size="24.0" />
          </font></Label>
-  <TableView fx:id="table" layoutX="282.0" layoutY="506.0" prefHeight="367.0" prefWidth="705.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
+  <TableView fx:id="table" layoutX="282.0" layoutY="486.0" prefHeight="367.0" prefWidth="705.0">
         <columns>
             <TableColumn fx:id="appointmentCustomerCol" minWidth="20.0" prefWidth="140.0" text="Customer" />
             <TableColumn fx:id="dateColumn" minWidth="20.0" prefWidth="86.0" text="Date" />
@@ -80,19 +82,19 @@
             <Glow />
          </effect>
       </TableView>
-      <TableView fx:id="customerTable" layoutX="282.0" layoutY="38.0" prefHeight="367.0" prefWidth="705.0" style="-fx-cursor: hand;" stylesheets="@MainScreenStyle.css">
+      <TableView fx:id="customerTable" layoutX="282.0" layoutY="38.0" prefHeight="367.0" prefWidth="705.0">
          <columns>
             <TableColumn fx:id="column_Customer_Name" prefWidth="112.0" text="Name" />
             <TableColumn fx:id="column_Customer_Address" prefWidth="126.0" text="Address " />
             <TableColumn fx:id="column_Customer_Phone" minWidth="20.0" prefWidth="120.0" text="Phone" />
             <TableColumn fx:id="column_Customer_City" prefWidth="142.0" text="City " />
-            <TableColumn fx:id="column_Customer_Country" prefWidth="133.0" text="Country" />
+            <TableColumn fx:id="column_Customer_Country" prefWidth="204.0" text="Country" />
          </columns>
          <effect>
             <Glow />
          </effect>
       </TableView>
-      <Label layoutX="293.0" layoutY="483.0" text="Appointments">
+      <Label layoutX="282.0" layoutY="451.0" text="Appointments">
          <font>
             <Font name="Ebrima Bold" size="18.0" />
          </font>
@@ -102,7 +104,14 @@
             <Font name="Ebrima Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="sortByMonthBtn" layoutX="282.0" layoutY="420.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="36.0" prefWidth="179.0" style="-fx-background-radius: 20;" text="Sort By Month" />
-      <Button fx:id="sortByWkBtn" layoutX="483.0" layoutY="420.0" mnemonicParsing="false" onAction="#addAppt" prefHeight="37.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Sort By Week " />
+      <Button fx:id="showByMonthBtn" layoutX="283.0" layoutY="869.0" mnemonicParsing="false" onAction="#showByMonthBtn" prefHeight="37.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Show By Month">
+         <font>
+            <Font name="Ebrima" size="12.0" />
+         </font></Button>
+      <Button fx:id="showByWeekBtn" layoutX="506.0" layoutY="869.0" mnemonicParsing="false" onAction="#showByWeekBtn" prefHeight="37.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Show By Week ">
+         <font>
+            <Font name="Ebrima" size="12.0" />
+         </font></Button>
+      <Button fx:id="showAll" layoutX="726.0" layoutY="869.0" mnemonicParsing="false" onAction="#showAll" prefHeight="37.0" prefWidth="200.0" style="-fx-background-radius: 20;" text="Show All" />
    </children>
 </AnchorPane>
